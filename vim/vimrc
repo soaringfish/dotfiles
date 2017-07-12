@@ -1,0 +1,49 @@
+
+if &compatible
+  set nocompatible
+endif
+scriptencoding utf-8
+
+let s:path=expand('<sfile>:p:h')
+let g:vimpath=s:path
+
+let g:vimpath = "~/tem/gu.vim"
+" let g:bundlepath = "~/tem/gu.vim"
+
+exec 'set runtimepath+=' . s:path
+
+filetype off
+
+let g:mycfgfile = s:path . '/my_configs.vim'
+
+" for s:cfg in [ 'basic', 'plugins', 'maps', 'filetypes', 'extended']
+for s:cfg in [ 'basic', 'plugins', 'maps', 'extended']
+  " try
+    exec 'source' . s:path . '/config/' . s:cfg . '.vim'
+  " catch
+    " echom 'err when executed ' . s:cfg
+  " endtry
+
+endfor
+
+
+set encoding=utf-8
+"set langmenu=zh_CN.UTF-8
+"language message zh_CN.UTF-8
+"set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+if has("win32")
+  set fileencoding=chinese
+else
+  set fileencoding=utf-8
+endif
+
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+colorscheme xcode-default
+" colorscheme xcode-default
+" colorscheme gruvbox
+let g:airline_theme = 'sol'
+
+" vim: set ft=vim sw=2 ts=2 et foldmethod=marker:
