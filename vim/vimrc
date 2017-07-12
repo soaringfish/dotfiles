@@ -2,7 +2,6 @@
 if &compatible
   set nocompatible
 endif
-scriptencoding utf-8
 
 let s:path=expand('<sfile>:p:h')
 let g:vimpath=s:path
@@ -17,20 +16,19 @@ filetype off
 let g:mycfgfile = s:path . '/my_configs.vim'
 
 " for s:cfg in [ 'basic', 'plugins', 'maps', 'filetypes', 'extended']
-for s:cfg in [ 'basic', 'plugins', 'maps', 'extended']
-  " try
+for s:cfg in [ 'plugins', 'basic', 'maps', 'extended']
+  try
     exec 'source' . s:path . '/config/' . s:cfg . '.vim'
-  " catch
-    " echom 'err when executed ' . s:cfg
-  " endtry
-
+  catch
+    echom 'err when executed ' . s:cfg
+    echom v:exception
+  endtry
 endfor
 
 
 set encoding=utf-8
 "set langmenu=zh_CN.UTF-8
 "language message zh_CN.UTF-8
-"set encoding=utf-8
 set fileencodings=utf-8,chinese,latin-1
 if has("win32")
   set fileencoding=chinese
@@ -42,7 +40,6 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 colorscheme xcode-default
-" colorscheme xcode-default
 " colorscheme gruvbox
 let g:airline_theme = 'sol'
 
