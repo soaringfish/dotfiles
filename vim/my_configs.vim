@@ -19,15 +19,20 @@ augroup luagroup
 augroup END
 
 function! s:md_maps()
-    inoremap <buffer> `a \alpha
-    inoremap <buffer> `b \beta
-    inoremap <buffer> `g \gamma
+    " inoremap <buffer> `a \alpha
+    " inoremap <buffer> `b \beta
+    " inoremap <buffer> `g \gamma
     set spell
 endfunction
 
 augroup mdgroup
     autocmd!
     au filetype markdown call s:md_maps()
+augroup END
+
+augroup ag_latex
+  au!
+  au filetype tex inoremap <m-m> `
 augroup END
 
 inoremap <A-;> <C-o>:
@@ -62,8 +67,9 @@ autocmd FileType tex let b:vimtex_main = 'main.tex'
 " inoremap
 "
 "
-"
-
+map <Leader><leader>h <Plug>(easymotion-linebackward)
+map <Leader><leader>l <Plug>(easymotion-lineforward)
+map <Leader><leader>. <Plug>(easymotion-repeat)
 
 iab ,.s <esc>3a<c-v>{<esc>
 iab ,.e <esc>3a<c-v>}<esc>
@@ -93,4 +99,11 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " AirlineTheme raven
 
 
-" let g:mkdp_path_to_chrome="/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
+" => new bindings {{{
+" ===================
+" Bind s/S
+"
+
+" => new bindings }}}
+
+

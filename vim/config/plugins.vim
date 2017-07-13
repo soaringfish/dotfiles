@@ -8,26 +8,26 @@ let g:python3_host_prog='/Users/ada/anaconda/bin/python'
 " ------------------
 
 let s:path = exists('g:vimpath') ? g:vimpath : "~/.vim"
-let s:bundlepath = (exists('g:bundlepath') ? g:bundlepath : s:path) . "/dein"
-let s:deinpath =  s:bundlepath . '/repos/github.com/Shougo/dein.vim'
+let s:bundlepath = (exists('g:bundlepath') ? g:bundlepath : s:path) . "/plug"
+" let s:plugpath =  s:bundlepath . '/plug.vim'
+let s:plugpath =  s:path
 
+let g:bundlepath = s:bundlepath
+let g:plugpath   = s:plugpath
+let g:path       = s:path
 
 if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
 
-exec 'set runtimepath+=' . s:deinpath
+exec 'set runtimepath+=' . s:plugpath
 
-let neobundle_readme=expand(s:deinpath . '/README.md')
-
-if !filereadable(neobundle_readme)
-  echo "Installing NeoBundle..."
-  echo "mkdir " . s:deinpath
-  exec 'silent !mkdir -p ' . s:deinpath
-  echo "install dein"
-  exec 'silent !git clone https://github.com/Shougo/dein.vim ' . s:deinpath
-  " let g:not_finsh_neobundle = "yes"
+if empty(glob(s:plugpath . '/autoload/plug.vim'))
+  execute 'silent !curl -fLo ' . s:plugpath . '/autoload/plug.vim --create-dirs ' .
+        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall  | execute 'source ' . g:vimrc . '/vimrc'
 endif
+
 
 " }}}
 
@@ -37,144 +37,144 @@ endif
 " Loading plugins {{{
 " ===================
 
-if dein#load_state(s:bundlepath)
-  call dein#begin(s:bundlepath) " Adding `dein` itself
-  call dein#add(s:deinpath) " Adding `dein` itself
-
+silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
   " ==> UI {{{
   " ----------
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('jistr/vim-nerdtree-tabs.git')
-    " call dein#add('sheerun/vim-polyglot')  " A collection of language packs for Vim.
-    " call dein#add('vim-scripts/CSApprox')  " makes GVim-only colorschemes Just Work in terminal Vim
-    call dein#add('majutsushi/tagbar')
-    call dein#add('vim-scripts/taglist.vim')
-    call dein#add("Yggdroot/indentLine")
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
-    " call dein#add('kana/vim-narrow')
-    " call dein#add('junegunn/vim-peekaboo')
-    call dein#add('junegunn/goyo.vim')
-    call dein#add('junegunn/limelight.vim')
-    call dein#add('vim-scripts/mru.vim')
-    call dein#add('vim-voom/VOoM')
-    " call dein#add('itchyny/lightline.vim')
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
+    " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
+    Plug 'majutsushi/tagbar'
+    Plug 'vim-scripts/taglist.vim'
+    Plug 'Yggdroot/indentLine'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    " Plug 'kana/vim-narrow'
+    " Plug 'junegunn/vim-peekaboo'
+    Plug 'junegunn/goyo.vim'
+    Plug 'junegunn/limelight.vim'
+    Plug 'vim-scripts/mru.vim'
+    Plug 'vim-voom/VOoM'
+    " Plug 'itchyny/lightline.vim'
   " ==> UI }}}
 
   " ==> Edit {{{
   " ------------
-  " call dein#add('tpope/vim-commentary')
-  call dein#add('scrooloose/nerdcommenter')
-  call dein#add('bronson/vim-trailing-whitespace')
-  call dein#add('machakann/vim-highlightedyank')
-  call dein#add('maxbrunsfeld/vim-yankstack')
-  call dein#add('terryma/vim-multiple-cursors')
-  call dein#add('terryma/vim-expand-region')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-repeat')
-  call dein#add('jiangmiao/auto-pairs')
-  call dein#add('rking/ag.vim')
-  call dein#add('Chiel92/vim-autoformat') " autoformat
-  call dein#add('w0rp/ale') " flying check
+  " Plug 'tpope/vim-commentary'
+  Plug 'scrooloose/nerdcommenter'
+  Plug 'bronson/vim-trailing-whitespace'
+  Plug 'machakann/vim-highlightedyank'
+  let g:highlightedyank_highlight_duration = 100
+  " Plug 'maxbrunsfeld/vim-yankstack'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'terryma/vim-expand-region'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-repeat'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'rking/ag.vim'
+  Plug 'Chiel92/vim-autoformat' " autoformat
+  Plug 'w0rp/ale' " flying check
   let g:ale_emit_conflict_warnings = 0
-  " call dein#add('vim-scripts/grep.vim')
-  " call dein#add('scrooloose/syntastic')
-  " call dein#add('Raimondi/delimitMate')
+  " Plug 'vim-scripts/grep.vim'
+  " Plug 'scrooloose/syntastic'
+  " Plug 'Raimondi/delimitMate'
   " ==> Edit }}}
 
   " ==> Navigating & Searching {{{
   " ------------------------------
-  call dein#add('rking/ag.vim')
-  call dein#add('easymotion/vim-easymotion')
-  call dein#add('junegunn/vim-easy-align')
-  call dein#add('Shougo/unite.vim')
-  call dein#add('tsukkee/unite-tag')
-  call dein#add('Shougo/unite-outline')
-  call dein#add('dyng/ctrlsf.vim')
-  call dein#add('tmhedberg/matchit')
-  call dein#add('haya14busa/incsearch.vim')
-  " call dein#add('junegunn/fzf',  {'build': './install --all', 'rtp': ''})
-  call dein#add('junegunn/fzf',  {'build': './install --all', 'merged': 0})
-  call dein#add('junegunn/fzf.vim', {'depends': 'fzf'})
-  " call dein#add('ctrlpvim/ctrlp.vim')
+  Plug 'rking/ag.vim'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'Shougo/denite.nvim'
+  " Plug 'Shougo/unite.vim'
+  " Plug 'tsukkee/unite-tag'
+  " Plug 'Shougo/unite-outline'
+  Plug 'Shougo/neomru.vim'
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'tmhedberg/matchit'
+  Plug 'haya14busa/incsearch.vim'
+  " Plug 'junegunn/fzf',  {'build': './install --all', 'rtp': ''}
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  " Plug 'ctrlpvim/ctrlp.vim'
   " CtrlP {{{
-  " call dein#add('FelikZ/ctrlp-py-matcher')
+  " Plug 'FelikZ/ctrlp-py-matcher'
   " let g:airline#extensions#tabline#enabled = 1
   " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
   " isi }}}
   " ==> Navigating & Searching }}}
   " => Git {{{
   " ----------
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('mhinz/vim-signify')
-  " call dein#add('airblade/vim-gitgutter')
+  Plug 'tpope/vim-fugitive'
+  Plug 'mhinz/vim-signify'
+  Plug 'airblade/vim-gitgutter'
   " => Git }}}
 
 
   " => Auto Complete {{{
   " -------------------
   if !has('nvim')
-    call dein#add('roxma/vim-hug-neovim-rpc')  " neovim-rpc wrapper
+    Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
   endif
-  call dein#add('roxma/nvim-completion-manager') " ac
-  call dein#add('Shougo/neco-vim')               " pyton
-  call dein#add('davidhalter/jedi')              " Snippets
-  call dein#add('SirVer/ultisnips')              " UltiSnips
-  call dein#add('honza/vim-snippets')            " snipptes
-  " call dein#add("davidhalter/jedi-vim")
-  " call dein#add('neitanod/vim-clevertab')
+  Plug 'roxma/nvim-completion-manager' " ac
+  Plug 'Shougo/neco-vim'               " pyton
+  Plug 'davidhalter/jedi'              " Snippets
+  Plug 'SirVer/ultisnips'              " UltiSnips
+  Plug 'honza/vim-snippets'            " snipptes
+  " Plug "davidhalter/jedi-vim"
+  " Plug 'neitanod/vim-clevertab'
   " let g:use_clevertab=1
-  " call dein#add('ervandew/supertab')
-  " call dein#add('Shougo/neocomplete.vim')
-  " call dein#add('valloric/youcompleteme')
+  " Plug 'ervandew/supertab'
+  " Plug 'Shougo/neocomplete.vim'
+  " Plug 'valloric/youcompleteme'
   " => Autocomplete }}}
 
 
   "" Colors  {{{
-  call dein#add('tomasr/molokai')
-  call dein#add('roosta/srcery')
-  call dein#add('rakr/vim-one')
-  " call dein#add('lucy/term.vim')
-  " call dein#add('vim-scripts/Visual-Studio')
-  call dein#add('cohlin/vim-colorschemes')
-  call dein#add('altercation/vim-colors-solarized')
-  call dein#add('vim-scripts/mayansmoke')
-  call dein#add('nightsense/seabird')
-  call dein#add('morhetz/gruvbox')
-  call dein#add('gregsexton/Muon')
-  call dein#add('joshdick/onedark.vim')
+  Plug 'tomasr/molokai'
+  Plug 'roosta/srcery'
+  Plug 'rakr/vim-one'
+  " Plug 'lucy/term.vim'
+  " Plug 'vim-scripts/Visual-Studio'
+  Plug 'cohlin/vim-colorschemes'
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'vim-scripts/mayansmoke'
+  Plug 'nightsense/seabird'
+  Plug 'morhetz/gruvbox'
+  Plug 'gregsexton/Muon'
+  Plug 'joshdick/onedark.vim'
   "" Colors  }}}
 
   " ==> Languages {{{
   " -----------------
   "" Lua Bundle
-  call dein#add('xolox/vim-lua-ftplugin')
-  call dein#add('xolox/vim-lua-inspect')
+  Plug 'xolox/vim-lua-ftplugin'
+  Plug 'xolox/vim-lua-inspect'
 
   " C Language
-  call dein#add('vim-scripts/c.vim')
+  Plug 'vim-scripts/c.vim'
 
   "" latex bundle
-  call dein#add('vim-latex/vim-latex')
-  call dein#add('lervag/vimtex')
+  Plug 'vim-latex/vim-latex'
+  Plug 'lervag/vimtex'
 
   "" Markdown
   "Bundle 'tpope/vim-markdown'
-  call dein#add('godlygeek/tabular') " Needed by vim-markdown
-  call dein#add('plasticboy/vim-markdown')
-  call dein#add('suan/vim-instant-markdown')
-  call dein#add('mzlogin/vim-markdown-toc')
-  call dein#add('iamcco/mathjax-support-for-mkdp')
-  call dein#add('iamcco/markdown-preview.vim')
+  Plug 'godlygeek/tabular' " Needed by vim-markdown
+  Plug 'plasticboy/vim-markdown'
+  Plug 'suan/vim-instant-markdown'
+  Plug 'mzlogin/vim-markdown-toc'
+  Plug 'iamcco/mathjax-support-for-mkdp'
+  Plug 'iamcco/markdown-preview.vim'
 
   " HTML
-  " call dein#add('vim-scripts/HTML-AutoCloseTag')
-  " call dein#add('hail2u/vim-css3-syntax')
-  " call dein#add('gorodinskiy/vim-coloresque')
-  " call dein#add('tpope/vim-haml')
-  call dein#add('mattn/emmet-vim')
+  " Plug 'vim-scripts/HTML-AutoCloseTag'
+  " Plug 'hail2u/vim-css3-syntax'
+  " Plug 'gorodinskiy/vim-coloresque'
+  " Plug 'tpope/vim-haml'
+  Plug 'mattn/emmet-vim'
 
   " ==> Languages }}}
 
@@ -182,22 +182,16 @@ if dein#load_state(s:bundlepath)
   " "" Misc {{{
   " -----------
   "" Vim-Session
-  call dein#add('xolox/vim-misc')
-  call dein#add('xolox/vim-session')
+  Plug 'xolox/vim-misc'
+  Plug 'xolox/vim-session'
   " "" Misc }}}
 
-  call dein#end()
-  call dein#save_state()
+  call plug#end()
 endif
 
 " Required:
 filetype plugin indent on
 syntax enable
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-if dein#check_install()
-  call dein#install()
-endif
 
 " Loading plugins }}}
 
@@ -207,9 +201,9 @@ endif
 
 let g:session_autoload=0
 " Unite
-call unite#custom#source('codesearch', 'max_candidates', 30)
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#custom#source('codesearch', 'max_candidates', 30)
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
 
 
 " snippets
@@ -222,35 +216,6 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " let g:UltiSnipsEditSplit="vertical"
 
-"  NeoComplete
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-      \ 'default' : '',
-      \ 'vimshell' : $HOME.'/.vimshell_hist',
-      \ 'scheme' : $HOME.'/.gosh_completions'
-      \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -261,78 +226,36 @@ function! s:my_cr_function()
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-" set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-" " GEDI {{{
-" ----------
-let g:use_jedi = 1
-if exists('g:use_jedi') && g:use_jedi
-  let g:jedi#auto_vim_configuration = 0
-  " let g:neocomplete#force_omni_input_patterns.python = '' " '[^. \t]\.\w*'
-  let g:neocomplete#sources#omni#input_patterns.python = '' " '[^. \t]\.\w*'
-
-  "au FileType python setlocal completeopt -=previewwindow
-  au FileType python setlocal omnifunc=jedi#completions
-
-  let g:jedi#popup_on_dot = 1
-  let g:jedi#popup_select_first = 0
-
-  " jedi-vim
-  let g:jedi#goto_assignments_command = "<leader>g"
-  let g:jedi#goto_definitions_command = "<leader>d"
-  let g:jedi#documentation_command = "K"
-  let g:jedi#usages_command = "<leader>n"
-  let g:jedi#rename_command = "<leader>r"
-  let g:jedi#show_call_signatures = "0"
-  let g:jedi#completions_command = "<C-Space>"
-  let g:jedi#smart_auto_mappings = 0
-endif
-" " GEDI }}}
 
 """"""""""""""""""""""""""""""
 " => MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
+map <localleader>f :MRU<CR>
 
+" => Denite {{{
+" =============
+map <leader>ff :Denite file_rec<cr>
+map <leader>fd :Denite file<cr>
+map <leader>fa :Denite
+map <leader>fb :Denite buffer<cr>
+map <leader>fm :Denite file_mru<cr><c-o>
+map <leader>fo :Denite outline<cr>
+map <leader>ft :Denite tag<cr>
+map <leader>fj :Denite jump<cr>
+map <leader>fl :Denite line<cr>
+map <leader>fc :Denite command<cr>
+map <leader>fr :Denite register<cr>
+
+" => Denite }}}
 
 """"""""""""""""""""""""""""""
 " => YankStack
 """"""""""""""""""""""""""""""
-nmap <c-p> <Plug>yankstack_substitute_older_paste
-nmap <c-P> <Plug>yankstack_substitute_newer_paste
+" nmap <c-p> <Plug>yankstack_substitute_older_paste
+" nmap <c-P> <Plug>yankstack_substitute_newer_paste
 
 
 """"""""""""""""""""""""""""""
@@ -352,33 +275,30 @@ nmap <c-P> <Plug>yankstack_substitute_newer_paste
 " " let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 "
 
-" ctrlp.vim
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
-let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
-let g:ctrlp_use_caching = 1
+"" ctrlp.vim
+"set wildmode=list:longest,list:full
+"set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+"let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
+"let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+"let g:ctrlp_use_caching = 1
 
-" CtrlSF.vim
-let g:ctrlsf_ackprg = 'ag'
 
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH
 
 " The Silver Searcher
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
+  " set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --vimgrep\ $*
+  set grepformat=%f:%l:%c:%m
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " CtrlSF.vim
+  let g:ctrlsf_ackprg = 'ag'
   let g:ctrlp_use_caching = 0
 endif
 
 " noremap <leader>b :CtrlPBuffer<CR>
 " let g:ctrlp_map = '<leader>e'
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+" let g:ctrlp_open_new_file = 'r'
+" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 
 
@@ -476,29 +396,28 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
 
 " Custom CoffeeScript SyntasticCheck
-func! SyntasticCheckCoffeescript()
-  let l:filename = substitute(expand("%:p"), '\(\w\+\)\.coffee', '.coffee.\1.js', '')
-  execute "tabedit " . l:filename
-  execute "SyntasticCheck"
-  execute "Errors"
-endfunc
-nnoremap <silent> <leader>l :call SyntasticCheckCoffeescript()<cr>
-
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
+" func! SyntasticCheckCoffeescript()
+"   let l:filename = substitute(expand("%:p"), '\(\w\+\)\.coffee', '.coffee.\1.js', '')
+"   execute "tabedit " . l:filename
+"   execute "SyntasticCheck"
+"   execute "Errors"
+" endfunc
+" nnoremap <silent> <Leader>l :call SyntasticCheckCoffeescript()<cr>
+"
+" " syntastic
+" let g:syntastic_always_populate_loc_list=1
+" let g:syntastic_error_symbol='✗'
+" let g:syntastic_warning_symbol='⚠'
+" let g:syntastic_style_error_symbol = '✗'
+" let g:syntastic_style_warning_symbol = '⚠'
+" let g:syntastic_auto_loc_list=1
+" let g:syntastic_aggregate_errors = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gitgutter_enabled=0
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
-
+nnoremap <silent> <Leader>d :GitGutterToggle<cr>
 
 
 " session management
@@ -517,48 +436,49 @@ let g:syntastic_python_checkers=['python', 'flake8']
 "" Convenience variables
 "*****************************************************************************
 
-" vim-airline
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
 
 let g:airline_powerline_fonts=1
 
 " airline
-let g:airline_theme='jellybeans'
+let g:airline_theme='sol'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
-" if !exists('g:airline_powerline_fonts')
-" let g:airline#extensions#tabline#left_sep = ' '
-" let g:airline#extensions#tabline#left_alt_sep = '|'
-" let g:airline_left_sep          = '▶'
-" let g:airline_left_alt_sep      = '»'
-" let g:airline_right_sep         = '◀'
-" let g:airline_right_alt_sep     = '«'
-" let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-" let g:airline#extensions#readonly#symbol   = '⊘'
-" let g:airline#extensions#linecolumn#prefix = '¶'
-" let g:airline#extensions#paste#symbol      = 'ρ'
-" let g:airline_symbols.linenr    = '␊'
-" let g:airline_symbols.branch    = '⎇'
-" let g:airline_symbols.paste     = 'ρ'
-" let g:airline_symbols.paste     = 'Þ'
-" let g:airline_symbols.paste     = '∥'
-" let g:airline_symbols.whitespace = 'Ξ'
-" else
-" let g:airline#extensions#tabline#left_sep = ''
-" let g:airline#extensions#tabline#left_alt_sep = ''
 
-" " powerline symbols
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
-" endif
+" vim-airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if !exists('g:airline_powerline_fonts') ||
+      \ g:airline_powerline_fonts == 0
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
 
 
 " Tabularize "
@@ -659,6 +579,8 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
+nmap <a-?> <Plug>NERDComAppendComment
+imap <a-?> <C-o><Plug>NERDComAppendComment
 nmap <a-/> <Plug>NERDCommenterToggle
 xmap <a-/> <Plug>NERDCommenterToggle
 imap <a-/> <C-o><Plug>NERDCommenterToggle
@@ -702,6 +624,23 @@ imap <F6> <C-o>:LuaInspectToggle<CR>
 nmap <F6>      :LuaInspectToggle<CR>
 " LUA: xolox/vim-lua-inspect }}}
 
-" }}}
+" AutoPairs{{{
+" ------------
+
+" System Shortcuts:
+"     <CR>  : Insert new indented line after return if cursor in blank brackets or quotes.
+"     <BS>  : Delete brackets in pair
+"     <M-p> : Toggle Autopairs (g:AutoPairsShortcutToggle)
+"     <M-e> : Fast Wrap (g:AutoPairsShortcutFastWrap)
+"     <M-n> : Jump to next closed pair (g:AutoPairsShortcutJump)
+"     <M-b> : BackInsert (g:AutoPairsShortcutBackInsert)
+" let g:AutoPairsShortcutFastWrap   = ''
+let g:AutoPairsShortcutBackInsert = ''
+let g:AutoPairsMoveCharacter      = ''
+
+" AutoPairs}}}
+" Plugins' configuration }}}
+
+
 
 " vim: set et sw=2 ts=2 tw=78 foldmethod=marker foldlevel=1:

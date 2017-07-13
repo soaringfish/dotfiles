@@ -10,25 +10,34 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-noremap j gj  " Move down
+noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
 
+imap <m-j> <c-o>j
+imap <m-k> <c-o>k
+imap <m-h> <c-o>h
+imap <m-l> <c-o>l
+imap <m-e> <c-o>e
+imap <m-b> <c-o>b
+inoremap <C-A>		<Home>
+inoremap <C-E>		<End>
+
 nnoremap Y y$
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
+" map <space> /
+" map <c-space> ?
+
+nmap <space> <leader>
+nmap <space><space> <leader><leader>
 
 try
   map /  <Plug>(incsearch-forward)
   map ?  <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
 catch
-  umap /
-  umap ?
-  umap g/
 endtry
 
 " Disable highlight when <leader><cr> is pressed
@@ -36,14 +45,14 @@ map <silent> <leader><cr> :noh<cr>
 map <silent> <leader><space> :set hls!<cr>
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-noremap <C-j>j <C-W>j<C-W>_
-noremap <C-k>k <C-W>k<C-W>_
-noremap <C-j>h <C-W>h<C-W>|
-noremap <C-k>l <C-W>l<C-W>|
+map <m-J> <C-W>j
+map <m-K> <C-W>k
+map <m-H> <C-W>h
+map <m-L> <C-W>l
+noremap <C-w>J <C-W>j<C-W>_
+noremap <C-w>K <C-W>k<C-W>_
+noremap <C-w>H <C-W>h<C-W>|
+noremap <C-w>L <C-W>l<C-W>|
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>:tabclose<cr>gT
@@ -111,6 +120,8 @@ nmap gl L
 
 noremap U <c-r>
 inoremap <s-cr> <esc>o
+" VIM can't get s-cr from terminals
+inoremap <m-cr> <esc>o
 
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -129,9 +140,9 @@ if OSX()
             inoremap ‘ <C-o>:call InsertIndent(0)<CR>
     inoremap “ <C-o>:call <SID>Indent(1)<CR>
 else
-    inoremap <A-]> <Esc>:call <SID>Indent(0)<CR>a
-    inoremap <A-[> <Esc>:call <SID>Indent(1)<CR>a
 endif
+inoremap <A-]> <Esc>:call <SID>Indent(0)<CR>a
+inoremap <A-[> <Esc>:call <SID>Indent(1)<CR>a
 function! InsertIndent(left)
     call s:Indent(a:left)
     return ''
@@ -402,9 +413,9 @@ function! <SID>BufcloseCloseIt()
 endfunction
 
 " Make VIM remember position in file after reopen
-" if has("autocmd")
-"   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-"endif
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 
 " ----------------------------------------------------------------------------
@@ -461,7 +472,12 @@ endif
 " ----------------------------------------------------------------------------
 " Readline-style key bindings in command-line (excerpt from rsi.vim)
 " ----------------------------------------------------------------------------
-cnoremap        <C-A> <Home>
+cnoremap <C-A>		<Home>
+cnoremap <C-E>		<End>
+cnoremap <C-K>		<C-U>
+
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
 cnoremap        <C-B> <Left>
 cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
 cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"

@@ -41,9 +41,16 @@ set showtabline=1
 
 let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
-au FileType help map q :q<cr>
 au FileType qf call OnQFPost()
-au FileType qf noremap <buffer> c zc
+au FileType qf noremap <buffer> x zc
+
+
+augroup ag_help
+  au!
+  au FileType help map <buffer> q :q<cr>
+  au FileType help map <buffer> l <c-d>
+  au FileType help map <buffer> h <c-u>
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
@@ -71,14 +78,6 @@ cno $c e <C-\>eCurrentFileDir("e")<cr>
 " $q is super useful when browsing on the command line
 " it deletes everything until the last slash
 cno $q <C-\>eDeleteTillSlash()<cr>
-
-" Bash like keys for the command line
-cnoremap <C-A>		<Home>
-cnoremap <C-E>		<End>
-cnoremap <C-K>		<C-U>
-
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
 
 " Map ½ to something useful
 map ½ $
@@ -182,14 +181,24 @@ endfunc
 "au BufEnter qf call confirm('hh')
 "au BufEnter qf call OnQFPost()
 function! QuickfixFold(lnum)
-    let lo = matchstr(getline(a:lnum-1),'^[^|]*\|')
-    let l = matchstr(getline(a:lnum),'^[^|]*\|')
-    return (l==lo) ? 1 : ">1"
+  if a:lnum == 1
+    let s:ptag = ''
+    " return ">1"
+  endif
+  let l:tag = matchstr(getline(a:lnum),'^[^|]*\|')
+  if empty(l:tag)
+    return 1
+  else
+    let l:ptag = s:ptag
+    let s:ptag = l:tag
+    " let l:ptag = matchstr(getline(a:lnum-1),'^[^|]*\|')
+    return (l:tag==# l:ptag) ? 1 : ">1"
+  endif
 endfunction
 function! OnQFPost()
-    exec 'set nu'
-    exec 'set foldexpr=QuickfixFold(v:lnum)'
-    exec 'set fdm=expr'
+  exec 'set nu'
+  exec 'set foldexpr=QuickfixFold(v:lnum)'
+  exec 'set fdm=expr'
 endfunction
 map <leader>x :call OnQFPost()<CR>
 

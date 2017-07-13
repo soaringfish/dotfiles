@@ -16,7 +16,7 @@ filetype off
 let g:mycfgfile = s:path . '/my_configs.vim'
 
 " for s:cfg in [ 'basic', 'plugins', 'maps', 'filetypes', 'extended']
-for s:cfg in [ 'plugins', 'basic', 'maps', 'extended']
+for s:cfg in [ 'basic', 'plugins', 'maps', 'extended']
   try
     exec 'source' . s:path . '/config/' . s:cfg . '.vim'
   catch
@@ -41,6 +41,6 @@ source $VIMRUNTIME/menu.vim
 
 colorscheme xcode-default
 " colorscheme gruvbox
-let g:airline_theme = 'sol'
+" let g:airline_theme = 'sol'
 
 " vim: set ft=vim sw=2 ts=2 et foldmethod=marker:
