@@ -1,8 +1,42 @@
 " pre configuration before loading plugins {{{
 " ============================================
 
-let g:python_host_prog='/Users/ada/anaconda/envs/py27/bin/python'
+" let g:python_host_prog='/Users/ada/anaconda/envs/py27/bin/python'
 let g:python3_host_prog='/Users/ada/anaconda/bin/python'
+" let g:python3_host_prog='/usr/local/bin/python3'
+let g:python_host_prog ='/usr/bin/python'
+
+" Latex {{{
+" -----------
+""" vimtex
+" let s:viewer = 'okular'
+let g:tex_flavor='latex'
+let g:tex_fold_enabled=0
+set iskeyword+=:
+" }}}
+
+" VIMTEX settings {{{
+" ===================
+" let g:vimtex_latexmk_build_dir='build'
+let g:vimtex_latexmk_build_dir='/tmp/build'
+autocmd FileType tex let b:vimtex_main = 'main.tex'
+if OSX()
+  let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+  let g:vimtex_view_general_options = '-r @line "@pdf" "@tex"'
+elseif LINUX()
+  let g:vimtex_view_general_viewer = 'okular'
+  let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+  let g:vimtex_view_general_options_latexmk = '--unique'
+elseif WINDOWS()
+  let g:vimtex_view_general_viewer = 'SumatraPDF'
+  let g:vimtex_view_general_options
+        \ = '-reuse-instance -forward-search @tex @line @pdf'
+  let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+else
+  echo 'Unknown OS'
+endif
+map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
+" VIMTEX settings }}}
 
 " Dein packages manager core {{{
 " ------------------
@@ -118,16 +152,20 @@ silent! if plug#begin(s:bundlepath)
   if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
   endif
-  Plug 'roxma/nvim-completion-manager' " ac
+  let s:use_ncm = has('nvim') || (has('g:use_ncm') && g:use_ncm)
+  if s:use_ncm
+    Plug 'roxma/nvim-completion-manager' " ac
+  else
+    Plug 'Shougo/neocomplete.vim'
+  endif
   Plug 'Shougo/neco-vim'               " pyton
   Plug 'davidhalter/jedi'              " Snippets
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
-  " Plug "davidhalter/jedi-vim"
+  Plug 'davidhalter/jedi-vim'
   " Plug 'neitanod/vim-clevertab'
   " let g:use_clevertab=1
   " Plug 'ervandew/supertab'
-  " Plug 'Shougo/neocomplete.vim'
   " Plug 'valloric/youcompleteme'
   " => Autocomplete }}}
 
@@ -199,6 +237,32 @@ syntax enable
 " Plugins' configuration {{{
 " ==========================
 
+" Neocomplete {{{
+" ---------------
+
+let g:neocomplete#enable_at_startup = 1
+
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+" Neocomplete }}}
+" " JEDI-VIM {{{
+" --------------
+let g:jedi#goto_command = "<leader>pc"
+let g:jedi#goto_assignments_command = "<leader>pa"
+let g:jedi#goto_definitions_command = "<leader>pd"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>pu"
+" let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>pr"
+" " JEDI-VIM }}}
+"
 let g:session_autoload=0
 " Unite
 " call unite#custom#source('codesearch', 'max_candidates', 30)
@@ -249,6 +313,19 @@ map <leader>fl :Denite line<cr>
 map <leader>fc :Denite command<cr>
 map <leader>fr :Denite register<cr>
 
+" Change mappings.
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-j>',
+      \ '<denite:move_to_next_line>',
+      \ 'noremap'
+      \)
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-k>',
+      \ '<denite:move_to_previous_line>',
+      \ 'noremap'
+      \)
 " => Denite }}}
 
 """"""""""""""""""""""""""""""
@@ -435,9 +512,6 @@ let g:syntastic_python_checkers=['python', 'flake8']
 "*****************************************************************************
 "" Convenience variables
 "*****************************************************************************
-
-
-let g:airline_powerline_fonts=1
 
 " airline
 let g:airline_theme='sol'

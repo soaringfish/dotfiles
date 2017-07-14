@@ -36,6 +36,7 @@ set guioptions-=L
 " Colorscheme
 set background=dark
 " colorscheme peaksea
+" showtabline: 0-off, 1-auto, 2-always
 set showtabline=1
 
 
@@ -47,7 +48,7 @@ au FileType qf noremap <buffer> x zc
 
 augroup ag_help
   au!
-  au FileType help map <buffer> q :q<cr>
+  au FileType help,qf map <buffer> q :q<cr>
   au FileType help map <buffer> l <c-d>
   au FileType help map <buffer> h <c-u>
 augroup END
@@ -200,7 +201,7 @@ function! OnQFPost()
   exec 'set foldexpr=QuickfixFold(v:lnum)'
   exec 'set fdm=expr'
 endfunction
-map <leader>x :call OnQFPost()<CR>
+" map <leader>x :call OnQFPost()<CR>
 
 
 function! TwiddleCase(str)

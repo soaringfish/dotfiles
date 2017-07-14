@@ -58,10 +58,33 @@ endfunction
 noremap <c-b><c-b> :w<cr>:call Run_script()<cr>
 inoremap <c-b><c-b> <esc>:w<cr>:call Run_script()<cr>
 
+" set noimdisable
+" autocmd! InsertLeave * set imdisable|set iminsert=0
+" autocmd! InsertEnter * set noimdisable|set iminsert=0
+
+
+" VIMTEX settings {{{
+" ===================
 " let g:vimtex_latexmk_build_dir='build'
 let g:vimtex_latexmk_build_dir='/tmp/build'
 autocmd FileType tex let b:vimtex_main = 'main.tex'
-
+if OSX()
+  let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+  let g:vimtex_view_general_options = '-r @line "@pdf" "@tex"'
+elseif LINUX()
+  let g:vimtex_view_general_viewer = 'okular'
+  let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+  let g:vimtex_view_general_options_latexmk = '--unique'
+elseif WINDOWS()
+  let g:vimtex_view_general_viewer = 'SumatraPDF'
+  let g:vimtex_view_general_options
+        \ = '-reuse-instance -forward-search @tex @line @pdf'
+  let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+else
+  echo 'Unknown OS'
+endif
+map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
+" VIMTEX settings }}}
 
 " Jump out pairs
 " inoremap

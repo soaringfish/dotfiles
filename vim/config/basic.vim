@@ -111,7 +111,14 @@ if has("gui_running")
     set t_Co=256
     set guitablabel=%M\ %t
 endif
-
+if has("gui_mac") || has("gui_macvim")
+    " make Mac's Option key behave as the Meta key
+    set invmmta
+    try
+      set transparency=5
+    catch
+    endtry
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
