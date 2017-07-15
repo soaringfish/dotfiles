@@ -10,9 +10,24 @@ let g:python_host_prog ='/usr/bin/python'
 " -----------
 """ vimtex
 " let s:viewer = 'okular'
+let s:viewer = 'open '
 let g:tex_flavor='latex'
 let g:tex_fold_enabled=0
+let g:Tex_Outdir='build'
 set iskeyword+=:
+let g:Tex_DefaultTargetFormat='pdf'
+let g:Tex_ViewRule_ps = 'okular' "'gv'
+let g:Tex_ViewRule_pdf = s:viewer "'xpdf'
+let g:Tex_ViewRule_dvi = 'okular' "'xdvi'
+let g:Tex_UseEditorSettingInDVIViewer = 1
+let g:Tex_CompileRule_dvi = 'latex -synctex=1 -src-specials -interaction=nonstopmode $*'
+" let g:Tex_CoampileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
+let g:Tex_CoampileRule_pdf = 'latexmk -pdf -output-directory=build -synctex=1 -interaction=nonstopmode $*'
+" Set Tex_UseMakefile to 0 if you want to ignore the presence of a Makefile
+" when deciding how to compile
+let g:Tex_UseMakefile = 0 " FIXEDME
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats = 'dvi,pdf'
 " }}}
 
 " VIMTEX settings {{{
@@ -163,6 +178,9 @@ silent! if plug#begin(s:bundlepath)
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
   Plug 'davidhalter/jedi-vim'
+  Plug 'wellle/tmux-complete.vim'
+  let g:tmuxcomplete#trigger = ''
+  " let g:tmuxcomplete#trigger = 'completefunc'
   " Plug 'neitanod/vim-clevertab'
   " let g:use_clevertab=1
   " Plug 'ervandew/supertab'
