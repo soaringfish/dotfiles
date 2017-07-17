@@ -356,11 +356,24 @@ function! MarkdownHeadline(lvl)
 endfunction
 
 
-let g:bulletmatch = '^\s*\zs\([*+-]\s\)\|\(\d\+\.\?\s\)\ze'
+" let s:bulletmatch = '^\s*\zs\([*+-]\s\)\|\(\d\+\.\?\s\)\ze'
+let s:bulletmatch = '\v^\s*\zs([*\+-]\s)|(\d+\.?\s)|(\\item(\s|\[))\ze'
+
+function! s:AddBullet()
+  let l:ln = line('.')
+  let l:bullet = matchstr(getline(l:ln-1),s:bulletmatch)
+
+  if match(l:bullet, '^\s*\d') >= 0
+    let l:bullet .= "\<Esc>^\<C-a>A"
+  else
+    let l:bullet = substitute(l:bullet,'[',' ','')
+  endif
+  return l:bullet
+endfunction
+inoremap <a-cr> <esc>o<c-r>=<SID>AddBullet()<cr>
+au FileType markdown inoremap <a-cr> <esc>o<c-r>=<SID>AddBullet()<cr>
 if OSX()
-    au FileType markdown inoremap  <cr><c-r>=matchstr(getline(line('.')-1),g:bulletmatch)<cr><esc>^<c-a><Esc>$A
-else
-    au FileType markdown inoremap <a-cr> <cr><c-r>=matchstr(getline(line('.')-1),g:bulletmatch)<cr><esc>^<c-a>>$A
+  au FileType markdown inoremap  <esc>o<c-r>=<SID>AddBullet()<cr>
 endif
 
 

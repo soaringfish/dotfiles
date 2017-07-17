@@ -185,12 +185,13 @@ set mouse=a                 " Automatically enable mouse usage
 set mousehide               " Hide the mouse cursor while typing
 
 " Always switch to the current file directory
-autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+" autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+set autochdir
 
 " set autowrite                       " Automatically write a file when leaving a modified buffer
 " set spell                           " Spell checking on
 set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
-set virtualedit=onemore             " Allow for cursor beyond last character
+" set virtualedit=onemore             " Allow for cursor beyond last character
 set iskeyword-=.                    " '.' is an end of word designator
 set iskeyword-=#                    " '#' is an end of word designator
 set iskeyword-=-

@@ -2,9 +2,15 @@
 " ============================================
 
 " let g:python_host_prog='/Users/ada/anaconda/envs/py27/bin/python'
-let g:python3_host_prog='/Users/ada/anaconda/bin/python'
+" let g:python3_host_prog='/Users/ada/anaconda/bin/python'
 " let g:python3_host_prog='/usr/local/bin/python3'
-let g:python_host_prog ='/usr/bin/python'
+" let g:python_host_prog ='/usr/bin/python'
+
+let g:python_host_prog=systemlist('which python2.7')[0]
+let g:python3_host_prog=systemlist('which python3')[0]
+if !executable(g:python_host_prog) | unlet g:python_host_prog | endif
+if !executable(g:python3_host_prog) | unlet g:python3_host_prog | endif
+
 
 " Latex {{{
 " -----------
@@ -13,47 +19,25 @@ let g:python_host_prog ='/usr/bin/python'
 let s:viewer = 'open '
 let g:tex_flavor='latex'
 let g:tex_fold_enabled=0
-let g:Tex_Outdir='build'
 set iskeyword+=:
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_ViewRule_ps = 'okular' "'gv'
-let g:Tex_ViewRule_pdf = s:viewer "'xpdf'
-let g:Tex_ViewRule_dvi = 'okular' "'xdvi'
-let g:Tex_UseEditorSettingInDVIViewer = 1
-let g:Tex_CompileRule_dvi = 'latex -synctex=1 -src-specials -interaction=nonstopmode $*'
-" let g:Tex_CoampileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
-let g:Tex_CoampileRule_pdf = 'latexmk -pdf -output-directory=build -synctex=1 -interaction=nonstopmode $*'
-" Set Tex_UseMakefile to 0 if you want to ignore the presence of a Makefile
-" when deciding how to compile
-let g:Tex_UseMakefile = 0 " FIXEDME
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats = 'dvi,pdf'
+" let g:Tex_DefaultTargetFormat='pdf'
+" let g:Tex_ViewRule_ps = 'okular' "'gv'
+" let g:Tex_ViewRule_pdf = s:viewer "'xpdf'
+" let g:Tex_ViewRule_dvi = 'okular' "'xdvi'
+" let g:Tex_UseEditorSettingInDVIViewer = 1
+" let g:Tex_CompileRule_dvi = 'latex -synctex=1 -src-specials -interaction=nonstopmode $*'
+" " let g:Tex_CoampileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
+" let g:Tex_CoampileRule_pdf = 'latexmk -pdf -output-directory=build -synctex=1 -interaction=nonstopmode $*'
+" " Set Tex_UseMakefile to 0 if you want to ignore the presence of a Makefile
+" " when deciding how to compile
+" let g:Tex_UseMakefile = 0 " FIXEDME
+" let g:Tex_DefaultTargetFormat = 'pdf'
+" let g:Tex_MultipleCompileFormats = 'dvi,pdf'
+" let g:Tex_Outdir='build'
 " }}}
 
-" VIMTEX settings {{{
-" ===================
-" let g:vimtex_latexmk_build_dir='build'
-let g:vimtex_latexmk_build_dir='/tmp/build'
-autocmd FileType tex let b:vimtex_main = 'main.tex'
-if OSX()
-  let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-  let g:vimtex_view_general_options = '-r @line "@pdf" "@tex"'
-elseif LINUX()
-  let g:vimtex_view_general_viewer = 'okular'
-  let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-  let g:vimtex_view_general_options_latexmk = '--unique'
-elseif WINDOWS()
-  let g:vimtex_view_general_viewer = 'SumatraPDF'
-  let g:vimtex_view_general_options
-        \ = '-reuse-instance -forward-search @tex @line @pdf'
-  let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-else
-  echo 'Unknown OS'
-endif
-map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
-" VIMTEX settings }}}
 
-" Dein packages manager core {{{
+" Plug packages manager core {{{
 " ------------------
 
 let s:path = exists('g:vimpath') ? g:vimpath : "~/.vim"
@@ -82,8 +66,13 @@ endif
 
 " }}}
 
+" Clang-complete {{{ "
+" let g:clang_library_path='/Users/ada/lib/libclang.dylib'
+" let g:neomake_cpp_enabled_makers = ['clang']
+" let g:neomake_c_enabled_makers = ['clang']
+" }}} Clang-complete "
 
-" Loading plugins {{{
+  " Loading plugins {{{
 " ===================
 
 silent! if plug#begin(s:bundlepath)
@@ -94,6 +83,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
+    let g:polyglot_disabled=['latex']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim'
@@ -122,9 +112,11 @@ silent! if plug#begin(s:bundlepath)
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'jiangmiao/auto-pairs'
-  Plug 'rking/ag.vim'
+  Plug 'Konfekt/FastFold'
+  Plug 'neomake/neomake'
   Plug 'Chiel92/vim-autoformat' " autoformat
   Plug 'w0rp/ale' " flying check
+  let g:ale_enabled = 0
   let g:ale_emit_conflict_warnings = 0
   " Plug 'vim-scripts/grep.vim'
   " Plug 'scrooloose/syntastic'
@@ -157,8 +149,8 @@ silent! if plug#begin(s:bundlepath)
   " => Git {{{
   " ----------
   Plug 'tpope/vim-fugitive'
-  Plug 'mhinz/vim-signify'
-  Plug 'airblade/vim-gitgutter'
+  Plug 'mhinz/vim-signify' " More pretty look
+  " Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
   " => Git }}}
 
 
@@ -170,6 +162,7 @@ silent! if plug#begin(s:bundlepath)
   let s:use_ncm = has('nvim') || (has('g:use_ncm') && g:use_ncm)
   if s:use_ncm
     Plug 'roxma/nvim-completion-manager' " ac
+    " Plug 'roxma/clang_complete'
   else
     Plug 'Shougo/neocomplete.vim'
   endif
@@ -190,8 +183,11 @@ silent! if plug#begin(s:bundlepath)
 
   "" Colors  {{{
   Plug 'tomasr/molokai'
-  Plug 'roosta/srcery'
-  Plug 'rakr/vim-one'
+  " Plug 'ifepillar/vim-wwdc17-theme'
+  " Plug 'roosta/srcery'
+  " Plug 'ajmwagar/vim-deus'
+  " Plug 'kudabux/vim-srcery-drk'
+  " Plug 'rakr/vim-one'
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
   Plug 'cohlin/vim-colorschemes'
@@ -199,8 +195,8 @@ silent! if plug#begin(s:bundlepath)
   Plug 'vim-scripts/mayansmoke'
   Plug 'nightsense/seabird'
   Plug 'morhetz/gruvbox'
-  Plug 'gregsexton/Muon'
-  Plug 'joshdick/onedark.vim'
+  " Plug 'gregsexton/Muon'
+  " Plug 'joshdick/onedark.vim'
   "" Colors  }}}
 
   " ==> Languages {{{
@@ -213,13 +209,15 @@ silent! if plug#begin(s:bundlepath)
   Plug 'vim-scripts/c.vim'
 
   "" latex bundle
-  Plug 'vim-latex/vim-latex'
+  " Plug 'vim-latex/vim-latex'
   Plug 'lervag/vimtex'
 
   "" Markdown
   "Bundle 'tpope/vim-markdown'
   Plug 'godlygeek/tabular' " Needed by vim-markdown
-  Plug 'plasticboy/vim-markdown'
+  " Plug 'plasticboy/vim-markdown'
+  Plug 'vim-pandoc/vim-pandoc'
+  Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'suan/vim-instant-markdown'
   Plug 'mzlogin/vim-markdown-toc'
   Plug 'iamcco/mathjax-support-for-mkdp'
@@ -257,8 +255,24 @@ syntax enable
 
 " Neocomplete {{{
 " ---------------
-
-let g:neocomplete#enable_at_startup = 1
+    " \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+if s:use_ncm
+  au User CmSetup call cm#register_source({'name' : 'cm-vimtex',
+		\ 'priority': 9,
+		\ 'scopes': ['tex'],
+		\ 'abbreviation': 'tex',
+    \ 'word_pattern': g:vimtex#re#ncm,
+    \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+    \ 'cm_refresh' : {'ominifunc': 'vimtex#complete#omnifunc'},
+		\ })
+else " use neocomplete
+  let g:neocomplete#enable_at_startup = 1
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.tex =
+        \ g:vimtex#re#neocomplete
+endif
 
 autocmd FileType python setlocal omnifunc=jedi#completions
 let g:jedi#completions_enabled = 0
@@ -307,8 +321,9 @@ function! s:my_cr_function()
   "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
+inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 """"""""""""""""""""""""""""""
 " => MRU plugin

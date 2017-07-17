@@ -66,11 +66,27 @@ inoremap <c-b><c-b> <esc>:w<cr>:call Run_script()<cr>
 " VIMTEX settings {{{
 " ===================
 " let g:vimtex_latexmk_build_dir='build'
-let g:vimtex_latexmk_build_dir='/tmp/build'
-autocmd FileType tex let b:vimtex_main = 'main.tex'
+" let g:vimtex_latexmk_build_dir='/tmp/build'
+let g:vimtex_compiler_latexmk = {
+      \ 'background' : 1,
+      \ 'build_dir' : '/tmp/build',
+      \ 'callback' : 1,
+      \ 'continuous' : 1,
+      \ 'executable' : 'latexmk',
+      \ 'options' : [
+      \   '-pdf',
+      \   '-verbose',
+      \   '-file-line-error',
+      \   '-synctex=1',
+      \   '-interaction=nonstopmode',
+      \ ],
+      \}
+" let g:vimtex_view_enabled=1
+" autocmd FileType tex let b:vimtex_main = 'main.tex'
 if OSX()
-  let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-  let g:vimtex_view_general_options = '-r @line "@pdf" "@tex"'
+  " let g:vimtex_view_method = 'mupdf'
+  " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+  " let g:vimtex_view_general_options = '-r @line @pdf @tex'
 elseif LINUX()
   let g:vimtex_view_general_viewer = 'okular'
   let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
@@ -83,7 +99,7 @@ elseif WINDOWS()
 else
   echo 'Unknown OS'
 endif
-map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
+" map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
 " VIMTEX settings }}}
 
 " Jump out pairs
@@ -125,8 +141,8 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " => new bindings {{{
 " ===================
 " Bind s/S
-"
-
 " => new bindings }}}
+
+
 
 
