@@ -1,4 +1,10 @@
-" Identify platform {
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+endif
+
+" Environment {{{1 "
+
+" Identify platform {{{2
 silent function! OSX()
     return has('macunix') || has('mac')
 endfunction
@@ -8,12 +14,33 @@ endfunction
 silent function! WINDOWS()
     return  (has('win32') || has('win64'))
 endfunction
-" }
+" }}}2
 
+if has('nvim')
+  let g:python_host_prog=systemlist('which python2.7')[0]
+  let g:python3_host_prog=systemlist('which python3')[0]
+  if !executable(g:python_host_prog) | unlet g:python_host_prog | endif
+  if !executable(g:python3_host_prog) | unlet g:python3_host_prog | endif
+  if executable('nvr')
+    let $VISUAL = 'nvr -cc split --remote-wait'
+  endif
+endif
+
+" }}}1 "
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:loaded_2html_plugin     = 1
+let g:loaded_getscriptPlugin  = 1
+let g:loaded_gzip             = 1
+let g:loaded_logipat          = 1
+" let g:loaded_matchparen       = 1
+let g:loaded_rrhelper         = 1
+let g:loaded_spellfile_plugin = 1
+let g:loaded_tarPlugin        = 1
+let g:loaded_vimballPlugin    = 1
+let g:loaded_zipPlugin        = 1
 
 let $LANG='en' " Avoid garbled characters in Windows
 set langmenu=en
@@ -31,13 +58,19 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-let mapleader = ','
-let g:mapleader = ','
+" Map(Local)Leaders {{{1 "
+let mapleader = ' '
+let g:mapleader =' '
 " Transfer `,` funciton
-noremap <M-;> ,
+let g:usecommaleader = 1
+noremap <M-,> ,
+let maplocalleader = ';'
+let g:maplocalleader = ';'
+noremap <m-;> ;
+" nmap <space> <leader>
+" nmap <space><space> <leader><leader>
+" }}}1 "
 
-let maplocalleader = '\'
-let g:maplocalleader = '\'
 " Fast saving
 nmap <leader>w :w!<cr>
 
@@ -51,6 +84,22 @@ command W w !sudo tee % > /dev/null
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set so=7 " Set 7 lines to the cursor
 set tw=78
+
+if !has('nvim')
+  if empty($TMUX)
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    if v:version >= 800
+      let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    endif
+  else
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    if v:version >= 800
+      let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+    endif
+  endif
+endif
 
 " Turn on the WiLd menu
 set wildmenu
@@ -93,11 +142,18 @@ set mat=2                      " How many tenths of a second to blink when match
 set noerrorbells               " No annoying sound on errors
 set novisualbell
 set t_vb=
-set tm=500
+set tm=500                     " Timeoutlen
+set ttimeoutlen=10
 set foldcolumn=1               " Add a bit extra margin to the left
 set number                     " Show line numbers
 set relativenumber             " Show releative line numbers
-
+set modeline
+set modelines=3
+set ttyfast
+set complete     -=i
+if has('nvim') || v:version >= 800
+  set completeopt+=noselect
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -135,7 +191,7 @@ set laststatus=2
 " Format the status line
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
-if has('statusline') && 0
+if has('statusline') && 1
     set laststatus=2
 
     " Broken down into easily includeable segments
@@ -144,7 +200,7 @@ if has('statusline') && 0
     set statusline+=%{fugitive#statusline()} " Git Hotness
     set statusline+=\ [%{&ff}/%Y]            " Filetype
     set statusline+=\ [%{getcwd()}]          " Current dir
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+    set statusline+=%=%-10.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -170,6 +226,18 @@ let &showbreak = '↳ '
 set breakindent
 set breakindentopt=sbr
 
+
+" if has('multi_byte') && &encoding ==# 'utf-8'
+    let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+    let &fillchars = 'diff: '  " ▚
+    let &showbreak = '↪ '
+    highlight VertSplit ctermfg=242
+    augroup vimrc
+        autocmd InsertEnter * set listchars-=trail:⣿
+        autocmd InsertLeave * set listchars+=trail:⣿
+    augroup END
+" endif
+
 " set tabpagemax=15               " Only show 15 tabs
 " set showmode                    " Display the current mode
 
@@ -190,14 +258,29 @@ set autochdir
 
 " set autowrite                       " Automatically write a file when leaving a modified buffer
 " set spell                           " Spell checking on
-set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
-" set virtualedit=onemore             " Allow for cursor beyond last character
-set iskeyword-=.                    " '.' is an end of word designator
-set iskeyword-=#                    " '#' is an end of word designator
+set shortmess+=filmnrxoOtT                      " Abbrev. of messages (avoids 'hit enter')
+set virtualedit=onemore,block                   " Allow for cursor beyond last character
+set iskeyword-=.                                " '.' is an end of word designator
+set iskeyword-=#                                " '#' is an end of word designator
 set iskeyword-=-
 set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
 
 
+" Make VIM remember position in file after reopen
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+if !has('nvim') && !has('gui_running')
+  for i in range(48, 57) + range(65, 90) + range(97, 122)
+    execute 'set <A-' . nr2char(i) . '>=^[' . nr2char(i)
+  endfor
+endif
+
+if has('nvim')
+  nnoremap <leader>t      :vsplit +terminal<cr>
+  tnoremap <esc>          <c-\><c-n>
+endif
 " echom 'load basic finished!'
 " ----------------------------
 

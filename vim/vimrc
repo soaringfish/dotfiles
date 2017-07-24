@@ -3,6 +3,8 @@ if &compatible
   set nocompatible
 endif
 
+" set tgc
+
 let s:path=expand('<sfile>:p:h')
 let g:vimpath=s:path
 
@@ -40,7 +42,8 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 " colorscheme xcode-default
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme lucius
 " let g:airline_theme = 'sol'
 
 " vim: set ft=vim sw=2 ts=2 et foldmethod=marker:

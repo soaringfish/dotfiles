@@ -1,42 +1,6 @@
 " pre configuration before loading plugins {{{
 " ============================================
 
-" let g:python_host_prog='/Users/ada/anaconda/envs/py27/bin/python'
-" let g:python3_host_prog='/Users/ada/anaconda/bin/python'
-" let g:python3_host_prog='/usr/local/bin/python3'
-" let g:python_host_prog ='/usr/bin/python'
-
-let g:python_host_prog=systemlist('which python2.7')[0]
-let g:python3_host_prog=systemlist('which python3')[0]
-if !executable(g:python_host_prog) | unlet g:python_host_prog | endif
-if !executable(g:python3_host_prog) | unlet g:python3_host_prog | endif
-
-
-" Latex {{{
-" -----------
-""" vimtex
-" let s:viewer = 'okular'
-let s:viewer = 'open '
-let g:tex_flavor='latex'
-let g:tex_fold_enabled=0
-set iskeyword+=:
-" let g:Tex_DefaultTargetFormat='pdf'
-" let g:Tex_ViewRule_ps = 'okular' "'gv'
-" let g:Tex_ViewRule_pdf = s:viewer "'xpdf'
-" let g:Tex_ViewRule_dvi = 'okular' "'xdvi'
-" let g:Tex_UseEditorSettingInDVIViewer = 1
-" let g:Tex_CompileRule_dvi = 'latex -synctex=1 -src-specials -interaction=nonstopmode $*'
-" " let g:Tex_CoampileRule_pdf = 'pdflatex -synctex=1 -interaction=nonstopmode $*'
-" let g:Tex_CoampileRule_pdf = 'latexmk -pdf -output-directory=build -synctex=1 -interaction=nonstopmode $*'
-" " Set Tex_UseMakefile to 0 if you want to ignore the presence of a Makefile
-" " when deciding how to compile
-" let g:Tex_UseMakefile = 0 " FIXEDME
-" let g:Tex_DefaultTargetFormat = 'pdf'
-" let g:Tex_MultipleCompileFormats = 'dvi,pdf'
-" let g:Tex_Outdir='build'
-" }}}
-
-
 " Plug packages manager core {{{
 " ------------------
 
@@ -48,10 +12,6 @@ let s:plugpath =  s:path
 let g:bundlepath = s:bundlepath
 let g:plugpath   = s:plugpath
 let g:path       = s:path
-
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-endif
 
 exec 'set runtimepath+=' . s:plugpath
 
@@ -66,13 +26,8 @@ endif
 
 " }}}
 
-" Clang-complete {{{ "
-" let g:clang_library_path='/Users/ada/lib/libclang.dylib'
-" let g:neomake_cpp_enabled_makers = ['clang']
-" let g:neomake_c_enabled_makers = ['clang']
-" }}} Clang-complete "
 
-  " Loading plugins {{{
+" Loading plugins {{{
 " ===================
 
 silent! if plug#begin(s:bundlepath)
@@ -101,18 +56,25 @@ silent! if plug#begin(s:bundlepath)
 
   " ==> Edit {{{
   " ------------
+  Plug 'chrisbra/unicode.vim'
   " Plug 'tpope/vim-commentary'
   Plug 'scrooloose/nerdcommenter'
   Plug 'bronson/vim-trailing-whitespace'
-  Plug 'machakann/vim-highlightedyank'
-  let g:highlightedyank_highlight_duration = 100
+  if has('nvim')
+    Plug 'machakann/vim-highlightedyank'
+    let g:highlightedyank_highlight_duration = 100
+  endif
   " Plug 'maxbrunsfeld/vim-yankstack'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'terryma/vim-expand-region'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-rsi'
   Plug 'jiangmiao/auto-pairs'
+  " Plug 'Raimondi/delimitMate'
   Plug 'Konfekt/FastFold'
+  Plug 'AndrewRadev/splitjoin.vim'
   Plug 'neomake/neomake'
   Plug 'Chiel92/vim-autoformat' " autoformat
   Plug 'w0rp/ale' " flying check
@@ -120,12 +82,12 @@ silent! if plug#begin(s:bundlepath)
   let g:ale_emit_conflict_warnings = 0
   " Plug 'vim-scripts/grep.vim'
   " Plug 'scrooloose/syntastic'
-  " Plug 'Raimondi/delimitMate'
   " ==> Edit }}}
 
   " ==> Navigating & Searching {{{
   " ------------------------------
   Plug 'rking/ag.vim'
+  Plug 'mhinz/vim-grepper'
   Plug 'easymotion/vim-easymotion'
   Plug 'junegunn/vim-easy-align'
   Plug 'Shougo/denite.nvim'
@@ -149,25 +111,25 @@ silent! if plug#begin(s:bundlepath)
   " => Git {{{
   " ----------
   Plug 'tpope/vim-fugitive'
-  Plug 'mhinz/vim-signify' " More pretty look
-  " Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
+  " Plug 'mhinz/vim-signify' " More pretty look, supports more VMs
+  Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
   " => Git }}}
 
 
   " => Auto Complete {{{
   " -------------------
-  if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
-  endif
   let s:use_ncm = has('nvim') || (has('g:use_ncm') && g:use_ncm)
   if s:use_ncm
     Plug 'roxma/nvim-completion-manager' " ac
+    if !has('nvim')
+      Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
+    endif
     " Plug 'roxma/clang_complete'
   else
     Plug 'Shougo/neocomplete.vim'
   endif
   Plug 'Shougo/neco-vim'               " pyton
-  Plug 'davidhalter/jedi'              " Snippets
+  " Plug 'davidhalter/jedi'              " Snippets
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
   Plug 'davidhalter/jedi-vim'
@@ -190,11 +152,13 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'rakr/vim-one'
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
-  Plug 'cohlin/vim-colorschemes'
+  " Plug 'cohlin/vim-colorschemes'
   Plug 'altercation/vim-colors-solarized'
   Plug 'vim-scripts/mayansmoke'
   Plug 'nightsense/seabird'
   Plug 'morhetz/gruvbox'
+  Plug 'mhinz/vim-janah'
+  Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   " Plug 'joshdick/onedark.vim'
   "" Colors  }}}
@@ -206,7 +170,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'xolox/vim-lua-inspect'
 
   " C Language
-  Plug 'vim-scripts/c.vim'
+  " Plug 'vim-scripts/c.vim'
 
   "" latex bundle
   " Plug 'vim-latex/vim-latex'
@@ -238,6 +202,10 @@ silent! if plug#begin(s:bundlepath)
   "" Vim-Session
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-session'
+  Plug 'mhinz/vim-sayonara'
+  Plug 'beloglazov/vim-online-thesaurus'
+  Plug 'myusuf3/numbers.vim'
+  Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   " "" Misc }}}
 
   call plug#end()
@@ -255,16 +223,16 @@ syntax enable
 
 " Neocomplete {{{
 " ---------------
-    " \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+" \ 'cm_refresh_patterns': g:vimtex#re#ncm,
 if s:use_ncm
   au User CmSetup call cm#register_source({'name' : 'cm-vimtex',
-		\ 'priority': 9,
-		\ 'scopes': ['tex'],
-		\ 'abbreviation': 'tex',
-    \ 'word_pattern': g:vimtex#re#ncm,
-    \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-    \ 'cm_refresh' : {'ominifunc': 'vimtex#complete#omnifunc'},
-		\ })
+        \ 'priority': 9,
+        \ 'scopes': ['tex'],
+        \ 'abbreviation': 'tex',
+        \ 'word_pattern': g:vimtex#re#ncm,
+        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+        \ 'cm_refresh' : {'ominifunc': 'vimtex#complete#omnifunc'},
+        \ })
 else " use neocomplete
   let g:neocomplete#enable_at_startup = 1
   if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -274,7 +242,16 @@ else " use neocomplete
         \ g:vimtex#re#neocomplete
 endif
 
+" " Clang-complete {{{ "
+" let g:clang_library_path='/usr/local/opt/llvm/lib/libclang.dylib'
+" let g:neomake_cpp_enabled_makers = ['clang']
+" let g:neomake_c_enabled_makers = ['clang']
+" " let g:clang_complete_auto = 1
+" au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
+" " }}} Clang-complete "
+"
 autocmd FileType python setlocal omnifunc=jedi#completions
+
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 
@@ -314,14 +291,14 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
   " For no inserting <CR> key.
   "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
-inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -338,7 +315,7 @@ map <leader>ff :Denite file_rec<cr>
 map <leader>fd :Denite file<cr>
 map <leader>fa :Denite
 map <leader>fb :Denite buffer<cr>
-map <leader>fm :Denite file_mru<cr><c-o>
+map <leader>fm :Denite file_mru<cr>
 map <leader>fo :Denite outline<cr>
 map <leader>ft :Denite tag<cr>
 map <leader>fj :Denite jump<cr>
@@ -526,8 +503,10 @@ let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:gitgutter_enabled=0
-nnoremap <silent> <Leader>d :GitGutterToggle<cr>
+let g:gitgutter_enabled=1
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+nnoremap <silent> <Leader>tgg :GitGutterToggle<cr>
 
 
 " session management
@@ -539,7 +518,7 @@ let g:session_command_aliases = 1
 
 
 " syntastic
-let g:syntastic_python_checkers=['python', 'flake8']
+" let g:syntastic_python_checkers=['python', 'flake8']
 
 
 "*****************************************************************************
@@ -589,7 +568,7 @@ endif
 
 
 " Tabularize "
-if isdirectory(expand(s:bundlepath . "tabular"))
+if isdirectory(expand(s:bundlepath . "/tabular"))
   nmap <Leader>a& :Tabularize /&<CR>
   vmap <Leader>a& :Tabularize /&<CR>
   nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
@@ -647,58 +626,57 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 nmap gaa ga_
 
-" xmap <Leader><Enter>   <Plug>(LiveEasyAlign)
-" nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
+xmap <Leader><Leader>a   <Plug>(LiveEasyAlign)
+nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
 
 " inoremap <silent> => =><Esc>mzvip:EasyAlign/=>/<CR>`z$a<Space>
 "
 "
 " VIM-TEX
 if has('mac') || has('macunix')
+  " let g:vimtex_view_method='zathura'
   let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   let g:vimtex_view_general_options = '-r @line @pdf @tex'
+elseif LINUX()
+  let g:vimtex_view_method='zathura'
 endif
-let g:vimtex_fold_enabled = 0 "So large files can open more easily
+let g:vimtex_fold_enabled = 1 "So large files can open more easily
 let g:vimtex_latexmk_continuous=0
 
 """"""""""""""""""""""""""""""
-" Nerdi Commenter
+" Nerdi Commenter {{{
 " ===============
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
-
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
-
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_java = 1
-
 " Add your own custom formats or override the defaults
 let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
-
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
-nmap <a-?> <Plug>NERDComAppendComment
-imap <a-?> <C-o><Plug>NERDComAppendComment
+nmap <a-?> <Plug>NERDCommenterAppend
+imap <a-?> <C-o><Plug>NERDCommenterAppend
 nmap <a-/> <Plug>NERDCommenterToggle
 xmap <a-/> <Plug>NERDCommenterToggle
 imap <a-/> <C-o><Plug>NERDCommenterToggle
 nmap ÷ <Plug>NERDCommenterToggle
 xmap ÷ <Plug>NERDCommenterToggle
 imap ÷ <C-o><Plug>NERDCommenterToggle
-
+nmap <leader>cp <Plug>NERDCommenterYank<Esc>p
+nmap <leader>cP <Plug>NERDCommenterYank<Esc>P
+" }}}
 
 " Markdown {{{
 " let g:vim_markdown_conceal = 0
-let g:vim_markdown_fenced_languages = ['csharp=cs','c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini']
+let g:vim_markdown_fenced_languages = ['csharp=cs', 'c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini']
 let g:vim_markdown_math = 1
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
@@ -707,7 +685,9 @@ let g:vim_markdown_json_frontmatter = 1
 
 " MarkdownPreview {{{
 " -------------------
-let g:mkdp_path_to_chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
+if OSX()
+  let g:mkdp_path_to_chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
+endif
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_open = 0
 " set to 1, the vim will auto open preview window when you edit the
@@ -746,7 +726,43 @@ let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMoveCharacter      = ''
 
 " AutoPairs}}}
+
+" DelimitMate {{{ "
+" let g:delimitMate_expand_cr=1
+" }}} DelimitMate "
+
+" vim-sayonara {{{
+nnoremap <silent><leader>x  :Sayonara<cr>
+nnoremap <silent><leader>X  :Sayonara!<cr>
+
+let g:sayonara_confirm_quit = 0
+" vim-sayonara }}}
+
+" Plugin: vim-online-thesaurus {{{2
+nnoremap <leader>k :OnlineThesaurusCurrentWord<cr>
+nnoremap <leader>K :Thesaurus<space>
+
+" Plugin: vim-grepper {{{2
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+
+highlight GrepperSideFile ctermfg=161 cterm=reverse
+highlight Conceal ctermfg=NONE ctermbg=250
+
+let grepper = {
+      \ 'tools': ['git', 'ag', 'rubocop'],
+      \ 'rubocop': {
+      \   'grepprg': 'rubocop -femacs',
+      \   'grepformat': '%f:%l:%c: %t: %m',
+      \ }}
+
+command! Todo Grepper -tool ag -query '(TODO|FIXME|XXX):'
+" }}}2 "
+
 " Plugins' configuration }}}
+
 
 
 

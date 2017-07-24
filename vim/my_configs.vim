@@ -55,8 +55,8 @@ function! Run_script()
     endif
 endfunction
 
-noremap <c-b><c-b> :w<cr>:call Run_script()<cr>
-inoremap <c-b><c-b> <esc>:w<cr>:call Run_script()<cr>
+noremap <c-B> :w<cr>:call Run_script()<cr>
+inoremap <c-B> <esc>:w<cr>:call Run_script()<cr>
 
 " set noimdisable
 " autocmd! InsertLeave * set imdisable|set iminsert=0
@@ -109,6 +109,12 @@ endif
 map <Leader><leader>h <Plug>(easymotion-linebackward)
 map <Leader><leader>l <Plug>(easymotion-lineforward)
 map <Leader><leader>. <Plug>(easymotion-repeat)
+map <Leader><leader>S <Plug>(easymotion-s2)
+map sh <Plug>(easymotion-linebackward)
+map sl <Plug>(easymotion-lineforward)
+map s. <Plug>(easymotion-repeat)
+map s <Plug>(easymotion-prefix)
+map S <Plug>(easymotion-s2)
 
 iab ,.s <esc>3a<c-v>{<esc>
 iab ,.e <esc>3a<c-v>}<esc>
@@ -116,7 +122,38 @@ iab ,s <esc>3a<c-v>{<esc>,1Vj,ccj
 iab ,,s <esc>3a<c-v>{<esc>,2Vj,ccj
 iab ,e <esc>mz[zyy`zp:s/{{{/}}}/<cr>
 
-" isi {{{
+
+" MARKDOWN-MAPS {{{ "
+augroup markdown_map
+  if get(g:, "usecommaleader")
+    au FileType pandoc
+          \ map ,b <localleader>biw|
+          \ map ,i <localleader>iiw|
+          \ map ,` <localleader>`iw|
+          \ map ,_ <localleader>_iw|
+          \ map ,^ <localleader>^iw|
+          \ map ,] <localleader>hsn|
+          \ map ,[ <localleader>hsb|
+          \ map ,cf <localleader>hcf|
+          \ map ,cl <localleader>hcl|
+          \ map ,cn <localleader>hcn|
+          \ map ,h <localleader>hh|
+          \ map ,p <localleader>hp|
+  endif
+augroup END
+" }}} MARKDOWN-MAPS "
+
+" VIMTEX-MAPS {{{ "
+augroup vimtex_map
+  if get(g:, "usecommaleader")
+    au FileType tex map
+          \ map ,l <localleader>ll|
+          \ map ,v <localleader>lv
+  endif
+augroup END
+" }}} VIMTEX-MAPS "
+
+" FZF {{{
 " =======
 
 " Mapping selecting mappings
@@ -132,6 +169,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 " inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+" FZF }}}
 
 " colorscheme gruvbox
 " colorscheme xcode-default

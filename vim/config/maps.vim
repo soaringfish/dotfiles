@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""
-" => Visual mode related
+" => Visual mode related {{{1
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -8,21 +8,21 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
+" => Moving around, tabs, windows and buffers {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
 
-imap <m-j> <c-o>j
-imap <m-k> <c-o>k
-imap <m-h> <c-o>h
-imap <m-l> <c-o>l
-imap <m-e> <c-o>e
-imap <m-b> <c-o>b
-inoremap <C-A>		<Home>
-inoremap <C-E>		<End>
+inoremap <m-j> <c-o>j
+inoremap <m-k> <c-o>k
+inoremap <m-h> <c-o>h
+inoremap <m-l> <c-o>l
+inoremap <m-e> <c-o>e
+inoremap <m-b> <c-o>b
+" inoremap <C-A> <Home> " included in vim-rsi
+" inoremap <C-E> <End>  " included in vi-rsi
 
 nnoremap Y y$
 
@@ -30,47 +30,87 @@ nnoremap Y y$
 " map <space> /
 " map <c-space> ?
 
-nmap <space> <leader>
-nmap <space><space> <leader><leader>
-
-try
-  map /  <Plug>(incsearch-forward)
-  map ?  <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-catch
-endtry
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 map <silent> <leader><space> :set hls!<cr>
 
-" Smart way to move between windows
-map <m-J> <C-W>j
-map <m-K> <C-W>k
-map <m-H> <C-W>h
-map <m-L> <C-W>l
+" Smart way to move between windows {{{1
+noremap <m-J> <C-W>j
+noremap <m-K> <C-W>k
+noremap <m-H> <C-W>h
+noremap <m-L> <C-W>l
 noremap <C-w>J <C-W>j<C-W>_
 noremap <C-w>K <C-W>k<C-W>_
 noremap <C-w>H <C-W>h<C-W>|
 noremap <C-w>L <C-W>l<C-W>|
 
 
-map <M-q> :q<cr>
-map <M-Q> :q!<cr>
+noremap <M-q> :q<cr>
+noremap <M-Q> :q!<cr>
 
-" Close the current buffer
+" Close the current buffer {{{1
 map <leader>bd :Bclose<cr>
 " :tabclose<cr>gT
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-" map <leader>l :bnext<cr>
-map ]b :bnext<cr>
-" map <leader>h :bprevious<cr>
-map [b :bprevious<cr>
 
-" Useful mappings for managing tabs
+" Buffer/tab/qf/.../ movement {{{1 "
+nnoremap [b  :bprevious<cr>zvzz
+nnoremap ]b  :bnext<cr>zvzz
+nnoremap [B  :bfirst<cr>zvzz
+nnoremap ]B  :blast<cr>zvzz
+
+nnoremap [t  :tabprevious<cr>zvzz
+nnoremap ]t  :tabnext<cr>zvzz
+nnoremap [T  :tabfirst<cr>zvzz
+nnoremap ]T  :tablast<cr>zvzz
+
+nnoremap [q  :cprevious<cr>zvzz
+nnoremap ]q  :cnext<cr>zvzz
+nnoremap [Q  :cfirst<cr>zvzz
+nnoremap ]Q  :clast<cr>zvzz
+
+nnoremap [l  :lprevious<cr>zvzz
+nnoremap ]l  :lnext<cr>zvzz
+nnoremap [L  :lfirst<cr>zvzz
+nnoremap ]L  :llast<cr>zvzz
+
+nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+
+nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+
+" switch comma-separated arguments
+" nnoremap [w  :normal F,h]w2w<cr>
+" nnoremap ]w  :let s=&isk \| setl isk+=\",' \| exe "norm diwmmebgPdw'mP" \| let &isk=s<cr>
+
+nnoremap [w F,mzbmx`zw"adaw`zb"bdaw"aPf,"bp`x
+nnoremap ]w f,mzbmx`zw"adaw`zb"bdaw"aPf,"bp`x
+
+" Other movement {{{1 "
+nnoremap }   }zz
+nnoremap {   {zz
+nnoremap ]]  ]]zz
+nnoremap [[  [[zz
+nnoremap []  []zz
+nnoremap ][  ][zz
+
+nnoremap g;  g;zvzz
+nnoremap g,  g,zvzz
+
+nnoremap <left>   <c-w>>
+nnoremap <right>  <c-w><
+nnoremap <up>     <c-w>-
+nnoremap <down>   <c-w>+
+
+" Useful mappings for managing tabs {{{1
 map <tab> :tabnext<CR>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
@@ -89,8 +129,12 @@ map <leader>t<leader> :tabnext<cr>
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
 
+
+augroup vimrcbasic
+  au!
+  au TabLeave * let g:lasttab = tabpagenr()
+augroup END
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -114,14 +158,16 @@ endtry
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
+" => Editing mappings  {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 " map 0 ^
-nmap H ^
-nmap L $
-nmap gb H
-nmap gl L
+nnoremap <m-h> ^
+nnoremap <m-l> $
+" nnoremap H ^
+" nnoremap L $
+nnoremap gb ^
+nnoremap gl $
 
 noremap U <c-r>
 inoremap <s-cr> <esc>o
@@ -142,8 +188,8 @@ if has("mac") || has("macunix")
 endif
 
 if OSX()
-            inoremap ‘ <C-o>:call InsertIndent(0)<CR>
-    inoremap “ <C-o>:call <SID>Indent(1)<CR>
+  inoremap ‘ <C-o>:call InsertIndent(0)<CR>
+  inoremap “ <C-o>:call <SID>Indent(1)<CR>
 else
 endif
 inoremap <A-]> <Esc>:call <SID>Indent(0)<CR>a
@@ -173,9 +219,12 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
-autocmd BufWrite *.tex,*.lua,*.vim :call DeleteTrailingWS()
+
+augroup vimrcbasic
+  autocmd BufWrite *.py :call DeleteTrailingWS()
+  autocmd BufWrite *.coffee :call DeleteTrailingWS()
+  autocmd BufWrite *.tex,*.lua,*.vim :call DeleteTrailingWS()
+augroup END
 
 nmap <leader>tw :call DeleteTrailingWS()
 
@@ -194,56 +243,58 @@ noremap XX "+x<CR>
 
 
 """""""""""""""""""""""""""""""""""""""
-" => Smart Keys Maps
-"""""""
+" => Smart Keys Maps  {{{1
 if OSX()
-    inoremap ˙ <Left>
-    inoremap ¬ <Right>
-    inoremap ∆ <Esc>ja
-    inoremap ˚ <Esc>ka
-    inoremap ´ <Esc>ea
-    inoremap <c-u> <esc>ua
-    inoremap ¨ <esc>ui
+  inoremap ˙ <Left>
+  inoremap ¬ <Right>
+  inoremap ∆ <Esc>ja
+  inoremap ˚ <Esc>ka
+  inoremap ´ <Esc>ea
+  inoremap <c-u> <esc>ua
+  inoremap ¨ <esc>ui
 
-    inoremap <c-d> <Del>
-    " inoremap <c-e> <Backspace> "<c-h> mapped somewhere later"
-    imap <a-backspace> <esc>d^xi
-    map <a-backspace> d^
-    imap <a-delete> <esc>ld$a
-    map <a-delete> d$
-    imap <a-x> <esc>ld$a
-    map <a-x> d$
-    imap <S-CR> <esc>o
+  inoremap <c-d> <Del>
+  " inoremap <c-e> <Backspace> "<c-h> mapped somewhere later"
+  imap <a-backspace> <esc>d^xi
+  map <a-backspace> d^
+  imap <a-delete> <esc>ld$a
+  map <a-delete> d$
+  imap <a-x> <esc>ld$a
+  map <a-x> d$
+  imap <S-CR> <esc>o
+endif
+" set osx-terminal 'Use option as Meta key'
+" for macvim set macmeta
+if 1 " All os
+  " else " Linux/Windows
+  inoremap <a-h> <Left>
+  inoremap <a-l> <Right>
+  inoremap <a-j> <Esc>ja
+  inoremap <a-k> <Esc>ka
+  inoremap <a-e> <Esc>ea
+  inoremap <c-u> <esc>ua
+  inoremap <a-u> <esc>ui
 
-else " Linux/Windows"
-    inoremap <a-h> <Left>
-    inoremap <a-l> <Right>
-    inoremap <a-j> <Esc>ja
-    inoremap <a-k> <Esc>ka
-    inoremap <a-e> <Esc>ea
-    inoremap <c-u> <esc>ua
-    inoremap <a-u> <esc>ui
-
-    inoremap <c-d> <Del>
-    " inoremap <c-e> <Backspace> "<c-h> mapped somewhere later"
-    imap <a-backspace> <esc>d^xi
-    map <a-backspace> d^
-    imap <a-delete> <esc>ld$a
-    map <a-delete> d$
-    imap <a-x> <esc>ld$a
-    map <a-x> d$
-    imap <S-CR> <esc>o
+  inoremap <c-d> <Del>
+  " inoremap <c-e> <Backspace> "<c-h> mapped somewhere later"
+  imap <a-backspace> <esc>d^xi
+  map <a-backspace> d^
+  imap <a-delete> <esc>ld$a
+  map <a-delete> d$
+  imap <a-x> <esc>ld$a
+  map <a-x> d$
+  imap <S-CR> <esc>o
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Ag searching and cope displaying
+" => Ag searching and cope displaying  {{{1
 "    requires ag.vim - it's much better than vimgrep/grep
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " When you press gv you Ag after the selected text
 vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ag and put the cursor in the right position
-map <leader>g :Ag
+map <leader>gg :Ag<space>
 
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
@@ -266,7 +317,7 @@ map <leader>p :cp<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
+" => Spell checking  {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>st :setlocal spell!<cr>
@@ -299,7 +350,7 @@ nnoremap <leader>sc :CloseSession<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
+" => Misc {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
 function! RemoveWinCR()
@@ -318,7 +369,7 @@ map <leader>pp :setlocal paste!<cr>
 
 
 " ----------------------------------------------------------------------------
-" Markdown headings
+" Markdown headings  {{{1
 " ----------------------------------------------------------------------------
 " nnoremap <leader>1 m`yypVr=``
 " nnoremap <leader>2 m`yypVr-``
@@ -354,8 +405,9 @@ function! MarkdownHeadline(lvl)
         call setline(l:ln, join(['#','#','#','#','#'][0:a:lvl-1],'') . ' ' . l:ls )
     endif
 endfunction
+" }}}1 "
 
-
+" Atomically match bullets (*+- num \item) {{{1 "
 " let s:bulletmatch = '^\s*\zs\([*+-]\s\)\|\(\d\+\.\?\s\)\ze'
 let s:bulletmatch = '\v^\s*\zs([*\+-]\s)|(\d+\.?\s)|(\\item(\s|\[))\ze'
 
@@ -375,10 +427,10 @@ au FileType markdown inoremap <a-cr> <esc>o<c-r>=<SID>AddBullet()<cr>
 if OSX()
   au FileType markdown inoremap  <esc>o<c-r>=<SID>AddBullet()<cr>
 endif
-
+" }}}1 "
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
+" => Helper functions  {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
@@ -432,16 +484,9 @@ function! <SID>BufcloseCloseIt()
      execute("bdelete! ".l:currentBufNum)
    endif
 endfunction
+" }}}1 "
 
-" Make VIM remember position in file after reopen
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
-
-" ----------------------------------------------------------------------------
-" Cscope mappings
-" ----------------------------------------------------------------------------
+" Cscope mappings {{{1 "
 function! s:add_cscope_db()
   " add any database in current directory
   let db = findfile('cscope.out', '.;')
@@ -488,24 +533,13 @@ if has("cscope")
   " new
   nnoremap <C-\>n :cs find t new <C-R>=expand("<cword>")<CR><CR>
 endif
+" }}}1 "
 
-
-" ----------------------------------------------------------------------------
-" Readline-style key bindings in command-line (excerpt from rsi.vim)
-" ----------------------------------------------------------------------------
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-cnoremap <C-K> <C-U>
-
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
-cnoremap        <C-B> <Left>
-cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
-cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
-cnoremap        <M-b> <S-Left>
-cnoremap        <M-f> <S-Right>
-silent! exe "set <S-Left>=\<Esc>b"
-silent! exe "set <S-Right>=\<Esc>f"
-
+augroup vimrcbasic
+  au WinEnter    * set cursorline
+  au WinLeave    * set nocursorline
+  au InsertEnter * set nocursorline
+  au InsertLeave * set cursorline
+augroup END
 
 " vim: set ft=vim sw=2 ts=2 et foldmethod=marker:
