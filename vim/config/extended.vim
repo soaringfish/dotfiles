@@ -45,6 +45,39 @@ au FileType python syn keyword pythonDecorator True None False self
 au FileType qf call OnQFPost()
 au FileType qf noremap <buffer> x zc
 
+augroup ag_python
+  au!
+  " au FileType python map <buffer> F :set foldmethod=indent<cr>
+  autocmd FileType python call PythonSyncExt()
+augroup END
+
+function! PythonSyncExt()
+    syn keyword pythonBoolean       False None True
+    syn keyword pythonDefine class def nextgroup=pythonFunction skipwhite
+    syn match pythonDefine '@' nextgroup=pythonFunction skipwhite
+    "syn match pythonParameterList '\<\h\w*\s*(.\{3,})' transparent contains=TOP "TOP ,pythonParameterName
+    "syn region pythonParameterList start='\<\h\w*(' end=')' transparent contains=TOP
+    "syn region pythonParameterList matchgroup=lv1c start=+\%(\<\h\w*\s*\)\@99<=(+  end=+)+  contains=TOP,pythonParameterList,pythonParameterName,lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9 containedin=lv2c contains=TOP,pythonParameterList,lv1,lv2,lv3,lv4,lv1c,lv2c,lv3c,lv4c
+    "syn region pythonParameterList matchgroup=pythonPL start=+\%(\<\h\w*\s*\)\@99<=(+  end=+)+  contains=ALL  containedin=pythonParameterList,lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9
+    "transparent
+    "contains=ALL
+"syn keyword pythonBuiltin	False True None max dummy nextgroup=pythonParameterList skipwhite
+"syn match pythonDummyFN	'\<\h\w*\s*' contains=TOP nextgroup=pythonParameterList skipwhite
+    "syn match pythonParameterName
+    "        \ '\%(\%(^\s*\|[(,]\)\s*\)\@<=\%(\<\h\w*\)\%(\s*=\)\@=' contained
+    "        \ containedin=lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9,pythonParameterList
+            "\ containedin=pythonParameterList
+    syn match pythonTransChar '%-\?\d*\.\?\d*[sSdDxXuUlLfF]' contained contains=NONE containedin=pythonString
+      "%d %s %2d %.2d %-2d
+    "highlight def link pythonParameterList pythonDefine
+    highlight def link pythonTransChar pythonDefine
+    "highlight def link pythonParameterName Label
+    highlight def link pythonBoolean Boolean
+    highlight def link pythonDefine Define
+    "highlight def link pythonOperator Operator
+    "highlight def link pythonFunction Function
+    "call confirm('highlight')
+endfunction
 
 augroup ag_help
   au!
@@ -215,7 +248,7 @@ function! TwiddleCase(str)
     return result
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgvl"))
-
+let g:rainbow_active=1
 " Color {{{1
 function! s:colors_default() abort
   highlight Comment cterm=italic

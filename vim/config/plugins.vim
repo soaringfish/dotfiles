@@ -36,12 +36,15 @@ silent! if plug#begin(s:bundlepath)
   " ==> UI {{{
   " ----------
     Plug 'scrooloose/nerdtree'
-    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
     let g:polyglot_disabled=['latex']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim'
+    Plug 'luochen1990/rainbow'
+    " Plug 'kien/rainbow_parentheses.vim'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -206,6 +209,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'beloglazov/vim-online-thesaurus'
   Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
+  Plug 'vim-scripts/DrawIt'
   " "" Misc }}}
 
   call plug#end()
@@ -633,6 +637,8 @@ nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
 "
 "
 " VIM-TEX
+let g:tex_flavor='latex'
+set iskeyword+=:
 if has('mac') || has('macunix')
   " let g:vimtex_view_method='zathura'
   let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
