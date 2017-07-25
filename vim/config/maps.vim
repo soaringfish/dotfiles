@@ -310,10 +310,10 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 " To go to the previous search results do:
 "   <leader>p
 "
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+" map <leader>cc :botright cope<cr>
+" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+" map <leader>n :cn<cr>
+" map <leader>p :cp<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

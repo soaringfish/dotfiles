@@ -272,9 +272,14 @@ if has("autocmd")
 endif
 
 if !has('nvim') && !has('gui_running')
-  for i in range(48, 57) + range(65, 90) + range(97, 122)
+  " for i in range(48, 57) + range(65, 90) + range(97, 122)
+  for i in range(32,126)
+    " echo i
+    if index([32,34,44, 60, 62, 92,124], i)>=0 | continue| endif
+    " echo 'good'
     execute 'set <A-' . nr2char(i) . '>=^[' . nr2char(i)
   endfor
+  set <A-space>=^[<space>
 endif
 
 if has('nvim')

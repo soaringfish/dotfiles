@@ -30,6 +30,9 @@ endif
 " Loading plugins {{{
 " ===================
 
+" let g:use_ncm = 1
+let g:use_deoplete = 0
+
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
@@ -43,8 +46,11 @@ silent! if plug#begin(s:bundlepath)
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim'
-    Plug 'luochen1990/rainbow'
-    " Plug 'kien/rainbow_parentheses.vim'
+    " if has('gui_running')
+      " Plug 'luochen1990/rainbow'
+    " else
+      Plug 'kien/rainbow_parentheses.vim'
+    " endif
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -118,15 +124,18 @@ silent! if plug#begin(s:bundlepath)
   Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
   " => Git }}}
 
-
   " => Auto Complete {{{
   " -------------------
-  let s:use_ncm = has('nvim') || (has('g:use_ncm') && g:use_ncm)
-  if s:use_ncm
-    Plug 'roxma/nvim-completion-manager' " ac
+  let s:use_deoplete = has('nvim') && get(g:, 'use_deoplete')
+  let s:use_ncm = !s:use_deoplete && (has('nvim') || get(g:, 'use_ncm'))
+  if s:use_deoplete
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'zchee/deoplete-jedi'
+  elseif s:use_ncm
     if !has('nvim')
       Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
     endif
+    Plug 'roxma/nvim-completion-manager' " ac
     " Plug 'roxma/clang_complete'
   else
     Plug 'Shougo/neocomplete.vim'
@@ -144,7 +153,6 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'ervandew/supertab'
   " Plug 'valloric/youcompleteme'
   " => Autocomplete }}}
-
 
   "" Colors  {{{
   Plug 'tomasr/molokai'
@@ -199,7 +207,6 @@ silent! if plug#begin(s:bundlepath)
 
   " ==> Languages }}}
 
-
   " "" Misc {{{
   " -----------
   "" Vim-Session
@@ -229,14 +236,27 @@ syntax enable
 " ---------------
 " \ 'cm_refresh_patterns': g:vimtex#re#ncm,
 if s:use_ncm
-  au User CmSetup call cm#register_source({'name' : 'cm-vimtex',
-        \ 'priority': 9,
+  " g:cm_refresh_length=[[1,4],[7,3]]
+  let g:cm_refresh_length=[[1,3],[7,2]]
+  " let g:cm_matcher={'module': 'cm_matchers.prefix_matcher',
+        " \ 'case': 'smartcase'}
+  let g:cm_matcher={'module': 'cm_matchers.fuzzy_matcher',
+        \ 'case': 'smartcase'}
+  autocmd User CmSetup call cm#register_source({
+        \ 'name' : 'vimtex',
+        \ 'priority': 8,
+        \ 'scoping': 1,
         \ 'scopes': ['tex'],
         \ 'abbreviation': 'tex',
-        \ 'word_pattern': g:vimtex#re#ncm,
         \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh' : {'ominifunc': 'vimtex#complete#omnifunc'},
+        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
         \ })
+elseif s:use_deoplete
+  let g:deoplete#enable_at_startup = 1
+  if !exists('g:deoplete#omni#input_patterns')
+      let g:deoplete#omni#input_patterns = {}
+  endif
+  let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
 else " use neocomplete
   let g:neocomplete#enable_at_startup = 1
   if !exists('g:neocomplete#sources#omni#input_patterns')

@@ -286,9 +286,9 @@ function! s:colors_lucius() abort
 endfunction
 
 augroup vimrc
-  autocmd ColorScheme *      call s:colors_default()
-  autocmd ColorScheme janah  call s:colors_janah()
-  autocmd ColorScheme lucius call s:colors_lucius()
+  " autocmd ColorScheme *      call s:colors_default()
+  " autocmd ColorScheme janah  call s:colors_janah()
+  " autocmd ColorScheme lucius call s:colors_lucius()
 augroup END
 
 
