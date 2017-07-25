@@ -55,6 +55,7 @@ function! Run_script()
     endif
 endfunction
 
+noremap <m-b> <c-b>
 noremap <c-B> :w<cr>:call Run_script()<cr>
 inoremap <c-B> <esc>:w<cr>:call Run_script()<cr>
 
@@ -88,14 +89,14 @@ if OSX()
   " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   " let g:vimtex_view_general_options = '-r @line @pdf @tex'
 elseif LINUX()
-  let g:vimtex_view_general_viewer = 'okular'
-  let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-  let g:vimtex_view_general_options_latexmk = '--unique'
+  " let g:vimtex_view_general_viewer = 'okular'
+  " let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+  " let g:vimtex_view_general_options_latexmk = '--unique'
 elseif WINDOWS()
-  let g:vimtex_view_general_viewer = 'SumatraPDF'
-  let g:vimtex_view_general_options
+  " let g:vimtex_view_general_viewer = 'SumatraPDF'
+  " let g:vimtex_view_general_options
         \ = '-reuse-instance -forward-search @tex @line @pdf'
-  let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+  " let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 else
   echo 'Unknown OS'
 endif

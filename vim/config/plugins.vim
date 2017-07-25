@@ -1,8 +1,9 @@
-" pre configuration before loading plugins {{{
-" ============================================
+""""""""""""""""""""""""""""""""""""""""""""""
+"  plugins.vim: Loading & Configing plugins  "
+""""""""""""""""""""""""""""""""""""""""""""""
 
 " Plug packages manager core {{{
-" ------------------
+" ------------------------------
 
 let s:path = exists('g:vimpath') ? g:vimpath : "~/.vim"
 let s:bundlepath = (exists('g:bundlepath') ? g:bundlepath : s:path) . "/plug"
@@ -21,14 +22,8 @@ if empty(glob(s:plugpath . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall  | execute 'source ' . g:vimrc . '/vimrc'
 endif
 
-
-" }}}
-
-" }}}
-
-
-" Loading plugins {{{
-" ===================
+" Loading plugins {{{1
+" --------------------
 
 " let g:use_ncm = 1
 let g:use_deoplete = 0
@@ -36,8 +31,7 @@ let g:use_deoplete = 0
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
-  " ==> UI {{{
-  " ----------
+  " ==> UI {{{2
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
@@ -61,10 +55,8 @@ silent! if plug#begin(s:bundlepath)
     Plug 'vim-scripts/mru.vim'
     Plug 'vim-voom/VOoM'
     " Plug 'itchyny/lightline.vim'
-  " ==> UI }}}
 
-  " ==> Edit {{{
-  " ------------
+  " ==> Edit {{{2
   Plug 'chrisbra/unicode.vim'
   " Plug 'tpope/vim-commentary'
   Plug 'scrooloose/nerdcommenter'
@@ -91,10 +83,8 @@ silent! if plug#begin(s:bundlepath)
   let g:ale_emit_conflict_warnings = 0
   " Plug 'vim-scripts/grep.vim'
   " Plug 'scrooloose/syntastic'
-  " ==> Edit }}}
 
-  " ==> Navigating & Searching {{{
-  " ------------------------------
+  " ==> Navigating & Searching {{{2
   Plug 'rking/ag.vim'
   Plug 'mhinz/vim-grepper'
   Plug 'easymotion/vim-easymotion'
@@ -107,24 +97,19 @@ silent! if plug#begin(s:bundlepath)
   Plug 'dyng/ctrlsf.vim'
   Plug 'tmhedberg/matchit'
   Plug 'haya14busa/incsearch.vim'
-  " Plug 'junegunn/fzf',  {'build': './install --all', 'rtp': ''}
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   " Plug 'ctrlpvim/ctrlp.vim'
-  " CtrlP {{{
   " Plug 'FelikZ/ctrlp-py-matcher'
   " let g:airline#extensions#tabline#enabled = 1
   " let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-  " isi }}}
-  " ==> Navigating & Searching }}}
-  " => Git {{{
-  " ----------
+
+  " => Git {{{2
   Plug 'tpope/vim-fugitive'
   " Plug 'mhinz/vim-signify' " More pretty look, supports more VMs
   Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
-  " => Git }}}
 
-  " => Auto Complete {{{
+  " => Auto Complete {{{2
   " -------------------
   let s:use_deoplete = has('nvim') && get(g:, 'use_deoplete')
   let s:use_ncm = !s:use_deoplete && (has('nvim') || get(g:, 'use_ncm'))
@@ -141,7 +126,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Shougo/neocomplete.vim'
   endif
   Plug 'Shougo/neco-vim'               " pyton
-  " Plug 'davidhalter/jedi'              " Snippets
+  " Plug 'davidhalter/jedi'            " Snippets
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
   Plug 'davidhalter/jedi-vim'
@@ -152,9 +137,9 @@ silent! if plug#begin(s:bundlepath)
   " let g:use_clevertab=1
   " Plug 'ervandew/supertab'
   " Plug 'valloric/youcompleteme'
-  " => Autocomplete }}}
+  " => Autocomplete }}}2
 
-  "" Colors  {{{
+  "" Colors  {{{2
   Plug 'tomasr/molokai'
   " Plug 'ifepillar/vim-wwdc17-theme'
   " Plug 'roosta/srcery'
@@ -172,9 +157,9 @@ silent! if plug#begin(s:bundlepath)
   Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   " Plug 'joshdick/onedark.vim'
-  "" Colors  }}}
+  "" Colors  }}}2
 
-  " ==> Languages {{{
+  " ==> Languages {{{2
   " -----------------
   "" Lua Bundle
   Plug 'xolox/vim-lua-ftplugin'
@@ -205,9 +190,9 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'tpope/vim-haml'
   Plug 'mattn/emmet-vim'
 
-  " ==> Languages }}}
+  " ==> Languages }}}2
 
-  " "" Misc {{{
+  " "" Misc {{{2
   " -----------
   "" Vim-Session
   Plug 'xolox/vim-misc'
@@ -217,7 +202,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   Plug 'vim-scripts/DrawIt'
-  " "" Misc }}}
+  " "" Misc }}}2
 
   call plug#end()
 endif
@@ -229,12 +214,10 @@ syntax enable
 " Loading plugins }}}
 
 
-" Plugins' configuration {{{
-" ==========================
+" Plugins' configuration {{{1
+" ---------------------------
 
-" Neocomplete {{{
-" ---------------
-" \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+" Plugin: Autocomplete: NCM/deoplete/neocomplete {{{2
 if s:use_ncm
   " g:cm_refresh_length=[[1,4],[7,3]]
   let g:cm_refresh_length=[[1,3],[7,2]]
@@ -266,14 +249,14 @@ else " use neocomplete
         \ g:vimtex#re#neocomplete
 endif
 
-" " Clang-complete {{{ "
+" Plugin: Clang-complete {{{ 3"
 " let g:clang_library_path='/usr/local/opt/llvm/lib/libclang.dylib'
 " let g:neomake_cpp_enabled_makers = ['clang']
 " let g:neomake_c_enabled_makers = ['clang']
 " " let g:clang_complete_auto = 1
 " au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
-" " }}} Clang-complete "
-"
+
+" Python-complete {{{3 "
 autocmd FileType python setlocal omnifunc=jedi#completions
 
 let g:jedi#completions_enabled = 0
@@ -284,9 +267,8 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
-" Neocomplete }}}
-" " JEDI-VIM {{{
-" --------------
+" Autocomplete }}}2
+" Plugin: JEDI-VIM {{{2
 let g:jedi#goto_command = "<leader>pc"
 let g:jedi#goto_assignments_command = "<leader>pa"
 let g:jedi#goto_definitions_command = "<leader>pd"
@@ -294,47 +276,39 @@ let g:jedi#documentation_command = "K"
 let g:jedi#usages_command = "<leader>pu"
 " let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<leader>pr"
-" " JEDI-VIM }}}
-"
+
+" Plugin: vim-Session {{{2 "
 let g:session_autoload=0
-" Unite
+" session management
+let g:session_directory = "~/.vim/tem/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+
+
+" Plugin: Unite {{{2 "
 " call unite#custom#source('codesearch', 'max_candidates', 30)
 " call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " call unite#filters#sorter_default#use(['sorter_rank'])
 
 
-" snippets
+" Plugin: UltiSnips {{{2 "
 " let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " let g:UltiSnipsEditSplit="vertical"
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-" inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
+" Plugin: MRU {{{2 "
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 map <localleader>f :MRU<CR>
 
-" => Denite {{{
-" =============
+" Plugin: Denite {{{2 "
 map <leader>ff :Denite file_rec<cr>
 map <leader>fd :Denite file<cr>
 map <leader>fa :Denite
@@ -360,14 +334,6 @@ call denite#custom#map(
       \ '<denite:move_to_previous_line>',
       \ 'noremap'
       \)
-" => Denite }}}
-
-""""""""""""""""""""""""""""""
-" => YankStack
-""""""""""""""""""""""""""""""
-" nmap <c-p> <Plug>yankstack_substitute_older_paste
-" nmap <c-P> <Plug>yankstack_substitute_newer_paste
-
 
 """"""""""""""""""""""""""""""
 " => CTRL-P
@@ -385,17 +351,18 @@ call denite#custom#map(
 " let g:ctrlp_max_height = 20
 " " let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 "
+" noremap <leader>b :CtrlPBuffer<CR>
+" let g:ctrlp_map = '<leader>e'
+" let g:ctrlp_open_new_file = 'r'
+" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
-"" ctrlp.vim
-"set wildmode=list:longest,list:full
-"set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-"let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
-"let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
+" let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
 "let g:ctrlp_use_caching = 1
 
 
 
-" The Silver Searcher
+" The Silver Searcher {{{2 "
 if executable('ag')
   " set grepprg=ag\ --nogroup\ --nocolor
   set grepprg=ag\ --vimgrep\ $*
@@ -406,32 +373,18 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" noremap <leader>b :CtrlPBuffer<CR>
-" let g:ctrlp_map = '<leader>e'
-" let g:ctrlp_open_new_file = 'r'
-" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-
-
-
-
-" Tagbar
+" Plugin: Tagbar {{{2 "
 nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
-" IndentLine
+" Plugin: IndentLine {{{2 "
 let g:indentLine_enabled = 1
 let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
 
-" Disable visualbell
-set visualbell t_vb=
 
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin: NERDTree {{{2 "
 let g:NERDTreeWinPos = "right"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
@@ -441,16 +394,16 @@ map <leader>nb :NERDTreeFromBookmark
 map <leader>nf :NERDTreeFind<cr>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-multiple-cursors
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:multi_cursor_next_key="\<C-s>"
+" Plugin: vim-multiple-cursors {{{2 "
+" let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_next_key='<C-n>'
+" let g:multi_cursor_prev_key='<C-p>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<Esc>'
+let g:multi_cursor_start_key='<F7>'
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => surround.vim config
+" Plugin: surround.vim {{{2 "
 " Annotate strings with gettext http://amix.dk/blog/post/19678
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 
@@ -483,9 +436,7 @@ let g:lightline = {
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimroom
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin: Goyo {{{2 "
 let g:goyo_width=100
 let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
@@ -493,69 +444,20 @@ nnoremap <silent> <leader>z :Goyo<cr>
 
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic (syntax checker)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Python
-let g:syntastic_python_checkers=['pyflakes']
-
-" Javascript
-let g:syntastic_javascript_checkers = ['jshint']
-
-" Go
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-
-" Custom CoffeeScript SyntasticCheck
-" func! SyntasticCheckCoffeescript()
-"   let l:filename = substitute(expand("%:p"), '\(\w\+\)\.coffee', '.coffee.\1.js', '')
-"   execute "tabedit " . l:filename
-"   execute "SyntasticCheck"
-"   execute "Errors"
-" endfunc
-" nnoremap <silent> <Leader>l :call SyntasticCheckCoffeescript()<cr>
-"
-" " syntastic
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_error_symbol='✗'
-" let g:syntastic_warning_symbol='⚠'
-" let g:syntastic_style_error_symbol = '✗'
-" let g:syntastic_style_warning_symbol = '⚠'
-" let g:syntastic_auto_loc_list=1
-" let g:syntastic_aggregate_errors = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git gutter (Git diff)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin: GitGutter {{{2 "
 let g:gitgutter_enabled=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 nnoremap <silent> <Leader>tgg :GitGutterToggle<cr>
 
 
-" session management
-let g:session_directory = "~/.vim/tem/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
 
-
-
-" syntastic
-" let g:syntastic_python_checkers=['python', 'flake8']
-
-
-"*****************************************************************************
-"" Convenience variables
-"*****************************************************************************
-
-" airline
+" Plugin: vim-airline {{{2 "
 let g:airline_theme='sol'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-" vim-airline
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -591,7 +493,7 @@ else
 endif
 
 
-" Tabularize "
+" Plugin: Tabularize {{{2 "
 if isdirectory(expand(s:bundlepath . "/tabular"))
   nmap <Leader>a& :Tabularize /&<CR>
   vmap <Leader>a& :Tabularize /&<CR>
@@ -611,9 +513,7 @@ if isdirectory(expand(s:bundlepath . "/tabular"))
   vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 endif
 
-" ----------------------------------------------------------------------------
-" <Enter> | vim-easy-align
-" ----------------------------------------------------------------------------
+" Plugin: vim-easy-align {{{2 "
 let g:easy_align_delimiters = {
       \ '>': { 'pattern': '>>\|=>\|>' },
       \ '\': { 'pattern': '\\' },
@@ -649,14 +549,11 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign with a Vim movement
 nmap ga <Plug>(EasyAlign)
 nmap gaa ga_
-
-xmap <Leader><Leader>a   <Plug>(LiveEasyAlign)
+xmap <Leader><Leader>a <Plug>(LiveEasyAlign)
 nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
-
 " inoremap <silent> => =><Esc>mzvip:EasyAlign/=>/<CR>`z$a<Space>
-"
-"
-" VIM-TEX
+
+" Plugin: VIM-TEX {{{2 "
 let g:tex_flavor='latex'
 set iskeyword+=:
 if has('mac') || has('macunix')
@@ -669,10 +566,7 @@ endif
 let g:vimtex_fold_enabled = 1 "So large files can open more easily
 let g:vimtex_latexmk_continuous=0
 
-""""""""""""""""""""""""""""""
-" Nerdi Commenter {{{
-" ===============
-
+" Plugin: Nerdcommenter {{{2 "
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
@@ -698,19 +592,16 @@ xmap ÷ <Plug>NERDCommenterToggle
 imap ÷ <C-o><Plug>NERDCommenterToggle
 nmap <leader>cp <Plug>NERDCommenterYank<Esc>p
 nmap <leader>cP <Plug>NERDCommenterYank<Esc>P
-" }}}
 
-" Markdown {{{
+" Plugin: Vim-Markdown {{{2 "
 " let g:vim_markdown_conceal = 0
 let g:vim_markdown_fenced_languages = ['csharp=cs', 'c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini']
 let g:vim_markdown_math = 1
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
 " let g:vim_markdown_new_list_item_indent = 2
-" Markdown }}}
 
-" MarkdownPreview {{{
-" -------------------
+" Plugin: MarkdownPreview {{{3 "
 if OSX()
   let g:mkdp_path_to_chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 endif
@@ -721,24 +612,20 @@ let g:mkdp_auto_open = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 1
 let g:mkdp_command_for_global = 0
-" MarkdownPreview }}}
 
-" Markdown instant preview {{{
+" Markdown instant preview {{{3 "
 let g:instant_markdown_slow = 1
 let g:instant_markdown_autostart = 0
-" Markdown instant preview }}}
 
-" LUA: xolox/vim-lua-inspect {{{
+" Plugin: xolox/vim-lua-inspect {{{2 "
 " Don't enable the lua-inspect plug-in automatically in Lua buffers.
 let g:lua_inspect_events = ''
 "
 " " Enable/disable the lua-inspect plug-in manually using <F6>.
 imap <F6> <C-o>:LuaInspectToggle<CR>
 nmap <F6>      :LuaInspectToggle<CR>
-" LUA: xolox/vim-lua-inspect }}}
 
-" AutoPairs{{{
-" ------------
+" Plugin: AutoPairs {{{2 "
 
 " System Shortcuts:
 "     <CR>  : Insert new indented line after return if cursor in blank brackets or quotes.
@@ -751,18 +638,16 @@ nmap <F6>      :LuaInspectToggle<CR>
 let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMoveCharacter      = ''
 
-" AutoPairs}}}
 
 " DelimitMate {{{ "
 " let g:delimitMate_expand_cr=1
 " }}} DelimitMate "
 
-" vim-sayonara {{{
+" Plugin: vim-sayonara {{{2 "
 nnoremap <silent><leader>x  :Sayonara<cr>
 nnoremap <silent><leader>X  :Sayonara!<cr>
 
 let g:sayonara_confirm_quit = 0
-" vim-sayonara }}}
 
 " Plugin: vim-online-thesaurus {{{2
 nnoremap <leader>k :OnlineThesaurusCurrentWord<cr>
@@ -786,10 +671,6 @@ let grepper = {
 
 command! Todo Grepper -tool ag -query '(TODO|FIXME|XXX):'
 " }}}2 "
-
-" Plugins' configuration }}}
-
-
-
+" Plugins' configuration }}}1
 
 " vim: set et sw=2 ts=2 tw=78 foldmethod=marker foldlevel=1:

@@ -24,6 +24,17 @@ inoremap <m-b> <c-o>b
 " inoremap <C-A> <Home> " included in vim-rsi
 " inoremap <C-E> <End>  " included in vi-rsi
 
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 nnoremap Y y$
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
@@ -164,10 +175,10 @@ endtry
 " map 0 ^
 nnoremap <m-h> ^
 nnoremap <m-l> $
-" nnoremap H ^
-" nnoremap L $
-nnoremap gb ^
-nnoremap gl $
+nnoremap H ^
+nnoremap L $
+nnoremap gb H
+nnoremap gl L
 
 noremap U <c-r>
 inoremap <s-cr> <esc>o

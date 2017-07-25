@@ -1,3 +1,8 @@
+"""""""""""""""""""""""""""""
+"  basic.vim: VIM Settings  "
+"""""""""""""""""""""""""""""
+
+
 if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
@@ -28,9 +33,10 @@ endif
 
 " }}}1 "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General {{{1 "
+" --------------
+
+" Loading features {{{2 "
 let g:loaded_2html_plugin     = 1
 let g:loaded_getscriptPlugin  = 1
 let g:loaded_gzip             = 1
@@ -42,6 +48,7 @@ let g:loaded_tarPlugin        = 1
 let g:loaded_vimballPlugin    = 1
 let g:loaded_zipPlugin        = 1
 
+" language {{{2 "
 let $LANG='en' " Avoid garbled characters in Windows
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
@@ -54,9 +61,6 @@ set history=500 " Sets how many lines of history VIM has to remember
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
-
-" Set to auto read when a file is changed from the outside
-set autoread
 
 " Map(Local)Leaders {{{1 "
 let mapleader = ' '
@@ -106,8 +110,9 @@ set wildmenu
 set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
+" set wildignore=*.o,*~,*.pyc
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+if WINDOWS()
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 else
     set wildignore+=.git\*,.hg\*,.svn\*
@@ -127,6 +132,9 @@ endif
 
 " set cmdheight=2 " Height of the command bar
 " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+
+" Set to auto read when a file is changed from the outside
+set autoread
 
 set whichwrap+=<,>,h,l
 set hid                        " A buffer becomes hidden when it is abandoned
@@ -154,9 +162,8 @@ set complete     -=i
 if has('nvim') || v:version >= 800
   set completeopt+=noselect
 endif
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" => Colors and Fonts {{{1 "
 syntax enable " Enable syntax highlighting
 
 " set background=dark
@@ -176,25 +183,14 @@ if has("gui_mac") || has("gui_macvim")
     endtry
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo {{{1 "
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup  nowb  noswapfile
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
-
+" Status line {{{1 "
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
 if has('statusline') && 1
     set laststatus=2
-
-    " Broken down into easily includeable segments
     set statusline=%<%f\                     " Filename
     set statusline+=%w%h%m%r                 " Options
     set statusline+=%{fugitive#statusline()} " Git Hotness
@@ -203,9 +199,8 @@ if has('statusline') && 1
     set statusline+=%=%-10.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Text, tab and indent related {{{1
+" ---------------------------------
 set smarttab expandtab shiftwidth=4 tabstop=4
 set wrap linebreak
 set autoindent smartindent
@@ -225,7 +220,6 @@ set formatoptions+=j " Add 'j' flag to 'formatoptions': Remove comment leader wh
 let &showbreak = '↳ '
 set breakindent
 set breakindentopt=sbr
-
 
 " if has('multi_byte') && &encoding ==# 'utf-8'
     let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
