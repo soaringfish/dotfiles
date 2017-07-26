@@ -26,14 +26,14 @@ inoremap <m-b> <c-o>b
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+inoremap <silent> <expr> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
 endfunction
 " <TAB>: completion.
-inoremap <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <silent> <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
+inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 nnoremap Y y$
 
@@ -50,6 +50,10 @@ map <silent> <leader><cr> :noh<cr>
 map <silent> <leader><space> :set hls!<cr>
 
 " Smart way to move between windows {{{1
+noremap <c-J> <C-W>j
+noremap <c-K> <C-W>k
+noremap <c-H> <C-W>h
+noremap <c-L> <C-W>l
 noremap <m-J> <C-W>j
 noremap <m-K> <C-W>k
 noremap <m-H> <C-W>h
@@ -58,6 +62,11 @@ noremap <C-w>J <C-W>j<C-W>_
 noremap <C-w>K <C-W>k<C-W>_
 noremap <C-w>H <C-W>h<C-W>|
 noremap <C-w>L <C-W>l<C-W>|
+
+nnoremap <s-left>   <c-w>>
+nnoremap <s-right>  <c-w><
+nnoremap <s-up>     <c-w>-
+nnoremap <s-down>   <c-w>+
 
 
 noremap <M-q> :q<cr>
@@ -115,11 +124,6 @@ nnoremap ][  ][zz
 
 nnoremap g;  g;zvzz
 nnoremap g,  g,zvzz
-
-nnoremap <left>   <c-w>>
-nnoremap <right>  <c-w><
-nnoremap <up>     <c-w>-
-nnoremap <down>   <c-w>+
 
 " Useful mappings for managing tabs {{{1
 map <tab> :tabnext<CR>

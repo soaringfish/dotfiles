@@ -639,9 +639,11 @@ let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMoveCharacter      = ''
 
 
-" DelimitMate {{{ "
-" let g:delimitMate_expand_cr=1
-" }}} DelimitMate "
+" Plugin: DelimitMate {{{2 "
+let delimitMate_expand_cr            = 1
+let delimitMate_expand_space         = 1
+let delimitMate_expand_inside_quotes = 1
+let delimitMate_jump_expansion       = 1
 
 " Plugin: vim-sayonara {{{2 "
 nnoremap <silent><leader>x  :Sayonara<cr>
