@@ -60,8 +60,8 @@ noremap <c-B> :w<cr>:call Run_script()<cr>
 inoremap <c-B> <esc>:w<cr>:call Run_script()<cr>
 
 " set noimdisable
-" autocmd! InsertLeave * set imdisable|set iminsert=0
-" autocmd! InsertEnter * set noimdisable|set iminsert=0
+autocmd! InsertLeave * set imdisable|set iminsert=0
+autocmd! InsertEnter * set noimdisable|set iminsert=0
 
 
 " VIMTEX settings {{{
@@ -127,6 +127,9 @@ iab ,e <esc>mz[zyy`zp:s/{{{/}}}/<cr>
 " MARKDOWN-MAPS {{{ "
 augroup markdown_map
   if get(g:, "usecommaleader")
+    au FileType tex
+          \ map ,v <localleader>lv|
+          \ map ,m <localleader>ll
     au FileType pandoc
           \ map ,b <localleader>biw|
           \ map ,i <localleader>iiw|

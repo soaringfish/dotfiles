@@ -36,7 +36,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Xuyuanp/nerdtree-git-plugin'
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-    let g:polyglot_disabled=['latex']
+    let g:polyglot_disabled=['latex', 'markdown']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim'
@@ -173,11 +173,14 @@ silent! if plug#begin(s:bundlepath)
   Plug 'lervag/vimtex'
 
   "" Markdown
+  let g:pandoc#filetypes#pandoc_markdown = 0
+  " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
   "Bundle 'tpope/vim-markdown'
   Plug 'godlygeek/tabular' " Needed by vim-markdown
-  " Plug 'plasticboy/vim-markdown'
+  Plug 'plasticboy/vim-markdown'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
+  " Plug 'vim-pandoc/vim-pandoc-after'
   Plug 'suan/vim-instant-markdown'
   Plug 'mzlogin/vim-markdown-toc'
   Plug 'iamcco/mathjax-support-for-mkdp'
@@ -199,7 +202,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'xolox/vim-session'
   Plug 'mhinz/vim-sayonara'
   Plug 'beloglazov/vim-online-thesaurus'
-  Plug 'myusuf3/numbers.vim'
+  " Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   Plug 'vim-scripts/DrawIt'
   " "" Misc }}}2
@@ -594,7 +597,7 @@ nmap <leader>cp <Plug>NERDCommenterYank<Esc>p
 nmap <leader>cP <Plug>NERDCommenterYank<Esc>P
 
 " Plugin: Vim-Markdown {{{2 "
-" let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal = 1
 let g:vim_markdown_fenced_languages = ['csharp=cs', 'c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini']
 let g:vim_markdown_math = 1
 let g:vim_markdown_toml_frontmatter = 1

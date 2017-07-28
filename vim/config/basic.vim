@@ -59,8 +59,9 @@ set fileformats=unix,dos,mac
 set history=500 " Sets how many lines of history VIM has to remember
 
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
+" Move to plugins.vim
+" filetype plugin on
+" filetype indent on
 
 " Map(Local)Leaders {{{1 "
 let mapleader = ' '
@@ -164,7 +165,8 @@ if has('nvim') || v:version >= 800
 endif
 
 " => Colors and Fonts {{{1 "
-syntax enable " Enable syntax highlighting
+" Move to plugins.vim
+" syntax enable " Enable syntax highlighting
 
 " set background=dark
 " Set extra options when running in GUI mode
