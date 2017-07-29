@@ -8,8 +8,8 @@ endif
 let s:path=expand('<sfile>:p:h')
 let g:vimpath=s:path
 
-let g:vimpath = "~/tem/gu.vim"
-" let g:bundlepath = "~/tem/gu.vim"
+let g:vimpath = "~/lib/gu.vim"
+" let g:bundlepath = "~/lib/gu.vim"
 
 exec 'set runtimepath+=' . s:path
 

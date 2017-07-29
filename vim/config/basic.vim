@@ -276,6 +276,7 @@ if !has('nvim') && !has('gui_running')
     execute 'set <A-' . nr2char(i) . '>=^[' . nr2char(i)
   endfor
   set <A-space>=^[<space>
+  set <A-/>=^[/
 endif
 
 if has('nvim')

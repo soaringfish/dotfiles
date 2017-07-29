@@ -60,7 +60,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'chrisbra/unicode.vim'
   " Plug 'tpope/vim-commentary'
   Plug 'scrooloose/nerdcommenter'
-  Plug 'bronson/vim-trailing-whitespace'
+  " Plug 'bronson/vim-trailing-whitespace'
   if has('nvim')
     Plug 'machakann/vim-highlightedyank'
     let g:highlightedyank_highlight_duration = 100
@@ -403,7 +403,7 @@ map <leader>nf :NERDTreeFind<cr>
 " let g:multi_cursor_prev_key='<C-p>'
 " let g:multi_cursor_skip_key='<C-x>'
 " let g:multi_cursor_quit_key='<Esc>'
-let g:multi_cursor_start_key='<F7>'
+" let g:multi_cursor_start_key='<F7>'
 
 " Plugin: surround.vim {{{2 "
 " Annotate strings with gettext http://amix.dk/blog/post/19678
@@ -585,6 +585,8 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
+nmap <leader>c<leader> <Plug>NERDCommenterToggle
+xmap <leader>c<leader> <Plug>NERDCommenterToggle
 nmap <a-?> <Plug>NERDCommenterAppend
 imap <a-?> <C-o><Plug>NERDCommenterAppend
 nmap <a-/> <Plug>NERDCommenterToggle
