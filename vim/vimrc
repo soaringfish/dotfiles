@@ -6,9 +6,9 @@ endif
 " set tgc
 
 let s:path=expand('<sfile>:p:h')
-let g:vimpath=s:path
 
-let g:vimpath = "~/lib/gu.vim"
+" let g:vimpath=s:path
+let g:vimpath = "~/.vim"
 " let g:bundlepath = "~/lib/gu.vim"
 
 exec 'set runtimepath+=' . s:path
@@ -43,6 +43,7 @@ source $VIMRUNTIME/menu.vim
 
 " colorscheme xcode-default
 " colorscheme gruvbox
+set background=light
 colorscheme lucius
 " let g:airline_theme = 'sol'
 

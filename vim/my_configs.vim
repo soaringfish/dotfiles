@@ -30,10 +30,10 @@ augroup mdgroup
     au filetype markdown call s:md_maps()
 augroup END
 
-augroup ag_latex
-  au!
-  au filetype tex inoremap <m-m> `
-augroup END
+" augroup ag_latex
+"   au!
+"   au filetype tex inoremap <m-m> `
+" augroup END
 
 inoremap <A-;> <C-o>:
 " osx <a-;>
@@ -66,13 +66,12 @@ autocmd! InsertEnter * set noimdisable|set iminsert=0
 
 " VIMTEX settings {{{
 " ===================
-" let g:vimtex_latexmk_build_dir='build'
-" let g:vimtex_latexmk_build_dir='/tmp/build'
+" let g:vimtex_disable_recursive_main_file_detection=0
 let g:vimtex_compiler_latexmk = {
       \ 'background' : 1,
-      \ 'build_dir' : '/tmp/build',
+      \ 'build_dir' : 'build',
       \ 'callback' : 1,
-      \ 'continuous' : 1,
+      \ 'continuous' : 0,
       \ 'executable' : 'latexmk',
       \ 'options' : [
       \   '-pdf',
@@ -85,6 +84,7 @@ let g:vimtex_compiler_latexmk = {
 " let g:vimtex_view_enabled=1
 " autocmd FileType tex let b:vimtex_main = 'main.tex'
 if OSX()
+  let g:vimtex_view_method='zathura'
   " let g:vimtex_view_method = 'mupdf'
   " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   " let g:vimtex_view_general_options = '-r @line @pdf @tex'
@@ -125,8 +125,12 @@ iab ,e <esc>mz[zyy`zp:s/{{{/}}}/<cr>
 
 
 " MARKDOWN-MAPS {{{ "
-augroup markdown_map
+augroup ft_maps
   if get(g:, "usecommaleader")
+    " au FileType tex echo 'filetype-tex'. b:vimtex.compiler.build_dir
+    " au BufReadPre *.tex echo 'pre:'. b:vimtex.compiler.build_dir
+    " au BufRead *.tex echo 'read:'. b:vimtex.compiler.build_dir
+    " au BufReadPost *.tex echo 'post:'. b:vimtex.compiler.build_dir
     au FileType tex
           \ map ,v <localleader>lv|
           \ map ,m <localleader>ll
