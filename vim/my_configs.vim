@@ -84,7 +84,7 @@ let g:vimtex_compiler_latexmk = {
 " let g:vimtex_view_enabled=1
 " autocmd FileType tex let b:vimtex_main = 'main.tex'
 if OSX()
-  let g:vimtex_view_method='zathura'
+  " let g:vimtex_view_method='zathura'
   " let g:vimtex_view_method = 'mupdf'
   " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   " let g:vimtex_view_general_options = '-r @line @pdf @tex'
