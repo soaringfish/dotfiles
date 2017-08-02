@@ -47,7 +47,7 @@ endfunction
 
 function! Pdc2Pdf()
   update
-  !runpdc % -o %<.pdf
+  !~/bin/runpdc % -o %<.pdf
 endfunction
 
 function! Pdc2Docx()
