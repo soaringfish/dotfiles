@@ -7,6 +7,7 @@ let g:snips_author="Chuancai Gu"
 let g:snips_email="gucc.gu@gmail.com"
 let g:snips_github="https://github.com/soaringfish"
 
+set foldlevel=9
 
 augroup luagroup
     autocmd!
@@ -22,7 +23,7 @@ function! s:md_maps()
     " inoremap <buffer> `a \alpha
     " inoremap <buffer> `b \beta
     " inoremap <buffer> `g \gamma
-    set spell
+"     set spell
 endfunction
 
 augroup mdgroup
@@ -44,12 +45,24 @@ function! s:get_makefile_dir()
 
 endfunction
 
+function! Pdc2Pdf()
+  update
+  !runpdc % -o %<.pdf
+endfunction
+
+function! Pdc2Docx()
+  update
+  exec '!pandoc --from=markdown --to=docx  % --output %<.docx'
+endfunction
+
 function! Run_script()
-    if &filetype == 'markdown'
+    if &filetype =~ '\v(markdown)|(pandoc)'
         execute '!make -C ../'
     elseif &filetype == 'tex'
-        silent execute 'normal \ll'
-        silent execute 'normal \lv'
+      normal ;ll
+      normal ;lv
+"         silent execute 'normal ;ll'
+"         silent execute 'normal ;lv'
     else
         echom "Unknown build method for:" &filetype
     endif
@@ -74,6 +87,7 @@ let g:vimtex_compiler_latexmk = {
       \ 'continuous' : 0,
       \ 'executable' : 'latexmk',
       \ 'options' : [
+      \   '-xelatex',
       \   '-pdf',
       \   '-verbose',
       \   '-file-line-error',

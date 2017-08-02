@@ -173,8 +173,6 @@ silent! if plug#begin(s:bundlepath)
   Plug 'lervag/vimtex'
 
   "" Markdown
-  let g:pandoc#filetypes#pandoc_markdown = 0
-  " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
   "Bundle 'tpope/vim-markdown'
   Plug 'godlygeek/tabular' " Needed by vim-markdown
   Plug 'plasticboy/vim-markdown'
@@ -575,7 +573,7 @@ let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
+let g:NERDDefaultAlign = 'start'
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_java = 1
 " Add your own custom formats or override the defaults
@@ -605,6 +603,14 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
 " let g:vim_markdown_new_list_item_indent = 2
+
+try
+  let g:pandoc#filetypes#pandoc_markdown = 0
+  let g:pandoc#spell#enabled = 0
+  " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
+catch
+  echomsg "pandoc may not be loaded"
+endtry
 
 " Plugin: MarkdownPreview {{{3 "
 if OSX()
