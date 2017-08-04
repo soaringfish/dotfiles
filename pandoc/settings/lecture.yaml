@@ -1,0 +1,32 @@
+---
+title: "Lecture Slides"
+author: Chuancai Gu
+date: \today
+shortdate: \empty
+# fontsize: 12pt
+toc: false
+curtoc: false
+section-titles: true
+thanks: true
+headline: true
+headlinestyle: robinbar
+slide-level: 2
+classoption:
+#   - aspectratio=1610
+  - aspectratio=43
+header-includes:
+#   - \newcommand{\frametitlealign}{center}
+  - \input{setup.tex}
+  - \input{define.tex}
+#  - \input{inc/timer.tex}
+#  - \setbeamertemplate{caption}{\insertcaption}
+#   - \setbeamersize{text margin left=1cm, text margin right=1cm}
+#   - \def\frametitleleftsep{1.5ex}
+  - \pgfdeclareimage[height=1cm]{neubadge}{neubadge}
+  - \logo{\pgfuseimage{neubadge}}
+include-before:
+# - \relax
+include-after:
+  - \def\hello{hello world}
+# - \relax
+...

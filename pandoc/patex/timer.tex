@@ -1,0 +1,306 @@
+\makeatletter
+
+\usepackage{wallpaper}
+\usepackage{eforms}
+\usepackage{insdljs}
+
+\gdef\adatimerautofs{false}
+\gdef\adatimerhidepage{true}
+\gdef\activetimernow{false}
+% \newcounter{stoptimeratpage}
+% \newcounter{stopfsatpage}
+% \setcounter{stoptimeratpage}{-6}
+% \setcounter{stopfsatpage}{-6}
+
+% INSDLJS
+\begin{insDLJS}{robin}{Slides timer}
+  var timer_set={}
+  var pagetimer_set={}
+	var timer_ins = false
+	var timer_int = false
+	var cur_page_num = -6
+	var cur_frame_num = -6
+	var timestart=new Date().getTime()
+	var frame_time_start=timestart
+	var page_time_start=timestart
+  var stop_at_page = -6  
+  var stop_fs_at_page = -6  
+  var time_delay = 0
+  var pause_start = 0
+
+	function tClock(){	
+		if (!app.fullscreen || !timer_ins) {
+			page_time_start=frame_time_start=timestart=new Date().getTime();
+			if(timer_int && !this.getField("activetimernow")){
+				app.clearInterval(timer_int)
+				timer_int = false
+				timer_ins = false
+			}
+		}
+		else {
+			update_all()
+		}
+	}
+	function max(a,b){
+		ret = a
+		if (b>a) ret = b
+		return b
+	}
+	function update_all(){
+		// console.println("update_all ===========")
+		var time_now = new Date().getTime() - time_delay   
+    if (pause_start) time_now = pause_start - time_delay
+    //if (pause_start) return
+		var delta_total = time_now-timestart
+		var delta_frame = time_now-frame_time_start
+		var delta_page = time_now-page_time_start
+		
+		update_timer("totaltimer",false,delta_total)
+		update_timer("frametimer",cur_frame_num,delta_frame)
+		update_timer("pagetimer",cur_page_num,delta_page)
+		update_timer("alltimer",cur_frame_num,delta_frame,delta_total)
+		// var next_ins = 1000 - max(delta_page\%1000,max(delta_frame\%1000,delta_total\%1000))
+		// console.println("update_all next_ins="+next_ins)
+		// if(app.fullscreen && timer_ins && !arguments[0]) {
+			// timer_ins = app.setTimeOut("update_all();",next_ins)
+			// console.println("set timeout okay")}
+		// else {console.println("set timeout error")}
+	}
+	function update_timer(name,num,times_delta){
+		if(num!==false)name += num
+		var txtField = this.getField(name)
+		var value = util.printd("MM:ss", new Date(times_delta))
+		if (arguments.length>3)value += " / " + util.printd("MM:ss", new Date(arguments[3]))
+		if(app.fullscreen && timer_ins && txtField)txtField.value = value
+	}
+	
+	function on_page_open(frame_num) {	
+		// console.println("on_page_open-frame" + frame_num)
+		cur_page_num = this.pageNum + 1
+		// console.println("on_page_open-page"+(cur_page_num));	
+    cur_time = new Date().getTime();
+		page_time_start= (pause_start ? pause_start : cur_time) - time_delay
+		if(cur_frame_num != frame_num)frame_time_start=page_time_start;		
+		cur_frame_num = frame_num
+		if(app.fullscreen){
+			update_all()
+		} else {
+			timer_ins = false
+		}
+		// console.println("end_page_open-page"+(cur_page_num));	
+    if(cur_page_num == stop_at_page) stop_timer();
+    if(cur_page_num == stop_fs_at_page) stop_pressentation();
+	}
+	function on_page_close() {
+		// console.println("on_page_close-page"+(cur_page_num));
+		if (timer_ins) {
+			// app.clearTimeOut(timer_ins)
+			update_all(true)
+			if(!app.fullscreen)timer_ins = false
+		}
+		// console.println("end_page_close-page"+(cur_page_num));
+	}
+	// timer_ins =app.setInterval("tClock()",200);
+	
+	function active_timer() {
+		if (!timer_ins){timer_ins=true};
+		if(!timer_int)timer_int=app.setInterval("tClock()",200);
+	}
+  function pause_timer() {
+    if (pause_start) {
+      time_delay += new Date().getTime() - pause_start
+      pause_start=0
+    } else {
+      pause_start = new Date().getTime()
+    }
+  }
+	function start_pressentation(cur_page){
+		// app.fs.defaultTransition = "WipeDown";app.fs.timeDelay=2;
+		// app.fs.useTimer=true;app.fs.usePageTiming=true;
+		// app.fs.cursor= cursor.hidden;
+    app.fsCursor = cursor.delay;
+    arguments[0] || (this.pageNum=0)
+    app.fs.isFullScreen=true;
+
+    //cur_frame_num = 0 //to gurantee the title page's correct action
+    page_time_start=frame_time_start=timestart=new Date().getTime()
+    time_delay = pause_start = 0
+    active_timer();
+    update_all()
+    toggle_timer_show(false)
+    if ("\adatimerhidepage" == "true") toggle_timer_show(true,{"v":pagetimer_set});
+    //if(this.getField("totaltimer"))this.getField("totaltimer").hidden=false
+	}
+	function stop_timer(){
+    update_all()
+    timer_ins=false;
+	}
+  function stop_pressentation(){
+    stop_timer()
+    app.fs.isFullScreen=false;
+    toggle_timer_show(true)
+    //if(this.getField("totaltimer"))this.getField("totaltimer").hidden=true
+	}
+  function smart_pressentation(cur_page) {
+    if (app.fs.isFullScreen) {
+      pause_timer()
+    } else {
+      start_pressentation(cur_page)
+    }
+  }
+  function toggle_timer_show_old(value) {
+    var timers = ["totaltimer"] //,"frametimer","pagetimer","alltimer"]
+    for (i in timers) {
+      if(this.getField(timers[i])){
+        this.getField(timers[i]).hidden = arguments.length?value:!this.getField(timers[i]).hidden
+      }
+    }
+  }
+  function toggle_timer_show(value,tset) {
+    t_set = arguments.length>=2 ? tset.v: timer_set
+    for (key in t_set) {
+      if(this.getField(key)){
+        this.getField(key).hidden = arguments.length?value:!this.getField(key).hidden
+      }
+    }
+  }
+  function check_all_timers() {
+    var timers = ["totaltimer","frametimer","pagetimer","alltimer"]
+    for (i in timers) {
+      key = timers[i]
+      r = check_all_timer(key)
+      for (k in r) timer_set[k] = r;      
+    }
+    r = check_all_timer("pagetimer")
+    for (k in r) pagetimer_set[k] = r;
+  }
+  function check_all_timer(key) {
+    tset = {}
+    if(this.getField(key)){
+      tset[key] = 1 + (tset[key] || 0)
+    }
+    for (j = -1; j < 300; j++) {
+      keyi = key + j
+      if(this.getField(keyi)){
+          tset[keyi] = 1 + (tset[keyi] || 0)
+      }      
+    }
+    return tset
+  }
+	% if(this.getField("activetimernow")){
+		% active_timer()
+	% }
+  if(this.getField("stop_timer_at_page")){
+    stop_at_page=this.getField("stop_timer_at_page").value
+  }	
+  if(this.getField("stop_fs_at_page")){
+    stop_fs_at_page=this.getField("stop_fs_at_page").value
+  }
+  if("\activetimernow" == "true"){
+    active_timer()
+  }
+	 % if("\thestoptimeratpage" >= 0){
+		 % stop_at_page="\thestoptimeratpage"
+	 % }	
+  % if("\thestopfsatpage" >= 0){
+		 % stop_fs_at_page="\thestopfsatpage"
+	 % }
+  check_all_timers()
+
+  if("\adatimerautofs"=="true")start_pressentation()
+\end{insDLJS}
+
+% \newcommand{\autopressentation}{\defineJSStr{\autofs}{start_pressentation()}}
+% \newcommand{\autopressentation}{\begin{insDLJS}{robin}{Slides timer2} function autofs(){}\end{insDLJS}}
+\newcommand{\autopressentation}{\gdef\adatimerautofs{true}}
+\newcommand{\showpagetimer}{\gdef\adatimerhidepage{false}}
+
+\ifx\dummybox\undefined\def\dummybox#1{#1}\fi
+\def\globaltimer{\tikz[overlay]{\vbox{\begin{textblock*}{11.4cm}(0cm,0.26cm)\hfill\dummybox{\totaltimermark}\end{textblock*}}}}
+% \def\globaltimer{\tikz[overlay]{\vbox{\begin{textblock*}{11.4cm}(0cm,0.26cm)\hfill\totaltimermark\end{textblock*}}}}
+
+% \def\ada@insert@onpageaction{
+% on_page_open(\insertframenumber)
+% }
+\def\ada@onpageaction{\thisPageAction{\JS{on_page_open(\insertframenumber);}}{\JS{on_page_close();}}}
+\newcommand{\initTimer}[1][\globaltimer]{\addtobeamertemplate{navigation symbols}{\ada@onpageaction}{#1}
+  \ada@onpageaction}
+  
+  
+\newcommand{\activetimer}{\gdef\activetimernow{true}}
+% \newcommand{\activetimernow}{\makebox[0pt]{\textField[\F{\FHidden}\BC{}\BG{}]%
+		% {activetimernow}{0cm}{0bp}}}
+    
+\newcommand{\stopatpage}[1][\insertpagenumber]{\makebox[0pt]{\textField[\F{\FHidden}\BC{}\BG{}\V{#1}]%
+		{stop_timer_at_page}{0cm}{0bp}}}
+\newcommand{\exitatpage}[1][\insertpagenumber]{\makebox[0pt]{\textField[\F{\FHidden}\BC{}\BG{}\V{#1}]%
+		{stop_fs_at_page}{0cm}{0bp}}}
+      
+% \newcommand{\stopatpage}[1][\insertpagenumber]{\setcounter{stoptimeratpage}{#1}}
+% \newcommand{\exitatpage}[1][\insertpagenumber]{\setcounter{stopfsatpage}{#1}}
+
+\newcommand{\startpressentation}[1][start]{
+\setLink[\A{\JS{start_pressentation()}}
+\linktxtcolor{blue}\Color{0 0 1}\W1\S{U}\H{P}]{#1}
+}
+\newcommand{\linkedcmd}[2]{\setLink[\A{\JS{#1}}\linktxtcolor{blue}\Color{}\W{0}\S{}\H{}]{#2}}
+\newcommand{\linkedcmdtoogletimershow}[1]{\linkedcmd{toggle_timer_show()}{#1}}
+% \newcommand{\linkedcmdtoogletimershow}[1]{\tikz[opacity=1]\node[inner sep=0pt]{\setLink[\A{\JS{toggle_timer_show()}}\linktxtcolor{blue}\Color{}\W{0}\S{}\H{}]{#1}};}
+\newcommand{\linkedcmdstartp}[1]{\tikz[opacity=1]\node[inner sep=0pt]{\setLink[\A{\JS{smart_pressentation()}}\linktxtcolor{blue}\Color{}\W{0}\S{}\H{}]{#1}};}
+
+
+\newcommand{\autopressentationold}{
+	\OpenAction{\JS{start_pressentation()}}
+}
+\newcommand{\stoppressentation}{
+	\OpenAction{\JS{stop_pressentation()}}
+}
+
+% \@starttoc{tfs}
+
+% \newcommand{\alltimernames}{  \@input{\jobname.tfs}\if@filesw
+  % \expandafter\newwrite\csname tf@tfs\endcsname
+             % \immediate\openout
+                 % \csname tf@tfs\endcsname \jobname.tfs\relax
+  % \fi}
+  % \newcommand{\xxxx}{\JS{console.println("open page:"+(this.pageNum+1));timer_set=[ \alltimernames ]}}
+% \thisPageAction{\xxxx}
+	% {\JS{console.println("close page:"+this.pageNum);}}
+
+% \addtobeamertemplate{sidebar left}{\thisPageAction{\JS{on_page_open(\insertframenumber);}}
+	% {\JS{on_page_close();}}}{\globaltimer}
+
+% \def\ada@timercolor{0.1 0.15 0.45 rg} % ablue
+\def\ada@timercolor{0.6 0 0.13 rg} % ared
+% TODO TIMERS
+\newcommand{\timermark}%
+{\raise-0.25ex\hbox{\textField[\Q{1}\W{0}\Ff{\FfReadOnly}\BC{}\BG{}%\BC{1 0 0}\BG{0 0 1}%
+	\textFont{TiRo}\textSize{7}\textColor{1 0 0 rg}]{frametimer\insertframenumber}{1cm}{2bp}}
+%  \addtocontents{tfs}{frametimer\insertframenumber,}
+}
+\newcommand{\pagetimermark}%
+{\raise-0.25ex\hbox{\textField[\Q{1}\W{0}\Ff{\FfReadOnly}\BC{}\BG{}%\BC{1 0 0}\BG{0 0 1}%
+	\textFont{TiRo}\textSize{7}\textColor{\ada@timercolor}]{pagetimer\insertpagenumber}{0.8cm}{2bp}}
+%  \addtocontents{tfs}{pagetimer\insertpagenumber,}
+}
+\newcommand{\totaltimermark}%
+{\begin{minipage}{1.1cm}\textField[\Q{1}\W{0}\Ff{\FfReadOnly}\BC{}\BG{}%\BC{1 0 0}\BG{0 0 1}%
+	\textFont{TiRo}\textSize{11}\textColor{1 0 0 rg}]{totaltimer}{1cm}{9bp}
+\end{minipage}
+%\addtocontents{tfs}{totaltimer,}
+}
+\newcommand{\timermarkall}%
+{\raise-0.25ex\hbox{\textField[\Q{1}\W{0}\Ff{\FfReadOnly}\BC{}\BG{}%\BC{1 0 0}\BG{0 0 1}%
+	\textFont{TiRo}\textSize{7}\textColor{1 0 0 rg}]{alltimer\insertframenumber}{1.5cm}{2bp}}
+%  \addtocontents{tfds}{alltimer\insertframenumber,}
+}
+\newcommand{\bigtimermarkall}%
+{\raise-0.25ex\hbox{\textField[\Q{1}\W{0}\Ff{\FfReadOnly}\BC{}\BG{}%\BC{1 0 0}\BG{0 0 1}%
+	\textFont{TiRo}\textSize{9}\textColor{\ada@timercolor}\AA{\AAMouseDown{\JS{pause_timer();}}}]{alltimer\insertframenumber}{2.2cm}{9bp}}
+%  \addtocontents{tfds}{alltimer\insertframenumber,}
+}
+
+
+\makeatother
+
+\endinput

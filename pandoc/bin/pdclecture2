@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# PDC=echo
+PDC=pandoc
+
+P=$(dirname $(dirname `realpath $0`))
+PS=$P/settings
+PF=$P/filters
+PT=$P/templates
+PL=$P/patex
+# N=`sed -nE '/^slide-level:/p' ${P}/lecture.yaml | sed -E 's/^slide-level: *([0-9]*).*/\\1/'`
+N="2"`egrep -o -m 1 '(?:slide-level: *)([0-9]*).*' ${PS}/lecture.yaml`
+N=${N##*[: ]}
+
+TEXINPUTS=$PL:$TEXINPUTS \
+$PDC --data-dir=$P \
+    -t beamer --template=lecture.beamer \
+    --latex-engine=xelatex \
+    --slide-level=$N \
+    --filter=columnfilter.py \
+    $@ $PS/lecture.yaml

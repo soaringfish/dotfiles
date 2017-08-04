@@ -1,0 +1,447 @@
+\makeatletter
+
+\usepackage{relsize}
+
+\newenvironment{rmframe}{\begin{comment}}{\end{comment}}
+\def\texttimes{$\times$}
+\def\dotfill{\leaders\hbox{$\cdot$}\hfill}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+
+\tikzset{
+  nbase/.style = {thick,minimum width = 0.5cm, inner sep=3pt,font = \sffamily},
+  nmode/.style = {nbase,circle,circular drop shadow,draw=#1,fill=#1!20,inner sep=-3pt},
+  nmode/.default = ablue,
+  ntape/.style = {nbase,draw=#1,fill = #1!20!white,tape, draw, tape bend top=none},
+  ntape/.default = ayellow,
+  nprop/.style  = {nbase,draw=ared,fill = #1!20!white, rounded corners,
+    % copy shadow = {shadow xshift=0.5ex,shadow yshift=-0.5ex}
+    drop shadow},
+  nprop/.default= ayellow,
+  narrow/.style = {nbase,single arrow,draw=ared,fill=ayellow!20!white,fill=ablue!20,
+    single arrow head indent=1ex},
+  vbc/.style={circle,fill=#1, thick,inner sep=0pt,minimum size=6.5mm},
+  vbc/.default=p,
+}
+\tikzstyle{ntask}=[nbase,rounded
+corners,rectangle,draw=#1,fill=#1!30,text width=2cm,minimum height=1.1cm,align=center]
+
+\newcommand{\notebox}[3][\empty]{\ifx#1\empty\parbox{#2}{\centering#3}
+  \else\parbox[t][#1][c]{#2}{\centering#3}\fi}
+\newcommand{\noteboxsm}[3][\empty]{\small\notebox[#1]{#2}{#3}}
+\newcommand{\noteboxft}[3][\empty]{\footnotesize\notebox[#1]{#2}{#3}}
+\newcommand{\noteboxsc}[3][\empty]{\scriptsize\notebox[#1]{#2}{#3}}
+
+\tikzstyle{vr}=[rectangle,draw=black,very thick,inner sep=0pt,minimum height=6mm,minimum width=10mm]
+\tikzstyle{nr}=[rectangle,draw=black,very thick,inner sep=3pt,outer sep=3pt,minimum height=8mm,minimum width=10mm,rounded corners]
+% \tikzstyle{cov1}=[yellow]
+% \tikzstyle{cov2}=[upforestgreen]
+% \tikzstyle{cov3}=[purple]
+% \tikzstyle{cov4}=[phthaloblue]
+% \tikzstyle{cov4}=[green!20!blue!80]
+% \tikzstyle{cov5}=[gray!40!white]
+
+% \tikzstyle{v1f}=[fill=yellow!50]
+% \tikzstyle{v2f}=[fill=green!30]
+% \tikzstyle{v3f}=[fill=purple!30]
+% \tikzstyle{v4f}=[fill=green!30!blue!50]
+% \tikzstyle{v5f}=[fill=gray!40!white]
+
+\tikzstyle{v1f}=[fill=cov1!25!white]
+\tikzstyle{v2f}=[fill=cov2!25!white]
+\tikzstyle{v3f}=[fill=cov3!25!white]
+\tikzstyle{v4f}=[fill=cov4!25!white]
+\tikzstyle{v5f}=[fill=cov5!25!white]
+
+% \tikzstyle{v1f}=[fill=cov1!30!white]
+% \tikzstyle{v2f}=[fill=cov2!30!white]
+% \tikzstyle{v3f}=[fill=cov3!30!white]
+% \tikzstyle{v4f}=[fill=cov4!30!white]
+% \tikzstyle{v5f}=[fill=cov5!30!white]
+
+% \tikzstyle{vc}=[circle,draw=black,very thick,inner sep=0pt,minimum size=6mm]
+% \tikzstyle{vcc}=[circle,draw=black,very thick,inner sep=0pt,minimum size=5mm]
+\tikzstyle{vc}=[circle,draw=black,thick,inner sep=0pt,minimum size=6mm]
+\tikzstyle{vcc}=[circle,draw=black,thick,inner sep=0pt,minimum size=5mm]
+
+\tikzstyle{nsc}=[circle,draw,fill=gray!20,thick,inner sep=0pt,minimum size=1mm]
+\tikzstyle{nc}=[circle,draw,fill,thick,inner sep=0pt,minimum size=1mm]
+\tikzstyle{nstar}=[star, star point height=.06cm, minimum size=0.24cm, draw,fill,thick,inner sep=0pt]
+
+% \tikzstyle{postxx}=[->,shorten >=1pt,>=triangle 60,very thick]
+% \tikzstyle{postx}=[->,shorten >=1pt,>=latex,very thick]
+% \tikzstyle{post}=[->,shorten >=1pt,>=stealth',very thick]
+% \tikzstyle{pre}=[<-,shorten <=1pt,>=stealth',very thick]
+% \tikzstyle{pp}=[<->,shorten <=1pt,>=stealth',very thick]
+% \tikzstyle{postl}=[->,shorten >=1pt,>=stealth',thick]
+\tikzstyle{postxx}=[->,shorten >=1pt,>=triangle 60,thick]
+\tikzstyle{postx}=[->,shorten >=1pt,>=latex,thick]
+\tikzstyle{post}=[->,shorten >=1pt,>=stealth',thick]
+\tikzstyle{pre}=[<-,shorten <=1pt,>=stealth',thick]
+\tikzstyle{pp}=[<->,shorten <=1pt,>=stealth',thick]
+\tikzstyle{postl}=[->,shorten >=1pt,>=stealth',thick]
+
+% \tikzstyle{vv}=[rectangle,draw=black,very thick,inner sep=0pt,minimum
+% size=1,]
+\tikzstyle{vv}=[rectangle,draw=black,thick,inner sep=0pt,minimum
+size=1,]
+
+\tikzstyle{ntaskc}=[nbase,very thick,rounded corners,rectangle,draw=#1,fill=#1!30,text width=1cm,minimum height=.9cm,align=center]
+
+%%%%%%%%%% tikz 辅助宏
+\newcommand{\dcraiselen}{1.75}
+\newcommand{\dcdownlen}{1.5}
+\newcommand{\danxis}[2][\empty]{
+  \draw[postx] (0,0)--(#2,0) \ifx#1\empty\else node[anchor=north] {#1}\fi;
+}
+\newcommand{\danxisy}[2][\empty]{
+  \draw[postx] (0,0)--(0,#2) \ifx#1\empty\else node[anchor=east] {#1}\fi;
+}
+\newcommand{\draise}[2][post]{
+  \foreach \x in {#2}
+    \draw[post,#1] (\x cm,0) -- +(0,\dcraiselen);
+}
+\newcommand{\ddown}[2][post]{
+  \foreach \x in {#2}
+    \draw[post,dashed,gray!70!black,#1] (\x cm,\dcdownlen) -- +(0,-\dcdownlen);
+}
+\newcommand{\dfall}[2][post]{
+  \foreach \x in {#2}
+    \draw[post,#1] (\x cm,\dcdownlen) -- +(0,-\dcdownlen);
+}
+\newcommand{\danxist}[3][\empty]{
+  \danxis[1]{#2}
+  \node [rectangle,]  at(-0.5,0.5){#3};
+}
+\newcommand{\druler}[2][\empty]{
+  \foreach \x in {#2}
+  \draw (\x cm,2pt) -- (\x cm,-2pt)\ifx#1\empty\else node[anchor=north] {$\x$}\fi;
+}
+\newcommand{\drulery}[2][\empty]{
+  \foreach \x in {#2}
+  \draw (2pt,\x cm) -- (-2pt,\x cm)\ifx#1\empty\else node[anchor=east] {$\x$}\fi;
+}
+\newcommand{\dmarkanxis}[4][below]{
+\begin{scope}[yshift=-0.5cm]
+  \draw[thick] (#2,-0.2) -- (#2,0.2) (#3,-0.2) -- (#3,0.2);
+  \draw[<->,thick,densely dashed] (#2,0) -- node[#1]{#4} (#3,0);
+\end{scope}
+}
+
+\def\drectvstyle{vv}
+\newcommand{\drect}[3][1]{
+  \path[\drectvstyle,#3] (#2,0) rectangle +(#1,1);
+}
+\newcommand{\drectx}[4][1]{
+  \path[\drectvstyle,#3] (#2,0) rectangle node[anchor=center,] {$v_{#4}$} +(#1,1);
+}   
+\newcommand{\drectt}[4][1]{
+  \path[\drectvstyle,#3] (#2,0) rectangle node {#4} +(#1,1);
+}  
+\newcommand{\drectxt}[3][1]{
+  % \path[\drectvstyle,v#3f] (#2,0) rectangle node[anchor=center,] {$v_{#3}$} +(#1,1);
+  \path[\drectvstyle,v#3f] (#2,0) rectangle node[anchor=center,] {${#3}$} +(#1,1);
+}     
+\newcommand{\drectxtred}[3][1]{
+  % \path[\drectvstyle,v#3f,draw=ared] (#2,0) rectangle node[anchor=center,] {$v_{#3}$} +(#1,1);
+  \path[\drectvstyle,v#3f,draw=ared] (#2,0) rectangle node[anchor=center,] {${#3}$} +(#1,1);
+}
+\newcommand{\drectxx}[3][1]{
+  \path[\drectvstyle,v#3f] (#2,0) rectangle  +(#1,1);
+}     
+\newcommand{\drectxxred}[3][1]{
+  \path[\drectvstyle,v#3f,draw=ared] (#2,0) rectangle +(#1,1);
+}     
+%%==================================================== 
+      
+\def\temtask#1#2{\tikz[baseline=4pt]{\node[above=2pt,rounded
+        corners,draw=#2,fill=#2!30,inner sep=1.75pt,outer
+        sep=0pt,rectangle,minimum width=0.75cm]{$\tau_{#1}$};}}
+
+\newcommand{\temdrawanxis}[2][\empty]{
+  \draw[postx] (0,0)--(5.75,0);
+  \draw[post] (0,0)--(0,1.75) ;
+
+  % \node [rectangle,]  at(-0.5,0.5){$T_{#2}$};
+%  \path (-0.,0.5) node[anchor=east,inner sep=0,outter sep=0] {$T_{#2}$\;};
+  \path (-0.,0.5) node[anchor=east,inner sep=0] {$T_{#2}$\;};
+  \foreach \x in {0,1,2,3,4,5}
+  \draw (\x cm,2pt) -- (\x cm,-2pt)\ifx#1\empty\else node[anchor=north] {$\x$}\fi;
+}
+\newcommand{\axislabeltag}{T_}
+\newcommand{\temdrawanxisten}[2][\empty]{
+  \draw[postx] (0,0)--(11,0);
+  \draw[post] (0,0)--(0,1.75) ;
+
+  \node [rectangle,]  at(-0.5,0.5){$\axislabeltag{#2}$};
+%  \foreach \x in {0,1,2,3,4,5,6,7,8,9,10}
+  \foreach \x in {0,2,4,6,8,10}
+  \draw (\x cm,2pt) -- (\x cm,-2pt)\ifx#1\empty\else node[anchor=north] {$\x$}\fi;
+}
+
+\newcommand{\temdrawrect}[3][1]{
+  \path[vv,v#3f] (#2,0) rectangle node[anchor=center,] {$v_{#3}$} +(#1,1);
+}
+\newcommand{\temdrawrectred}[3][1]{
+  \path[ared,vv,v#3f,draw=ared] (#2,0) rectangle node[anchor=center] {$v_{#3}$} +(#1,1);
+}
+
+%%==============================================================================
+
+\newcommand{\dcallout}[4][ayellow]{
+  \node [overlay,right,draw,fill=#1!15,rectangle callout, callout absolute pointer={(#2)}] at (#3) {#4};
+}
+\newcommand{\dcalloutex}[4][fill=ayellow]{
+  \node [overlay,right,draw,rectangle callout, callout absolute pointer={(#2)}, #1] at (#3) {#4};
+}
+
+\newcommand{\drawoffset}[2]{
+  \draw[ared,fill=red!20,fill opacity=0.3] (#1,-0.1) rectangle 
+       +(1,1.2) node[opacity=1,draw=ablue,fill=ablue!20,rectangle,inner sep=2pt,font=\footnotesize]{#2};
+  \path[draw=ared,thick,->](#1.5,-0.1) -- +(-#2,-1.8);
+}
+\newcommand{\drawoffsetmk}[3]{
+  \draw[ared,fill=ared!20,fill opacity=0.3] (#1,-0.1) rectangle 
+       +(1,1.2) node[opacity=1,draw=ablue,fill=ablue!20,rectangle,inner sep=2pt,font=\footnotesize]{#2};
+  \path[draw=ared,thick,->](#1.5,-0.1) -- node[inner sep=2pt,fill=white,font=\large]{\alert{#3}} +(-#2,-1.8);
+}
+\newcommand{\dcalloutw}[5][]{
+  \path(#2) node[below right,rectangle callout,draw=ayellow,v1f, callout absolute pointer={(#3)},#1] 
+      {\noteboxsc{#5}{#4}}; 
+}
+\newcommand{\dcalloutten}[4][]{
+  \dcalloutw[#1]{#2}{#3}{#4}{10em}
+}
+
+%%==============================================================================
+
+\newcounter{ada@tem}
+\newcommand{\vplus}[2]{\setcounter{ada@tem}{#1}\addtocounter{ada@tem}{#2}\arabic{ada@tem}}
+
+
+\tikzstyle{v1r}=[rectangle,draw=black,fill=yellow!50,very thick,inner sep=0pt,minimum size=10mm,v1f]
+\tikzstyle{v2r}=[rectangle,draw=black,fill=green!30,very thick,inner sep=0pt,minimum size=10mm,v2f]
+\tikzstyle{v3r}=[rectangle,draw=black,fill=purple!30,very thick,inner sep=0pt,minimum size=10mm,v3f]
+\tikzstyle{v4r}=[rectangle,draw=black,fill=green!30!blue!50,very thick,inner sep=0pt,minimum size=10mm,v4f]
+\tikzstyle{v5r}=[rectangle,draw=black,fill=gray!40!white,very thick,inner sep=0pt,minimum size=10mm,v5f]
+
+\tikzstyle{v1c}=[circle,draw=black,fill=yellow!50,very thick,inner sep=0pt,minimum size=6mm,v1f]
+\tikzstyle{v2c}=[circle,draw=black,fill=green!30,very thick,inner sep=0pt,minimum size=6mm,v2f]
+\tikzstyle{v3c}=[circle,draw=black,fill=purple!30,very thick,inner sep=0pt,minimum size=6mm,v3f]
+\tikzstyle{v4c}=[circle,draw=black,fill=green!30!blue!50,very thick,inner sep=0pt,minimum size=6mm,v4f]
+\tikzstyle{v5c}=[circle,draw=black,fill=gray!40!white,very thick,inner sep=0pt,minimum size=6mm,v5f]
+
+\tikzstyle{v}=[circle,draw=black,fill=green!10,very thick,inner sep=0pt,minimum size=6mm]
+\tikzstyle{alertnode}=[draw=ared,fill=ayellow!20, shape = rectangle, rounded corners,
+      minimum width = 1cm, font = \sffamily,line width = 1pt]
+% \tikzstyle{post}=[->,shorten >=1pt,>=stealth',very thick]
+
+% \tikzstyle{postx}=[->,shorten >=2pt,>=triangle 60, thick]
+% \tikzstyle{post}=[->,shorten >=1pt,>=stealth', thick]
+% \tikzstyle{pre}=[<-,shorten <=1pt,>=stealth', thick]
+% \tikzstyle{pp}=[<->,shorten <=1pt,>=stealth', thick]
+% \tikzstyle{postl}=[->,shorten >=1pt,>=stealth',thick]
+
+\newcommand{\ntitle}[1]{$\langle#1\rangle$}
+% \newcommand{\adac}[1]{\alert<1>{#1}}
+% \newcommand{\adad}[1]{\alert<2>{#1}}
+% \newcommand{\adaalert}[2][1]{\alert<#1>{#2}}
+% \newcommand{\adavis}[3][ared]{{\only<#2>{\color{#1}}#3}}
+\newcommand{\adac}[1]{#1}
+\newcommand{\adad}[1]{#1}
+\newcommand{\adaalert}[2][1]{#2}
+\newcommand{\adavis}[3][ared]{{{\color{#1}}#3}}
+
+
+
+\newcommand{\itf}{\mathit{if}}
+\newcommand{\ibf}{\mathit{ibf}}
+\newcommand{\rf}{\mathit{rf}}
+\newcommand{\rfp}{\mathit{rf}_{\pi}}
+\newcommand{\rfpi}{\mathit{rf}_{\pi_i}}
+\newcommand{\rfpp}{\mathit{rf}_{\pi'}}
+\newcommand{\rbf}{\mathit{rbf}}
+\newcommand{\rbfv}{\mathit{rbf}_{T}^{v}}
+\newcommand{\rbfvv}{\mathit{rbf'}_{T}^{v}}
+\newcommand{\slf}{\mathit{slf}}
+\newcommand{\priority}{\mathcal{P} }
+
+\newcommand{\epi}{\pi^{\bar v}}
+\newcommand{\ipi}{\pi^{v}}
+
+\newcommand{\additemdepth}{\advance\@itemdepth\@ne}
+\newcommand{\minusitemdepth}{\advance\@itemdepth-\@ne}
+
+
+\newcommand{\alertbox}[2][\empty]{
+  \mbox{\begin{tikzpicture}
+      \node[alertnode] {\ifx#1\empty#2\else\notebox{#1}{#2}\fi};
+    \end{tikzpicture}}
+}
+
+
+% % 常用符号定义
+\newcommand{\tco}{\text{，}}
+\newcommand{\tpe}{\text{。}}
+
+\newcommand{\andx}{\text{ \bf and }}
+
+\newcommand{\taui}{$\tau_i$~}
+\newcommand{\Dlt}{$\Delta$~}
+\newcommand{\tauhi}{\tau_{\HII}}
+
+\newcommand{\UST}{U^{\star}}
+\newcommand{\UMINS}{U_{min}^{\star}}
+\newcommand{\UMAXS}{U_{max}^{\star}}
+\newcommand{\UMINLH}{\min(U_{\LOI}(\tau),U_{\HII}(\tau))}
+\newcommand{\UMAXLH}{\max(U_{\LOI}(\tau),U_{\HII}(\tau))}
+\newcommand{\UAVGP}{U_{avg}(\pi)}
+
+% \newcommand{\LO}{\text{\footnotesize{LO}}}
+% \newcommand{\HI}{\text{\footnotesize{HI}}}
+% \newcommand{\LO}{\text{\scriptsize{LO}}}
+% \newcommand{\HI}{\text{\scriptsize{HI}}}
+\newcommand{\LO}{\text{\smaller{LO}}}
+\newcommand{\HI}{\text{\smaller{HI}}}
+% \newcommand{\LO}{\text{{LO}}}
+% \newcommand{\HI}{\text{{HI}}}
+
+\newcommand{\LOI}{\text{\smaller{LO}}}
+\newcommand{\HII}{\text{\smaller{HI}}}
+
+\newcommand{\dbflo}{\text{dbf}_{\text{\smaller{LO}}}}
+\newcommand{\dbfhi}{\text{dbf}_{\text{\smaller{HI}}}}
+\newcommand{\DBFLO}{{\color{ablue}$\dbflo$}}
+\newcommand{\DBFHI}{{\color{ared}$\dbfhi$}}
+\newcommand{\DBFLOC}{{\color{ablue}\dbflo}}
+\newcommand{\DBFHIC}{{\color{ared}\dbfhi}}
+
+\newcommand{\dicc}{D_i(\zeta_i)}
+\newcommand{\dihi}{D_i(\HII)}
+\newcommand{\dilo}{D_i(\LOI)}
+\newcommand{\dilop}{D_i^1(\LOI)}
+\newcommand{\dilom}{D_i^2(\LOI)}
+
+\newcommand{\cicc}{C_i(\zeta_i)}
+\newcommand{\cilo}{C_i(\LOI)}
+\newcommand{\cihi}{C_i(\HII)}
+\newcommand{\cihl}{\cihi-\cilo}
+
+\newcommand{\CILO}{{\color{ablue}\cilo}}
+\newcommand{\CIHI}{{\color{ared}\cihi}}
+\newcommand{\HIC}{{\color{ared}\HI}}
+\newcommand{\LOC}{{\color{ablue}\LO}}
+% \newcommand{\HICC}{{\color{ared}高}关键性}
+% \newcommand{\LOCC}{{\color{ablue}低}关键性}
+\newcommand{\HICC}{ \HIC{} }
+\newcommand{\LOCC}{ \LOC{} }
+
+\newcommand{\xdihi}{D_1(\HII)}
+\newcommand{\xdilo}{D_1(\LOI)}
+\newcommand{\xdilop}{D_1^1(\LOI)}
+\newcommand{\xdilom}{D_1^2(\LOI)}
+
+\newcommand{\xcilo}{C_1(\LOI)}
+\newcommand{\xcihi}{C_1(\HII)}
+\newcommand{\xcihl}{\cihi-\cilo}
+
+\newcommand{\atpagecenter}[1]{
+\hspace*{-1cm}\begin{minipage}{\paperwidth}\centering
+#1   
+\end{minipage}
+}
+
+\newcommand{\twofigs}[5][\empty]{
+   \hspace*{-1cm}\begin{minipage}{\paperwidth}  \centering
+    \tikz {\node (A){  \includegraphics[width=0.48\paperwidth]{#2} };
+      \path (A.east) node[anchor=west] (B) {\includegraphics[width=0.48\paperwidth]{#4}}
+            (A.south) node[anchor=north] {\color{ablue}#3}
+            (B.south) node[anchor=north] {\color{ablue}#5};
+      \ifx#1\empty\else\path(A.north) -- node[above=1ex] {\alertbox{#1}}(B.north);\fi   }    
+  \end{minipage}
+}
+\newcommand{\twofigsold}[5][\empty]{
+  %\centering
+  % \vspace{1cm}
+  % ~
+  % \alertbox{图中每个点包含至少2000组随机生成任务集合的评价结果}
+  % \vspace*{2em}
+  %~\hspace{-1cm}
+  \tikz[remember picture,overlay]{ \path (current page.center)+(0,-1ex) node {
+  % \tikz[remember picture,overlay] \node {
+  \tikz {\node (A){  \includegraphics[width=0.48\paperwidth]{#2} };
+      \path (A.east) node[anchor=west] (B) {\includegraphics[width=0.48\paperwidth]{#4}}
+            (A.south) node[anchor=north] {\color{ablue}#3}
+            (B.south) node[anchor=north] {\color{ablue}#5};
+      \ifx#1\empty\else\path(A.north) -- node[above=1ex] {\alertbox{#1}}(B.north);\fi       
+  }};}
+}
+
+% %TODO TERMS
+%~ \newcommand{\mcss}{混合关键性偶发任务系统}
+%~ \newcommand{\verdom}{顶点支配}
+%~ \newcommand{\pvdom}{前驱顶点支配}
+%~ \newcommand{\pathdom}{路径支配}
+%~ \newcommand{\dom}{支配}
+%~ \newcommand{\domv}{支配顶点}
+%~ \newcommand{\domp}{支配路径}
+%~ \newcommand{\sdom}{绝对支配}
+%~ \newcommand{\spsch}{静态优先级算法可调度}
+%~ \newcommand{\vsp}{$v$起始点路径}
+%~ \newcommand{\nvsp}{非$v$起始点路径}
+%~ \newcommand{\hlt}{重型低关键性任务}
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	GLOBAL MATH
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+\newcommand{\limit}{\displaystyle\lim}
+\newcommand{\impart}{\textrm{Im}}
+\newcommand{\repart}{\textrm{Re}}
+\newcommand{\integer}{\mathbb{Z}}
+\newcommand{\degree}{\ensuremath{{}^{\circ}}\xspace}
+%\newcommand{\degree}{^{\circ}} Depricated by above
+\newcommand{\rad}{\unit{rad}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\dy}{\mathrm{d}y}
+\newcommand{\dr}{\mathrm{d}r}
+\newcommand{\dtheta}{\mathrm{d}\theta}
+\newcommand{\dydx}{\dfrac{\mathrm{d}y}{\mathrm{d}x}}
+\newcommand{\dydt}{\dfrac{\mathrm{d}y}{\mathrm{d}t}}
+\newcommand{\dxdt}{\dfrac{\mathrm{d}x}{\mathrm{d}t}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\farg}[1]{{\color{sthlmBlue}{\left[\boldsymbol{#1}\right]}}}
+\newcommand{\sname}[1]{\texttt{#1}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\cb}{$\Box$}
+\newcommand{\suchthat}{\;\ifnum\currentgrouptype=16 \middle\fi|\;}
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	12. IMAGES
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\newbox\mytempbox
+\newdimen\mytempdimen
+
+\newcommand\includegraphicscopyright[3][]{%
+  \leavevmode\vbox{\vskip3pt\raggedright\setbox\mytempbox=\hbox{\includegraphics[#1]{#2}}%
+    \mytempdimen=\wd\mytempbox\box\mytempbox\par\vskip1pt%
+    \usebeamerfont{copyright text}{\usebeamercolor[fg]{copyright text}{\vbox{\hsize=\mytempdimen#3}}}\vskip3pt%
+}}
+
+
+\makeatother
+
+\endinput
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

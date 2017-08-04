@@ -1,0 +1,101 @@
+extends markdown
+
+# overwrite if necessary
+priority -40
+
+snippet "%%|title" "Title Header" r
+% ${1:`!v vim_snippets#Filename('$1', 'title')`}
+% ${2:`!v g:snips_author`}
+% ${3:`!v strftime("%B %d, %Y")`}
+
+$0
+endsnippet
+
+snippet "%%c|titlecn" "Title Header" r
+% ${1:`!v vim_snippets#Filename('$1', 'title')`}
+% ${2:`!v g:snips_author_cn`}
+% ${3:`!v strftime("%Y 年 %m 月 %d 日")`}
+
+$0
+endsnippet
+
+snippet mini "Beamer minipage (user defined)" b
+[minipage=0.${1:5}]
+
+${2:${VISUAL:contents}}
+
+[/minipage]
+
+$0
+endsnippet
+
+
+snippet "col(umns)?" "Beamer columns (user defined)" r
+[columns=0.${1:5}]
+
+${2:${VISUAL:contents}}
+
+[column=0.${3:5}]
+
+${4: ${VISUAL:contents}}
+
+[/minipage]
+
+$0
+endsnippet
+
+
+snippet "co(lumn)?" "Beamer column (user defined)" r
+[column=0.${1:5}]
+
+${2:${VISUAL:contents}}
+
+$0
+endsnippet
+
+
+snippet block "Beamer block" b
+[block:${1:block title}]
+
+${2:${VISUAL:contents}}
+
+[/block]
+
+$0
+endsnippet
+
+
+
+snippet alertblock "Beamer alertblock" b
+[alertblock:${1:block title}]
+
+${2:${VISUAL:contents}}
+
+[/alertblock]
+
+$0
+endsnippet
+
+
+
+snippet exampleblock "Beamer exampleblock" b
+[exampleblock:${1:block title}]
+
+${2:${VISUAL:contents}}
+
+[/exampleblock]
+
+$0
+endsnippet
+
+
+snippet benv "Beamer environment" b
+[${1:theorem}:${2:${VISUAL:block title}}]
+
+${3:${VISUAL:contents}}
+
+[/$1]
+
+$0
+endsnippet
+

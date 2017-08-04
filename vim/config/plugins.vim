@@ -57,7 +57,7 @@ silent! if plug#begin(s:bundlepath)
     " Plug 'itchyny/lightline.vim'
 
   " ==> Edit {{{2
-  Plug 'chrisbra/unicode.vim'
+"   Plug 'chrisbra/unicode.vim'
   " Plug 'tpope/vim-commentary'
   Plug 'scrooloose/nerdcommenter'
   " Plug 'bronson/vim-trailing-whitespace'
@@ -199,7 +199,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-session'
   Plug 'mhinz/vim-sayonara'
-  Plug 'beloglazov/vim-online-thesaurus'
+"   Plug 'beloglazov/vim-online-thesaurus'
   " Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   Plug 'vim-scripts/DrawIt'
@@ -605,7 +605,7 @@ let g:vim_markdown_json_frontmatter = 1
 " let g:vim_markdown_new_list_item_indent = 2
 
 try
-  let g:pandoc#filetypes#pandoc_markdown = 0
+  let g:pandoc#filetypes#pandoc_markdown = 1
   let g:pandoc#spell#enabled = 0
   " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
 catch
@@ -663,8 +663,8 @@ nnoremap <silent><leader>X  :Sayonara!<cr>
 let g:sayonara_confirm_quit = 0
 
 " Plugin: vim-online-thesaurus {{{2
-nnoremap <leader>k :OnlineThesaurusCurrentWord<cr>
-nnoremap <leader>K :Thesaurus<space>
+" nnoremap <leader>k :OnlineThesaurusCurrentWord<cr>
+" nnoremap <leader>K :Thesaurus<space>
 
 " Plugin: vim-grepper {{{2
 nnoremap <leader>g :Grepper -tool git<cr>

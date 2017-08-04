@@ -1,0 +1,212 @@
+\makeatletter
+
+% \usepackage[UTF8,adobefonts,noindent]{ctex}
+% \usepackage[UTF8,fontset=adobe]{ctex}
+%\usepackage[UTF8,fontset=windows]{ctex}
+%\usepackage[UTF8,fontset=windows]{ctex}
+%\usepackage[UTF8,noindent]{ctex}
+%\hypersetup{unicode=true,CJKbookmarks=false,colorlinks=false, pdfborder={0 0 0}}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz,graphicx,color,xcolor}
+\usetikzlibrary{arrows,patterns,backgrounds,calc,shadows,shapes,positioning,graphs}
+\usetikzlibrary{decorations.pathmorphing,decorations.pathreplacing,decorations.shapes}
+%\usetikzlibrary{arrows,decorations,patterns,backgrounds,calc,shadows,shapes,positioning,graphs}
+% \usepackage{tkz-base}
+\usepackage{bbding}
+\usepackage[english]{babel}
+%\usepackage{appendixnumberbeamer}
+\usepackage{comment}
+\usepackage{calc}
+% \usepackage{textcomp}
+% \usepackage[T1]{fontenc}%\usepackage[latin9]{inputenc}
+% \usepackage{times}%\usepackage{txfonts}%\usepackage{mathptmx}
+% \usepackage{mathptmx}
+
+% \newcommand{\dummybox}[1]{\fbox{#1}}
+\newcommand{\dummybox}[1]{#1}
+\graphicspath{{figures/}}
+
+
+% -----------------------------------------------------------------------------
+% TANGO COLORS
+
+% chameleon
+\definecolor{tangocolordarkchameleon}{HTML}{4E9A06}
+\definecolor{tangocolormediumchameleon}{HTML}{73D216}
+\definecolor{tangocolorlightchameleon}{HTML}{8AE234}
+
+% tango sky blue
+\definecolor{tangocolordarkskyblue}{HTML}{204A87}
+\definecolor{tangocolormediumskyblue}{HTML}{3465A4}
+\definecolor{tangocolorlightskyblue}{HTML}{729FCF}
+
+% tango plum
+\definecolor{tangocolordarkplum}{HTML}{5C3566}
+\definecolor{tangocolormediumplum}{HTML}{75507B}
+\definecolor{tangocolorlightplum}{HTML}{AD7FA8}
+
+% scarlet red
+\definecolor{tangocolordarkscarletred}{HTML}{A40000}
+\definecolor{tangocolormediumscarletred}{HTML}{CC0000}
+\definecolor{tangocolorlightscarletred}{HTML}{EF2929}
+
+% aluminium
+\definecolor{tangocolordarkaluminium}{HTML}{BABDB6}
+%\definecolor{tangocolormediumaluminium}{HTML}{D3D7CF}
+\definecolor{tangocolormediumaluminium}{HTML}{D3D3D3}
+\definecolor{tangocolorlightaluminium}{HTML}{EEEEEC}
+
+% gray
+\definecolor{tangocolorlightgray}{HTML}{888A85}
+
+% -----------------------------------------------------------------------------
+
+% OPENSUSE WEBPAGE
+\definecolor{opensusedarkblue}{HTML}{173F4F}
+\definecolor{opensuselightbluex}{HTML}{35B9AB}
+\definecolor{opensuselightblue}{HTML}{3CB6AA}
+
+\definecolor{opensusedarkgreen}{HTML}{4BB679}
+\definecolor{opensuselightgreen}{HTML}{6DA741}
+
+\definecolor{opensusegray}{HTML}{878787}
+
+% opensuse lightblue#35B9AB
+% opensuse lightgreen#6DA741
+% opensuse lightgreen#3CB6AA
+% opensuse gray#878787
+% opensuse green#3CB6AA
+% opensuse green#46AA72
+
+% -----------------------------------------------------------------------------
+% TODO: remove once colors are no longer used!!!
+% These are a few colors that I like.
+
+\definecolor{crimsonred}{RGB}{153,0,0}		% Neurtal red, good for dark or light bg
+\definecolor{darkcharcoal}{RGB}{25,25,25}		% Darker gray
+\definecolor{charcoal}{RGB}{51,51,51}		% Darker gray
+\definecolor{ash}{RGB}{100,100,100}			% medium gray
+\definecolor{paleblue}{RGB}{0,102,102}		% More of an `ocean' color
+\definecolor{turtlegreen}{RGB}{51,153,0}	% A more neutral green
+\definecolor{paleale}{RGB}{204,204,102}		% Only for dark BG
+\definecolor{lager}{RGB}{140,110,10}		% Use instead of pale ale for white BG
+\definecolor{regal}{RGB}{90,0,120}			% A more neutral purple
+\definecolor{jeans}{RGB}{20,30,150}			% A more neutral blue
+
+
+\definecolor{FlipSand}{RGB}{140,110,10}			% lager, Only for light BG
+\definecolor{FlipGreen}{RGB}{51,153,0}			% turtlegreen, works for both
+
+% -----------------------------------------------------------------------------
+%%==============================================================================
+%%  define colors
+\definecolor{upforestgreen}{rgb}{0.0, 0.27, 0.13}\definecolor{tealgreen}{rgb}{0.0, 0.51, 0.5} 
+\definecolor{oxfordblue}{rgb}{0.0, 0.13, 0.28} 
+
+\definecolor{persianblue}{rgb}{0.11, 0.22, 0.73} \definecolor{phthaloblue}{rgb}{0.0, 0.06, 0.54} 
+ \definecolor{tyrianpurple}{rgb}{0.4, 0.01, 0.24} 
+ \definecolor{titaniumyellow}{rgb}{0.93, 0.9, 0.0}
+  \definecolor{timberwolf}{rgb}{0.86, 0.84, 0.82} 
+ 
+% \definecolor{cov1}{rgb}{0.93, 0.9, 0.0} 
+% \definecolor{cov2}{rgb}{0.0, 0.27, 0.13} 
+% \definecolor{cov3}{rgb}{0.4, 0.01, 0.24} 
+% \definecolor{cov4}{rgb}{0.0, 0.06, 0.54} 
+% \definecolor{cov5}{rgb}{0.86, 0.84, 0.82} 
+
+% mpvd rgb
+% \definecolor{ayellow}{HTML}{FED521} 
+% \definecolor{agreen}{HTML}{0D8461}  
+% \definecolor{ared}{HTML}{CE191E} 
+% \definecolor{ablue}{HTML}{315BA7} 
+% \definecolor{apurple}{HTML}{80007B} 
+
+% Zurich rgb
+% \definecolor{ayellow}{HTML}{FED521} 
+% \definecolor{agreen}{HTML}{4E9A06} 
+% \definecolor{ared}{HTML}{A30000} 
+% \definecolor{ablue}{HTML}{1F4986} 
+% \definecolor{apurple}{HTML}{80007B} 
+
+% Flip rgb
+% \definecolor{asand}{HTML}{8B6D09} 
+% \definecolor{ayellow}{HTML}{FED521} 
+% \definecolor{agreen}{HTML}{339900} % good
+% \definecolor{ared}{HTML}{990000} 
+% %\definecolor{ablue}{HTML}{1F4986} 
+% \definecolor{apurple}{HTML}{501378} 
+
+% 
+\definecolor{ayellow}{HTML}{CCCC00} 
+\definecolor{agreen}{HTML}{006633} 
+% \definecolor{ared}{HTML}{990033} 
+\definecolor{ared}{HTML}{990022} 
+% \definecolor{ablue}{HTML}{333399} % light
+\definecolor{ablue}{HTML}{203090} % light
+% \definecolor{ablue}{HTML}{203890} % light
+% \definecolor{ablue}{RGB}{25,55,155} % light
+% \definecolor{ablue}{RGB}{30,70,150} % light
+% \definecolor{ablue}{HTML}{0059A9} % like fedora
+% \definecolor{ablue}{HTML}{0055AA} % like fedora
+% \definecolor{ablue}{HTML}{1B3491} % like neu
+% \definecolor{apurple}{HTML}{501378} 
+% \definecolor{apurple}{HTML}{660033} 
+% \definecolor{apurple}{HTML}{660099} % light
+% \definecolor{apurple}{HTML}{663399} 
+% \definecolor{apurple}{HTML}{661199} 
+% \definecolor{apurple}{HTML}{660088} % middle
+\definecolor{apurple}{HTML}{660082} % middle dark
+
+%%%%
+%\definecolor{MSUgreen}{RGB}{0,102,51} #4E79B0
+%\definecolor{fedora}{RGB}{0,70,126} %feora
+\definecolor{fedora}{RGB}{41,64,114} %feora
+\definecolor{fedoralight}{RGB}{60,110,179} %feora
+\definecolor{zhihu}{HTML}{044E97} % zhihu 
+\definecolor{zhihulight}{HTML}{0769CD} % zhihu 
+\definecolor{word}{HTML}{2B579A} % MS word 2013 blue
+\definecolor{excel}{HTML}{217346} % MS excel 2013 greeb
+\definecolor{ppt}{HTML}{D24726} % MS ppt 2013 orage
+\definecolor{ont}{HTML}{80397B} % MS one note 2013 purple
+%\definecolor{MSUgreen}{RGB}{58,112,177} 
+%\definecolor{MSUgreen}{RGB}{60,110,179} 
+%\definecolor{neub}{RGB}{42,69,139} % neu
+\definecolor{neub}{rgb}{0.16,0.27,0.55} % neu
+
+\iftrue % MS Office like colors
+\else
+  \definecolor{agreen}{named}{excel} 
+  \definecolor{ared}{named}{ppt} 
+  \definecolor{apurple}{named}{ont} % light
+  \definecolor{ablue}{named}{word} % light
+\fi
+% \definecolor{ablue}{named}{zhihu} 
+% \definecolor{ablue}{named}{neub} 
+% % % % % % % % % % % % % % % % % % % % % %
+
+\definecolor{cov1}{named}{ayellow} 
+\definecolor{cov2}{named}{agreen} 
+\definecolor{cov5}{named}{ared} 
+\definecolor{cov4}{named}{ablue} 
+\definecolor{cov3}{named}{apurple} 
+
+\definecolor{lp}{RGB}{230,230,255}
+\definecolor{lg}{RGB}{217,255,217}
+\definecolor{p}{RGB}{128,128,225}
+\definecolor{g}{RGB}{117,194,117}
+
+\definecolor{r}{RGB}{255,77,77}
+% \definecolor{g}{RGB}{217,255,216}
+\definecolor{b}{RGB}{68,114,196}
+\definecolor{gr}{RGB}{213,216,205}
+\definecolor{m}{RGB}{246,195,198}
+\definecolor{back}{RGB}{246,195,98}
+
+\makeatother
+
+\endinput
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:

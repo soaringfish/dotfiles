@@ -3,9 +3,10 @@
 
 set fo+=j
 
-let g:snips_author="Chuancai Gu"
-let g:snips_email="gucc.gu@gmail.com"
-let g:snips_github="https://github.com/soaringfish"
+let g:snips_author    = "Chuancai Gu"
+let g:snips_author_cn = "谷传才"
+let g:snips_email     = "gucc.gu@gmail.com"
+let g:snips_github    = "https://github.com/soaringfish"
 
 set foldlevel=9
 
