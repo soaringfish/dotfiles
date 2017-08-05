@@ -1,0 +1,21 @@
+#!/bin/sh
+
+LN=echo
+# LN=ln -sf
+P=$(dirname `realpath $0`)
+
+
+echo "Install vim-config files"
+mkdir -p ~/.vim
+$LN $P/vim/vimrc ~/.vim/vimrc
+echo "Create nvim config dir"
+mkdir -p ~/.config/
+$LN $P/vim ~/.config/nvim
+
+echo "Install tmux.conf"
+$LN $P/tmux.conf ~/.tmux.conf
+
+echo "Install slate conf"
+$LN $P/slate ~/.slate
+
+
