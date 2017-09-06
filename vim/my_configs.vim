@@ -9,6 +9,7 @@ let g:snips_email     = "gucc.gu@gmail.com"
 let g:snips_github    = "https://github.com/soaringfish"
 
 set foldlevel=9
+let g:SimpylFold_docstring_preview = 1
 
 augroup luagroup
     autocmd!
@@ -28,14 +29,10 @@ function! s:md_maps()
 endfunction
 
 augroup mdgroup
-    autocmd!
-    au filetype markdown call s:md_maps()
+  autocmd!
+  au filetype markdown call s:md_maps()
 augroup END
 
-" augroup ag_latex
-"   au!
-"   au filetype tex inoremap <m-m> `
-" augroup END
 
 inoremap <A-;> <C-o>:
 " osx <a-;>
@@ -215,22 +212,47 @@ function! NERDTreeHighlightFile(extension, fg, bg, guifg)
 endfunction
 
 call NERDTreeHighlightFile('html', 202, 'none', '#FC4709')
-call NERDTreeHighlightFile('hbs', 202, 'none', '#FC4709')
+call NERDTreeHighlightFile('hbs',  202, 'none', '#FC4709')
 call NERDTreeHighlightFile('jade', 149, 'none', '#A0D24D')
 call NERDTreeHighlightFile('json', 223, 'none', '#FECEA0')
-call NERDTreeHighlightFile('scss', 44, 'none', '#1AD0CE')
-call NERDTreeHighlightFile('css', 44, 'none', '#1AD0CE')
-call NERDTreeHighlightFile('js', 226, 'none', '#FFFF0D')
-call NERDTreeHighlightFile('rb', 197, 'none', '#E53378')
-call NERDTreeHighlightFile('md', 208, 'none', '#FD720A')
-call NERDTreeHighlightFile('php', 140, 'none', '#9E6FCD')
-call NERDTreeHighlightFile('svg', 178, 'none', '#CDA109')
-call NERDTreeHighlightFile('gif', 36, 'none', '#15A274')
-call NERDTreeHighlightFile('jpg', 36, 'none', '#15A274')
-call NERDTreeHighlightFile('png', 36, 'none', '#15A274')
-call NERDTreeHighlightFile('vim', 36, 'none', '#15A274')
+call NERDTreeHighlightFile('scss', 44,  'none', '#1AD0CE')
+call NERDTreeHighlightFile('css',  44,  'none', '#1AD0CE')
+call NERDTreeHighlightFile('js',   226, 'none', '#FFFF0D')
+call NERDTreeHighlightFile('rb',   197, 'none', '#E53378')
+call NERDTreeHighlightFile('md',   208, 'none', '#FD720A')
+call NERDTreeHighlightFile('php',  140, 'none', '#9E6FCD')
+call NERDTreeHighlightFile('svg',  178, 'none', '#CDA109')
+call NERDTreeHighlightFile('gif',  36,  'none', '#15A274')
+call NERDTreeHighlightFile('jpg',  36,  'none', '#15A274')
+call NERDTreeHighlightFile('png',  36,  'none', '#15A274')
+call NERDTreeHighlightFile('vim',  36,  'none', '#15A274')
 
 
 " ALE gutter sign colors
 hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
 hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
+
+function! LoadPythonVirutalenv()
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+endfunction
+
+function! DummyPythonEvn()
+  " Add the virtualenv's site-packages to vim path
+if has('python')
+py << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    sys.path.insert(0, os.path.join(project_base_dir, 'lib', 'python%d.%d' % sys.version_info[:2], 'site-packages'))
+EOF
+endif
+endfunction

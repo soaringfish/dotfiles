@@ -280,8 +280,13 @@ if !has('nvim') && !has('gui_running')
 endif
 
 if has('nvim')
-  nnoremap <leader>t      :vsplit +terminal<cr>
-  tnoremap <esc>          <c-\><c-n>
+"   nnoremap <leader>t      :vsplit +terminal<cr>
+  nnoremap <leader>t      :bo new +terminal<cr>
+  tnoremap <esc><esc>          <c-\><c-n>
+  tnoremap <a-a> <esc>a
+  tnoremap <a-b> <esc>b
+  tnoremap <a-d> <esc>d
+  tnoremap <a-f> <esc>f
 endif
 " echom 'load basic finished!'
 " ----------------------------

@@ -32,14 +32,14 @@ silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
   " ==> UI {{{2
-    Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+    Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-    let g:polyglot_disabled=['latex', 'markdown']
+    let g:polyglot_disabled=['latex', 'markdown', 'nolua']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
-    Plug 'vim-scripts/taglist.vim'
+    Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
     " if has('gui_running')
       " Plug 'luochen1990/rainbow'
     " else
@@ -50,10 +50,10 @@ silent! if plug#begin(s:bundlepath)
     Plug 'vim-airline/vim-airline-themes'
     " Plug 'kana/vim-narrow'
     " Plug 'junegunn/vim-peekaboo'
-    Plug 'junegunn/goyo.vim'
-    Plug 'junegunn/limelight.vim'
+    Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
+    Plug 'junegunn/limelight.vim', {'on': 'Limelight'}
     Plug 'vim-scripts/mru.vim'
-    Plug 'vim-voom/VOoM'
+    Plug 'vim-voom/VOoM', {'on': ['VoomToggle', 'Voom']}
     " Plug 'itchyny/lightline.vim'
 
   " ==> Edit {{{2
@@ -75,7 +75,10 @@ silent! if plug#begin(s:bundlepath)
   Plug 'jiangmiao/auto-pairs'
   " Plug 'Raimondi/delimitMate'
   Plug 'Konfekt/FastFold'
+  " Python fold
+  Plug 'tmhedberg/SimpylFold' , {'for': 'python'}
   Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'dhruvasagar/vim-table-mode'
   Plug 'neomake/neomake'
   Plug 'Chiel92/vim-autoformat' " autoformat
   Plug 'w0rp/ale' " flying check
@@ -85,16 +88,17 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'scrooloose/syntastic'
 
   " ==> Navigating & Searching {{{2
-  Plug 'rking/ag.vim'
-  Plug 'mhinz/vim-grepper'
+"   Plug 'rking/ag.vim' " Deprecated
+  Plug 'mileszs/ack.vim'
+  Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
   Plug 'easymotion/vim-easymotion'
-  Plug 'junegunn/vim-easy-align'
+  Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
   Plug 'Shougo/denite.nvim'
   " Plug 'Shougo/unite.vim'
   " Plug 'tsukkee/unite-tag'
   " Plug 'Shougo/unite-outline'
   Plug 'Shougo/neomru.vim'
-  Plug 'dyng/ctrlsf.vim'
+  Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSF', 'CtrlSFToggle']}
   Plug 'tmhedberg/matchit'
   Plug 'haya14busa/incsearch.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -129,9 +133,11 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'davidhalter/jedi'            " Snippets
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
-  Plug 'davidhalter/jedi-vim'
-  Plug 'wellle/tmux-complete.vim'
-  let g:tmuxcomplete#trigger = ''
+  Plug 'davidhalter/jedi-vim' , {'for': 'python'}
+  if ! get(s:,"use_ncm") || 0
+    Plug 'wellle/tmux-complete.vim'
+    let g:tmuxcomplete#trigger = ''
+  endif
   " let g:tmuxcomplete#trigger = 'completefunc'
   " Plug 'neitanod/vim-clevertab'
   " let g:use_clevertab=1
@@ -145,7 +151,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'roosta/srcery'
   " Plug 'ajmwagar/vim-deus'
   " Plug 'kudabux/vim-srcery-drk'
-  " Plug 'rakr/vim-one'
+  Plug 'rakr/vim-one'
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
   " Plug 'cohlin/vim-colorschemes'
@@ -156,14 +162,19 @@ silent! if plug#begin(s:bundlepath)
   Plug 'mhinz/vim-janah'
   Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
-  " Plug 'joshdick/onedark.vim'
+  Plug 'joshdick/onedark.vim'
   "" Colors  }}}2
 
   " ==> Languages {{{2
   " -----------------
+  "" Python"
+  if get(g:, 'load_python_mode') | Plug 'klen/python-mode' | endif
+  Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+"   Plug 'vim-scripts/indentpython.vim'
+
   "" Lua Bundle
-  Plug 'xolox/vim-lua-ftplugin'
-  Plug 'xolox/vim-lua-inspect'
+  Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
+  Plug 'xolox/vim-lua-inspect',  {'for': 'lua'}
 
   " C Language
   " Plug 'vim-scripts/c.vim'
@@ -179,10 +190,13 @@ silent! if plug#begin(s:bundlepath)
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   " Plug 'vim-pandoc/vim-pandoc-after'
-  Plug 'suan/vim-instant-markdown'
+"   Plug 'suan/vim-instant-markdown'
   Plug 'mzlogin/vim-markdown-toc'
   Plug 'iamcco/mathjax-support-for-mkdp'
   Plug 'iamcco/markdown-preview.vim'
+
+  " Org modeline
+  Plug 'jceb/vim-orgmode'
 
   " HTML
   " Plug 'vim-scripts/HTML-AutoCloseTag'
@@ -203,6 +217,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   Plug 'vim-scripts/DrawIt'
+  Plug 'skywind3000/asyncrun.vim'
   " "" Misc }}}2
 
   call plug#end()
@@ -366,6 +381,7 @@ call denite#custom#map(
 " The Silver Searcher {{{2 "
 if executable('ag')
   " set grepprg=ag\ --nogroup\ --nocolor
+  let g:ackprg = 'ag --vimgrep'
   set grepprg=ag\ --vimgrep\ $*
   set grepformat=%f:%l:%c:%m
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -412,30 +428,32 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+if 0
+  let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ }
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-      \   'right': [ [ 'lineinfo' ], ['percent'], [ 'filetype' ] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'separator': { 'left': ' ', 'right': ' ' },
-      \ 'subseparator': { 'left': ' ', 'right': ' ' }
-      \ }
+  let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'active': {
+        \   'left': [ ['mode', 'paste'],
+        \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+        \   'right': [ [ 'lineinfo' ], ['percent'], [ 'filetype' ] ]
+        \ },
+        \ 'component': {
+        \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+        \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+        \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+        \ },
+        \ 'component_visible_condition': {
+        \   'readonly': '(&filetype!="help"&& &readonly)',
+        \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+        \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+        \ },
+        \ 'separator': { 'left': ' ', 'right': ' ' },
+        \ 'subseparator': { 'left': ' ', 'right': ' ' }
+        \ }
+endif
 
 " Plugin: Goyo {{{2 "
 let g:goyo_width=100
@@ -573,7 +591,7 @@ let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'start'
+let g:NERDDefaultAlign = 'both'
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_java = 1
 " Add your own custom formats or override the defaults
@@ -605,7 +623,7 @@ let g:vim_markdown_json_frontmatter = 1
 " let g:vim_markdown_new_list_item_indent = 2
 
 try
-  let g:pandoc#filetypes#pandoc_markdown = 1
+  let g:pandoc#filetypes#pandoc_markdown = 0
   let g:pandoc#spell#enabled = 0
   " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
 catch
@@ -628,6 +646,13 @@ let g:mkdp_command_for_global = 0
 let g:instant_markdown_slow = 1
 let g:instant_markdown_autostart = 0
 
+" Plugin: python-mode {{{2 "
+if get(g:,'load_python_mode')
+  let g:pymode_lint_checkers = ['pyflakes']
+  let g:pymode_trim_whitespaces = 0
+  let g:pymode_options = 0
+  let g:pymode_rope = 0"
+endif
 " Plugin: xolox/vim-lua-inspect {{{2 "
 " Don't enable the lua-inspect plug-in automatically in Lua buffers.
 let g:lua_inspect_events = ''
@@ -666,6 +691,10 @@ let g:sayonara_confirm_quit = 0
 " nnoremap <leader>k :OnlineThesaurusCurrentWord<cr>
 " nnoremap <leader>K :Thesaurus<space>
 
+" Plugin: Asyncrun.vim {{{2 "
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+
 " Plugin: vim-grepper {{{2
 nnoremap <leader>g :Grepper -tool git<cr>
 nnoremap <leader>G :Grepper -tool ag<cr>
@@ -684,6 +713,7 @@ let grepper = {
 
 command! Todo Grepper -tool ag -query '(TODO|FIXME|XXX):'
 " }}}2 "
+
 " Plugins' configuration }}}1
 
 " vim: set et sw=2 ts=2 tw=78 foldmethod=marker foldlevel=1:
