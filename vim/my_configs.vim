@@ -45,7 +45,7 @@ endfunction
 
 function! Pdc2Pdf()
   update
-  !~/bin/runpdc % -o %<.pdf
+  AsyncRun ~/bin/runpdc % -o %<.pdf
 endfunction
 
 function! Pdc2Docx()
@@ -55,7 +55,8 @@ endfunction
 
 function! Run_script()
     if &filetype =~ '\v(markdown)|(pandoc)'
-        execute '!make -C ../'
+        " execute '!make -C ../'
+        call Pdc2Pdf()
     elseif &filetype == 'tex'
       normal ;ll
       normal ;lv
@@ -67,6 +68,7 @@ function! Run_script()
 endfunction
 
 noremap <m-b> <c-b>
+noremap <m-f> <c-b>
 noremap <c-B> :w<cr>:call Run_script()<cr>
 inoremap <c-B> <esc>:w<cr>:call Run_script()<cr>
 
@@ -75,9 +77,38 @@ autocmd! InsertLeave * set imdisable|set iminsert=0
 autocmd! InsertEnter * set noimdisable|set iminsert=0
 
 
+augroup latexSurround
+  autocmd!
+  autocmd FileType tex call s:latexSurround()
+augroup END
+
+function! s:latexSurround()
+  let b:surround_{char2nr("e")}
+        \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
+  let b:surround_{char2nr("c")} = "\\\1command: \1{\r}"
+  let b:surround_{char2nr("b")} = "\\textbf{\r}"
+  let b:surround_{char2nr("i")} = "\\textit{\r}"
+  let b:surround_{char2nr("m")} = "\\emph{\r}"
+
+  nmap ,b ysiwb
+  nmap ,e ysiwm
+  nmap ,i ysiwi
+  vmap ,b Sb
+  vmap ,e Sm
+  vmap ,i Si
+endfunction
+
 " VIMTEX settings {{{
 " ===================
 " let g:vimtex_disable_recursive_main_file_detection=0
+let g:vimtex_fold_enabled = 0
+
+let g:vimtex_toc_refresh_always = 0
+" augroup vimtex
+"   autocmd!
+"   autocmd BufWritePost *.tex call vimtex#toc#refresh()
+" augroup END
+
 let g:vimtex_compiler_latexmk = {
       \ 'background' : 1,
       \ 'build_dir' : 'build',
@@ -123,11 +154,11 @@ map <Leader><leader>h <Plug>(easymotion-linebackward)
 map <Leader><leader>l <Plug>(easymotion-lineforward)
 map <Leader><leader>. <Plug>(easymotion-repeat)
 map <Leader><leader>S <Plug>(easymotion-s2)
-map sh <Plug>(easymotion-linebackward)
-map sl <Plug>(easymotion-lineforward)
-map s. <Plug>(easymotion-repeat)
-map s <Plug>(easymotion-prefix)
-map S <Plug>(easymotion-s2)
+nmap sh <Plug>(easymotion-linebackward)
+nmap sl <Plug>(easymotion-lineforward)
+nmap s. <Plug>(easymotion-repeat)
+nmap s <Plug>(easymotion-prefix)
+nmap S <Plug>(easymotion-s2)
 
 iab ,.s <esc>3a<c-v>{<esc>
 iab ,.e <esc>3a<c-v>}<esc>
@@ -135,6 +166,36 @@ iab ,s <esc>3a<c-v>{<esc>,1Vj,ccj
 iab ,,s <esc>3a<c-v>{<esc>,2Vj,ccj
 iab ,e <esc>mz[zyy`zp:s/{{{/}}}/<cr>
 
+function! s:vimtex_refresh(type)
+  " echom a:type
+  if and(a:type,1)
+    call vimtex#toc#refresh()
+    " echom "toc update"
+  endif
+  if and(a:type,2)
+    call vimtex#labels#refresh()
+    " echom "labels update"
+  endif
+endfunction
+
+function! s:vimtex_outline(type, refresh, denite)
+  if a:refresh
+    call <SID>vimtex_refresh(a:type)
+  endif
+  if a:denite
+    if a:type==1
+      execute "Denite vimtex_toc"
+    else
+      execute "Denite vimtex_labels"
+    endif
+  else
+    if a:type==1
+      execute "VimtexTocOpen"
+    else
+      execute "VimtexLabelsOpen"
+    endif
+  endif
+endfunction
 
 " MARKDOWN-MAPS {{{ "
 augroup ft_maps
@@ -145,7 +206,15 @@ augroup ft_maps
     " au BufReadPost *.tex echo 'post:'. b:vimtex.compiler.build_dir
     au FileType tex
           \ map ,v <localleader>lv|
-          \ map ,m <localleader>ll
+          \ map ,m <localleader>ll|
+          \ nnoremap <localleader>lf :call <SID>vimtex_refresh(3)<cr>|
+          \ nnoremap <localleader>o :call <SID>vimtex_outline(1,0,1)<cr>|
+          \ nnoremap <localleader><localleader>o :call <SID>vimtex_outline(1,1,1)<cr>|
+          \ nnoremap <localleader>t :VimtexTocOpen<cr>|
+          \ nnoremap <localleader><localleader>t :call <SID>vimtex_outline(1,1,0)<cr>|
+          \ nnoremap <localleader>y :<c-u>Denite vimtex_labels<cr>|
+          \ nnoremap <localleader><localleader>y :<c-u>call <SID>vimtex_outline(2,1,1)<cr>
+
     au FileType pandoc
           \ map ,b <localleader>biw|
           \ map ,i <localleader>iiw|
@@ -256,3 +325,11 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 endif
 endfunction
+
+let g:mcc=0
+
+function! Mycount()
+  let g:mcc = g:mcc+1
+  return g:mcc
+endfunction
+" set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{Mycount()}

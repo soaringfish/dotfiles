@@ -155,7 +155,7 @@ set tm=500                     " Timeoutlen
 set ttimeoutlen=10
 set foldcolumn=1               " Add a bit extra margin to the left
 set number                     " Show line numbers
-set relativenumber             " Show releative line numbers
+" set relativenumber             " Show releative line numbers
 set modeline
 set modelines=3
 set ttyfast

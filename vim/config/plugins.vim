@@ -31,7 +31,7 @@ let g:use_deoplete = 0
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
-  " ==> UI {{{2
+  " ==> UI {{{2``
     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
@@ -146,7 +146,7 @@ silent! if plug#begin(s:bundlepath)
   " => Autocomplete }}}2
 
   "" Colors  {{{2
-  Plug 'tomasr/molokai'
+  " Plug 'tomasr/molokai'
   " Plug 'ifepillar/vim-wwdc17-theme'
   " Plug 'roosta/srcery'
   " Plug 'ajmwagar/vim-deus'
@@ -155,14 +155,14 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
   " Plug 'cohlin/vim-colorschemes'
-  Plug 'altercation/vim-colors-solarized'
+  " Plug 'altercation/vim-colors-solarized'
   Plug 'vim-scripts/mayansmoke'
   Plug 'nightsense/seabird'
-  Plug 'morhetz/gruvbox'
+  " Plug 'morhetz/gruvbox'
   Plug 'mhinz/vim-janah'
   Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
-  Plug 'joshdick/onedark.vim'
+  " Plug 'joshdick/onedark.vim'
   "" Colors  }}}2
 
   " ==> Languages {{{2

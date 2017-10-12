@@ -44,7 +44,9 @@ source $VIMRUNTIME/menu.vim
 " colorscheme xcode-default
 " colorscheme gruvbox
 set background=light
-colorscheme lucius
+colorscheme one
+let g:airline_theme='one'
+" colorscheme lucius
 " let g:airline_theme = 'sol'
 
 " vim: set ft=vim sw=2 ts=2 et foldmethod=marker:

@@ -392,6 +392,8 @@ map <leader>pp :setlocal paste!<cr>
 " nnoremap <leader>4 m`^i#### <esc>``5l
 " nnoremap <leader>5 m`^i##### <esc>``6l
 
+nnoremap <leader><Leader>1 :call MarkdownHeadline(-1)<cr>
+nnoremap <leader><Leader>2 :call MarkdownHeadline(-2)<cr>
 nnoremap <leader>1 :call MarkdownHeadline(1)<cr>
 nnoremap <leader>2 :call MarkdownHeadline(2)<cr>
 nnoremap <leader>3 :call MarkdownHeadline(3)<cr>
@@ -413,10 +415,11 @@ function! MarkdownHeadline(lvl)
         execute (l:ln+1) 'delete _'
         call setpos('.',l:pos)
     endif
-    if a:lvl == 1 || a:lvl == 2
-        exec 'normal! m`yypVr' . ['-','='][-a:lvl] . '``'
+    if a:lvl == -1 || a:lvl == -2
+        exec "normal! m`o\<Esc>80i" . ['-','='][a:lvl] . "\<Esc>kg_jlD``"
+        " exec 'normal! m`yypVr' . ['-','='][-a:lvl] . '``'
         " exec 'm`yypVr' . ['=','-'][-a:lvl] . '``'
-    elseif a:lvl >2 && a:lvl<6
+    elseif a:lvl >0 && a:lvl<6
         call setline(l:ln, join(['#','#','#','#','#'][0:a:lvl-1],'') . ' ' . l:ls )
     endif
 endfunction
