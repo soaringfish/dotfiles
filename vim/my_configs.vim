@@ -33,6 +33,10 @@ augroup mdgroup
   au filetype markdown call s:md_maps()
 augroup END
 
+augroup conf_group
+  autocmd!
+  au FileType mru map <esc> q
+augroup END
 
 inoremap <A-;> <C-o>:
 " osx <a-;>
@@ -83,12 +87,13 @@ augroup latexSurround
 augroup END
 
 function! s:latexSurround()
-  let b:surround_{char2nr("e")}
-        \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
+  " let b:surround_{char2nr("e")}
+        " \ = "\\begin{\1environment: \1}\n\t\r\n\\end{\1\1}"
   let b:surround_{char2nr("c")} = "\\\1command: \1{\r}"
   let b:surround_{char2nr("b")} = "\\textbf{\r}"
   let b:surround_{char2nr("i")} = "\\textit{\r}"
-  let b:surround_{char2nr("m")} = "\\emph{\r}"
+  let b:surround_{char2nr("e")} = "\\emph{\r}"
+  let b:surround_{char2nr("m")} = "\\textbf{\\textit{\r}}"
 
   nmap ,b ysiwb
   nmap ,e ysiwm
@@ -326,10 +331,24 @@ EOF
 endif
 endfunction
 
-let g:mcc=0
+" let g:mcc=0
 
-function! Mycount()
-  let g:mcc = g:mcc+1
-  return g:mcc
+" function! Mycount()
+"   let g:mcc = g:mcc+1
+"   return g:mcc
+" endfunction
+" " set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{Mycount()}
+
+" call PPythonSyncExt()
+
+let g:onedark_terminal_italics = 1
+
+function! PPythonSyncExt()
+  " syn match pythonFunctionCall	'\<\h\w*\s*\%((\)\@=' contains=TOP nextgroup=pythonParameterList skipwhite
+    syn region pythonParameterList matchgroup=pythonPL start=+\%(\<\h\w*\s*\)\@99<=(+  end=+)+ contains=ALL containedin=pythonParameterList,lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9 transparent
+    syn match pythonParameterName '\%(\%(^\s*\|[(,]\)\s*\)\@<=\%(\<\h\w*\)\%(\s*=\)\@=' contained containedin=lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9,pythonParameterList
+    "highlight def link pythonParameterList pythonDefine
+    highlight def link pythonParameterName Label
+    "highlight def link pythonFunction Function
 endfunction
-" set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{Mycount()}
+

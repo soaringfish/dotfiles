@@ -27,6 +27,7 @@ endif
 
 " let g:use_ncm = 1
 let g:use_deoplete = 0
+let g:load_python_mode = 1
 
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
@@ -36,7 +37,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-    let g:polyglot_disabled=['latex', 'markdown', 'nolua']
+    let g:polyglot_disabled=['latex', 'markdown', 'nolua', 'python']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
@@ -148,7 +149,7 @@ silent! if plug#begin(s:bundlepath)
   "" Colors  {{{2
   " Plug 'tomasr/molokai'
   " Plug 'ifepillar/vim-wwdc17-theme'
-  " Plug 'roosta/srcery'
+  Plug 'roosta/srcery'
   " Plug 'ajmwagar/vim-deus'
   " Plug 'kudabux/vim-srcery-drk'
   Plug 'rakr/vim-one'
@@ -156,13 +157,13 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'vim-scripts/Visual-Studio'
   " Plug 'cohlin/vim-colorschemes'
   " Plug 'altercation/vim-colors-solarized'
-  Plug 'vim-scripts/mayansmoke'
-  Plug 'nightsense/seabird'
+  " Plug 'vim-scripts/mayansmoke'
+  " Plug 'nightsense/seabird'
   " Plug 'morhetz/gruvbox'
-  Plug 'mhinz/vim-janah'
+  " Plug 'mhinz/vim-janah'
   Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
-  " Plug 'joshdick/onedark.vim'
+  Plug 'joshdick/onedark.vim'
   "" Colors  }}}2
 
   " ==> Languages {{{2

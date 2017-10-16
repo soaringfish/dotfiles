@@ -45,8 +45,10 @@ au FileType qf noremap <buffer> x zc
 
 augroup ag_python
   au!
+  au FileType python setlocal iskeyword-=:
+  au FileType python hi link pythonParam pythonBoolean
   " au FileType python map <buffer> F :set foldmethod=indent<cr>
-  autocmd FileType python call PythonSyncExt()
+  " autocmd BufReadPost *.py call PPythonSyncExt()
 augroup END
 
 function! PythonSyncExt()
@@ -225,43 +227,22 @@ let g:rainbow_active=1
 " Color {{{1
 function! s:colors_default() abort
   highlight Comment cterm=italic
-  highlight link User1 StatusLine   " master branch
-  highlight link User2 StatusLine   " other branch
-  highlight link User3 StatusLine   " separators
-  highlight link User4 StatusLine   " filename at beginning
-  highlight link User5 StatusLine   " ~changes
-  highlight link SignifySignAdd    DiffAdd
-  highlight link SignifySignDelete DiffDelete
-  highlight link SignifySignChange DiffChange
+  highlight texBoldStyle guifg=yellow ctermfg=yellow
+  highlight texItalStyle guifg=cyan ctermfg=cyan
+  highlight texBoldItalStyle guifg=Red ctermfg=Red
 endfunction
 
-function! s:colors_janah() abort
-  highlight Normal ctermbg=236
-  highlight User1  ctermfg=192 ctermbg=237 cterm=NONE
-  highlight User2  ctermfg=167 ctermbg=237 cterm=NONE
-  highlight User3  ctermfg=245 ctermbg=237 cterm=NONE
-  highlight User4  ctermfg=215 ctermbg=237 cterm=NONE
-  highlight User5  ctermfg=111 ctermbg=237 cterm=NONE
-endfunction
-
-function! s:colors_lucius() abort
-  if &background ==# 'light'
-    highlight User1      ctermfg=23   ctermbg=192 cterm=NONE
-    highlight User2      ctermfg=20   ctermbg=195 cterm=NONE
-    highlight User3      ctermfg=237  ctermbg=237 cterm=NONE
-    highlight User4      ctermfg=255  ctermbg=237 cterm=NONE
-    highlight User5      ctermfg=255  ctermbg=237 cterm=NONE
-    highlight StatusLine ctermfg=255  ctermbg=237 cterm=NONE
-    highlight SignColumn ctermfg=NONE ctermbg=255 cterm=NONE
-    highlight Question   ctermfg=24   ctermbg=255 cterm=NONE
-    highlight Search     ctermfg=fg   ctermbg=222 cterm=NONE
-  endif
+function! s:colors_onedark() abort
+  highlight texBoldStyle guifg=#e5c07b ctermfg=180
+  highlight texItalStyle guifg=#56b6c2 ctermfg=38
+  highlight texBoldItalStyle guifg=#e06c75 ctermfg=204
 endfunction
 
 augroup vimrc
-  " autocmd ColorScheme *      call s:colors_default()
+  autocmd ColorScheme *      call s:colors_default()
   " autocmd ColorScheme janah  call s:colors_janah()
   " autocmd ColorScheme lucius call s:colors_lucius()
+  autocmd ColorScheme onedark call s:colors_onedark()
 augroup END
 
 
