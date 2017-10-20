@@ -96,10 +96,10 @@ function! s:latexSurround()
   let b:surround_{char2nr("m")} = "\\textbf{\\textit{\r}}"
 
   nmap ,b ysiwb
-  nmap ,e ysiwm
+  nmap ,e ysiwe
   nmap ,i ysiwi
   vmap ,b Sb
-  vmap ,e Sm
+  vmap ,e Se
   vmap ,i Si
 endfunction
 

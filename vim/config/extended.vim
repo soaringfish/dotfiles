@@ -8,7 +8,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set font according to system
 if has("mac") || has("macunix")
-    set gfn=Hack:h13,Source\ Code\ Pro:h13,Monaco:h13,Menlo:h13
+    set gfn=YaHei\ Consolas\ Hybrid:h14,Hack:h13,Source\ Code\ Pro:h13,Monaco:h13,Menlo:h13
 elseif has("win16") || has("win32")
     set gfn=Hack:h12,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
 elseif has("gui_gtk2")
