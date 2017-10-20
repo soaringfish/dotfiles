@@ -296,6 +296,7 @@ set $mode_system System (x) lock, (e) logout, (r) reboot, (w) shutdown
 mode "$mode_system" {
     bindsym x exec --no-startup-id $Locker, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym w exec --no-startup-id systemctl poweroff -i, mode "default"  
 
@@ -305,7 +306,7 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Pause mode "$mode_system"
-# bindsym $mod+Shift+x mode "$mode_system"
+bindsym $mod+Shift+s mode "$mode_system"
 
 
 
@@ -358,8 +359,8 @@ exec --no-startup-id sleep .2 && exec transset -n i3bar 0.75
 #Terminator
 # Add this to your i3 config (~/.config/i3/config) and restart i3 (Super+Shift+R)
 # exec --no-startup-id "terminator -m"
-#for_window [class="Terminator" title="^((?!Terminator Preferences).)*$"] move scratchpad, move position 0 0, resize set 1920 1080;
-#bindsym F1 [class="Terminator"] scratchpad show;
+# for_window [class="Terminator" title="^((?!Terminator Preferences).)*$"] move scratchpad, move position 0 0, resize set 1366 768;
+# bindsym F1 [class="Terminator"] scratchpad show;
 
 
 ################### ASSIGN ######################
@@ -367,16 +368,16 @@ exec --no-startup-id sleep .2 && exec transset -n i3bar 0.75
 # Assign application to start on a specific workspace
 # you can find the class with the program xprop
 
-assign [class="Terminator|Sakura"]                                                  → 1:
-assign [class="Firefox|Chromium"]                                                   → 2:
-assign [class="Clementine|Audacious"]                                               → 3:
-assign [class="SMPlayer|smplayer"]                                                  → 4:
-assign [class="Gimp"]                                                               → 5:
-assign [class="geany|Geany"]                                                        → 6:
-assign [class="lxtask|Lxtask"]                                                      → 7:
-assign [class="pcmanfm|Pcmanfm"]                                                    → 8:
-assign [class="libreoffice|LibreOffice"]                                            → 9:
-assign [class="qbittorrent|qBittorrent"]                                            → 10:
+assign [class="Terminator|Sakura"]       → $WS1
+assign [class="Firefox|Chromium"]        → $WS2
+assign [class="Clementine|Audacious"]    → $WS3
+assign [class="SMPlayer|smplayer"]       → $W4
+assign [class="Gimp"]                    → $WS5
+assign [class="geany|Geany"]             → $WS6
+assign [class="lxtask|Lxtask"]           → $WS7
+assign [class="pcmanfm|Pcmanfm"]         → $WS8
+assign [class="libreoffice|LibreOffice"] → $WS9
+assign [class="qbittorrent|qBittorrent"] → $WS0
 
 #Borders
 hide_edge_borders both
@@ -401,16 +402,16 @@ for_window [class="Gimp"] focus
 #  System controlling {{{1 # 
 
 # alsamixer
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -c 1 -q sset Master 5%+" 
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -c 1 -q sset Master 5%-" 
-bindsym XF86AudioMute exec --no-startup-id "amixer -c 1 -q sset Master toggle"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%+ unmute" 
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%- unmute" 
+bindsym XF86AudioMute exec --no-startup-id "amixer -q -D pulse sset Master toggle"
  
 # screen lightness
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 20" 
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 20"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10" 
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
 # player ctrl
-bindsym XF86AudioPlay exec "playerctl play" 
+bindsym XF86AudioPlay exec "amixer -q sset Master toggle"
 bindsym XF86AudioPause exec "playerctl pause" 
 bindsym XF86AudioNext exec "playerctl next" 
 bindsym XF86AudioPrev exec "playerctl previous"
