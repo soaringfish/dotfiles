@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# nutstore daemon
+(sleep 30 && nohup ~/.nutstore/dist/bin/nutstore-pydaemon.py >/dev/null 2>&1) &
+
+# vim:set et sw=4 ts=4 tw=78 ft=sh: #
