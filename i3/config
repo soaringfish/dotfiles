@@ -56,10 +56,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 #  Changing focus {{{2 # 
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -70,10 +70,10 @@ bindsym $mod+Right focus right
 
 #  Moving window {{{2 # 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -98,13 +98,16 @@ bindsym $mod+mod1+0 move container to workspace $WS0, workspace $WS0
 #  Spliting manners {{{2 # 
 
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
+bindsym $mod+semicolon split h
+bindsym $mod+Shift+v split h
 
 # split in vertical orientation
 bindsym $mod+v split v
 
 # 默认普通窗口的边框类型
-new_window none
+# new_window none
+new_window pixel 1
 # 默认浮动窗口的边框类型
 new_float normal
 # 取消工作区边缘的边框
@@ -191,26 +194,26 @@ bindsym $mod+Shift+z move container to workspace back_and_forth
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+    # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -277,8 +280,8 @@ set $mode_launcher Launch: [f]irefox [t]hunderbird
 bindsym $mod+o mode "$mode_launcher"
 
 mode "$mode_launcher" {
-    bindsym f exec firefox
-    bindsym t exec thunderbird
+    bindsym f exec --no-startup-id firefox, mode "default"
+    bindsym t exec --no-startup-id thunderbird, mode "default"
 
     bindsym Esc mode "default"
     bindsym Return mode "default"
@@ -309,7 +312,7 @@ bindsym $mod+Shift+s mode "$mode_system"
 
 # Autostart {{{1 #
 
-# exec --no-startup-id feh --bg-fill /home/mindaugas/Pictures/google.jpg
+exec --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.jpg
 
 # exec --no-startup-id setxkbmap -layout 'us, lt, ru' -option 'grp:alt_shift_toggle' &
 
@@ -359,6 +362,8 @@ exec --no-startup-id sleep .2 && exec transset -n i3bar 0.75
 # bindsym F1 [class="Terminator"] scratchpad show;
 
 
+#  Assign applications {{{1 # 
+
 ################### ASSIGN ######################
 
 # Assign application to start on a specific workspace
@@ -377,11 +382,27 @@ assign [class="qbittorrent|qBittorrent"] → $WS0
 
 #Borders
 hide_edge_borders both
+
 #Focus
-bindsym $mod+Shift+f [class="Firefox"] focus
-bindsym $mod+Shift+t [class="Terminator"] focus
-bindsym $mod+Shift+g [class="Geany"] focus
-bindsym $mod+Shift+h [class="Chromium"] focus
+set $mode_focus Focus: (f)firefox, (t)terminator, (g)chrome
+
+mode "$mode_focus" {
+    bindsym f [class="Firefox"] focus, mode "default"
+    bindsym t [class="Terminator"] focus, mode "default"
+    bindsym g [class="Geany"] focus, mode "default"
+    bindsym h [class="Chromium"] focus, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+p mode "$mode_focus"
+
+# bindsym $mod+Shift+f [class="Firefox"] focus
+# bindsym $mod+Shift+t [class="Terminator"] focus
+# bindsym $mod+Shift+g [class="Geany"] focus
+# bindsym $mod+Shift+h [class="Chromium"] focus
 
 for_window [class="Sakura"] focus
 for_window [class="Terminator"] focus
