@@ -312,9 +312,10 @@ bindsym $mod+Shift+s mode "$mode_system"
 
 # Autostart {{{1 #
 
-exec --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.jpg
+exec --no-startup-id feh --bg-fill ~/.config/i3/385301.jpg
 
-exec --no-stacked-id sh ~/.config/i3/autostart
+exec --no-startup-id ~/.config/i3/autostart
+# exec --no-stacked-id ~/.config/i3/autostart
 
 # exec --no-startup-id setxkbmap -layout 'us, lt, ru' -option 'grp:alt_shift_toggle' &
 
@@ -333,10 +334,13 @@ bindsym --release Shift+Print exec --no-startup-id scrot -s 'screenshot_%Y%m%d_%
 
 # Windows decoration colors
 # class                 border  backgr. text    indicator
+
 # client.focused          #01579b #01579b #ffffff #c6ff00
 # client.focused_inactive #81d4fa #81d4fa #BABABA #484e50
 # client.unfocused        #1a237e #1a237e #000000 #292d2e
 # client.urgent           #ff9800 #ff9800 #000000 #e53935
+# client.focused          #990000 #990033 #FFFFFF #333333
+
 client.focused          #333333 #333333 #FFFFFF #333333
 client.focused_inactive #999999 #999999 #FFFFFF #3399FF
 client.unfocused        #999999 #999999 #FFFFFF #3399FF
@@ -352,7 +356,7 @@ client.background       #FFFFFF
 # exec --no-startup-id feh --bg-scale "$HOME/src/oh-my-i3/wallpaper.jpg"
 # 设置透明须先安装xcompmgr，并在此指定软件和透明度（默认0.75），sleep保证transset在其所设置的软件之后启动，根据情况调节大小
 exec --no-startup-id xcompmgr &
-exec --no-startup-id sleep .2 && exec transset -n i3bar 0.75
+exec --no-startup-id sleep .2 && exec transset -n i3bar 0.55
 # 建议另外指定一个脚本来启动通用的开机自启项目
 # exec --no-startup-id $HOME/bin/RC
 # 总有一些奇葩无法正常用脚本启动

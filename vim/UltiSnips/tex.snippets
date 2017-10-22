@@ -29,3 +29,8 @@ snippet "be(gin)?" "begin{} / end{}" br
 \end{$1}
 endsnippet
 
+snippet mp "minipage" b
+\begin{minipage}{0.${1:5}\textwidth}
+	${0:${VISUAL}}
+\end{minipage}
+endsnippet
