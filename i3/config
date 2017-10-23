@@ -325,12 +325,6 @@ bindsym $mod+shift+x exec --no-startup-id i3lock --color '#424242'
 
 exec --no-startup-id xautolock -time 10 -locker 'i3lock -c 000000'
 
-# Multi-screen screenshots with scrot
-bindsym --release Print exec --no-startup-id scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
-
-# OSX-like area selection screenshots
-bindsym --release Shift+Print exec --no-startup-id scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
-
 
 # Windows decoration colors
 # class                 border  backgr. text    indicator
@@ -410,6 +404,21 @@ bindsym $mod+p mode "$mode_focus"
 # bindsym $mod+Shift+g [class="Geany"] focus
 # bindsym $mod+Shift+h [class="Chromium"] focus
 
+# Special windows {{{1
+
+# For types {{{2
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="TeamViewer"] floating enable
+for_window [title="Preference$"] floating enable
+for_window [title="Pages Unresponsive"] floating enable
+for_window [class="Calise"] floating enable
+for_window [class="whatpulse"] floating enable
+no_focus [class="fcitx"]
+
+# For applications {{{2
+
 for_window [class="Sakura"] focus
 for_window [class="Terminator"] focus
 for_window [class="Firefox"] focus
@@ -421,6 +430,7 @@ for_window [class="lxtask|Lxtask"] focus
 for_window [class="pcmanfm|Pcmanfm"] focus
 for_window [class="Gimp"] focus
 
+#  }}}1 # 
 
 #  System controlling {{{1 # 
 
@@ -439,4 +449,22 @@ bindsym XF86AudioPause exec "playerctl pause"
 bindsym XF86AudioNext exec "playerctl next" 
 bindsym XF86AudioPrev exec "playerctl previous"
  
+#  Screenshots {{{1 # 
+
+# 全屏截图
+bindsym --release $mod+Print exec "scrot -b -m /tmp/screenshot.png && xclip -selection clipoard -t 'image/png' /tmp/screenshot.png"
+# 截取当前窗口
+bindsym --release $mod+mod1+Print exec "scrot -u -b -m /tmp/screenshot.png && xclip -selection clipoard -t 'image/png' /tmp/screenshot.png"
+# 鼠标选择区域
+bindsym --release $mod+Shift+Print exec "scrot -s -b -m /tmp/screenshot.png && xclip -selection clipoard -t 'image/png' /tmp/screenshot.png"
+# QQ 风格的截屏快捷键
+bindsym --release Control+Mod1+A exec "scrot -s -b -m /tmp/screenshot.png && xclip -selection clipoard -t 'image/png' /tmp/screenshot.png"
+
+# Multi-screen screenshots with scrot
+bindsym --release Print exec --no-startup-id scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
+
+# OSX-like area selection screenshots
+bindsym --release Shift+Print exec --no-startup-id scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
+
+#  }}}1 # 
 #  vim:set et sw=4 ts=4 tw=78 fdm=marker ft=i3: # 
