@@ -265,7 +265,7 @@ bar {
         #eparator  #3399FF
         # 工作区颜色         边框    背景    文字
         focused_workspace  #111111 #111111 #FFFFFF
-        active_workspace   #FFFFFF #FFFFFF #FFFFFF
+        active_workspace   #FFFFFF #FFFFFF #000000
         inactive_workspace #333333 #333333 #FFFFFF
         urgent_workspace   #990000 #990000 #FFFFFF
         #binding_mode       #990000 #990000 #FFFFFF
@@ -329,18 +329,18 @@ exec --no-startup-id xautolock -time 10 -locker 'i3lock -c 000000'
 # Windows decoration colors
 # class                 border  backgr. text    indicator
 
-# client.focused          #01579b #01579b #ffffff #c6ff00
-# client.focused_inactive #81d4fa #81d4fa #BABABA #484e50
-# client.unfocused        #1a237e #1a237e #000000 #292d2e
-# client.urgent           #ff9800 #ff9800 #000000 #e53935
-# client.focused          #990000 #990033 #FFFFFF #333333
+client.focused          #01579b #01579b #ffffff #c6ff00
+client.focused_inactive #81d4fa #81d4fa #BABABA #484e50
+client.unfocused        #1a237e #1a237e #000000 #292d2e
+client.urgent           #ff9800 #ff9800 #000000 #e53935
+client.focused          #990000 #990033 #FFFFFF #333333
 
-client.focused          #333333 #333333 #FFFFFF #333333
-client.focused_inactive #999999 #999999 #FFFFFF #3399FF
-client.unfocused        #999999 #999999 #FFFFFF #3399FF
-client.urgent           #990000 #990000 #FFFFFF #990000
-client.placeholder      #000000 #000000 #FFFFFF #000000
-client.background       #FFFFFF
+# client.focused          #333333 #333333 #FFFFFF #333333
+# client.focused_inactive #999999 #999999 #FFFFFF #3399FF
+# client.unfocused        #999999 #999999 #FFFFFF #3399FF
+# client.urgent           #990000 #990000 #FFFFFF #990000
+# client.placeholder      #000000 #000000 #FFFFFF #000000
+# client.background       #FFFFFF
 
 #Compton
 # exec --no-startup-id compton --config ~/.config/i3/compton.conf
@@ -443,6 +443,7 @@ bindsym XF86AudioMute exec --no-startup-id "amixer -q -D pulse sset Master toggl
 bindsym XF86MonBrightnessUp exec "xbacklight -inc 10" 
 bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
+# TODO not work so far
 # player ctrl
 bindsym XF86AudioPlay exec "amixer -q sset Master toggle"
 bindsym XF86AudioPause exec "playerctl pause" 
