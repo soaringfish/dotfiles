@@ -24,8 +24,9 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec gnome-terminal
+# bindsym $mod+Return exec xfce4-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -43,6 +44,7 @@ bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -fn 'DejavuS
 #Rofi
 #bindsym $mod+shift+f exec "rofi -show run"
 bindsym $mod+Tab exec rofi -show run -bg "#222222" -fg "#2ECC71" -hlbg "#445544" -hlfg "#2EEE71" -bw 4 -eh 1 -font "Noto Mono Regular 11" -opacity "80" -lines 8 -line-margin 4 -width 100 -padding 160 
+bindsym $mod1+Tab exec rofi -show 
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -435,9 +437,12 @@ for_window [class="Gimp"] focus
 #  System controlling {{{1 # 
 
 # alsamixer
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%+ unmute" 
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%- unmute" 
-bindsym XF86AudioMute exec --no-startup-id "amixer -q -D pulse sset Master toggle"
+# bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%+ unmute"
+# bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q -D pulse sset Master 5%- unmute"
+# bindsym XF86AudioMute exec --no-startup-id "amixer -q -D pulse sset Master toggle"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 5%+ unmute" 
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 5%- unmute" 
+bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master toggle"
  
 # screen lightness
 bindsym XF86MonBrightnessUp exec "xbacklight -inc 10" 
