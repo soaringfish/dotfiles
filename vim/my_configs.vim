@@ -114,6 +114,14 @@ let g:vimtex_toc_refresh_always = 0
 "   autocmd BufWritePost *.tex call vimtex#toc#refresh()
 " augroup END
 
+if has('nvim') && executable('nvr')
+  let g:vimtex_compiler_progname='nvr'
+
+  if executable('zathura')
+    let g:vimtex_view_method='zathura'
+  endif
+endif
+
 let g:vimtex_compiler_latexmk = {
       \ 'background' : 1,
       \ 'build_dir' : 'build',
