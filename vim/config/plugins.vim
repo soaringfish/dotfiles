@@ -219,7 +219,11 @@ silent! if plug#begin(s:bundlepath)
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
   Plug 'vim-scripts/DrawIt'
   Plug 'skywind3000/asyncrun.vim'
-  Plug 'vim-scripts/fcitx.vim'
+  if LINUX() || OSX()
+    " Plug 'vim-scripts/fcitx.vim'
+    Plug 'CodeFalling/fcitx-vim-osx'
+  endif
+
   " "" Misc }}}2
 
   call plug#end()
