@@ -116,10 +116,6 @@ let g:vimtex_toc_refresh_always = 0
 
 if has('nvim') && executable('nvr')
   let g:vimtex_compiler_progname='nvr'
-
-  if executable('zathura')
-    let g:vimtex_view_method='zathura'
-  endif
 endif
 
 let g:vimtex_compiler_latexmk = {
@@ -145,6 +141,9 @@ if OSX()
   " let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   " let g:vimtex_view_general_options = '-r @line @pdf @tex'
 elseif LINUX()
+  if executable('zathura')
+    let g:vimtex_view_method='zathura'
+  endif
   " let g:vimtex_view_general_viewer = 'okular'
   " let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
   " let g:vimtex_view_general_options_latexmk = '--unique'
