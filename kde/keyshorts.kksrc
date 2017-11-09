@@ -1,20 +1,11 @@
-[ActivityManager][Global Shortcuts]
-switch-to-activity-dbb517d2-6f15-4f31-a874-e0f78ed955b8=none
-
 [kaccess][Global Shortcuts]
 Toggle Screen Reader On and Off=Meta+Alt+S
 
 [kcm_touchpad][Global Shortcuts]
 Disable Touchpad=Touchpad Off
 Enable Touchpad=Touchpad On
+Switch to Next Keyboard Layout=Ctrl+Alt+K
 Toggle Touchpad=Touchpad Toggle
-{0a5a58d1-0bc4-4889-be1d-708fee32a6b6}=Meta+Print
-{4a589bd5-0764-46cb-a0cd-04f35b861bdd}=Ctrl+Alt+F
-{b13f14cc-f57d-4f4b-8e95-237ba20fa972}=Print
-{b7ba4221-9241-4d53-94db-79db09c4ebfc}=Ctrl+Print
-{cc0db651-1dca-4e61-82c7-c3d14a3079a9}=Shift+Print
-{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=none
-{f1d77dd0-b241-47c2-9922-c69f5ad3e706}=Ctrl+Alt+T; Meta+Return
 
 [kded5][Global Shortcuts]
 Decrease Keyboard Brightness=Keyboard Brightness Down
@@ -28,26 +19,7 @@ Sleep=Sleep
 Toggle Keyboard Backlight=Keyboard Light On/Off
 display=Display; Meta+P
 
-[kmix][Global Shortcuts]
-decrease_microphone_volume=Microphone Volume Down
-decrease_volume=Volume Down
-increase_microphone_volume=Microphone Volume Up
-increase_volume=Volume Up
-mic_mute=Microphone Mute
-mute=Volume Mute
-
-[krunner][Global Shortcuts]
-run command=Alt+Space; ; Search
-run command on clipboard contents=Alt+Shift+F2
-
-[ksmserver][Global Shortcuts]
-Halt Without Confirmation=none
-Lock Session=Ctrl+Alt+L; Screensaver
-Log Out=none
-Log Out Without Confirmation=none
-Reboot Without Confirmation=none
-
-[kwin][Global Shortcuts]
+[khotkeys][Global Shortcuts]
 Activate Window Demanding Attention=Ctrl+Alt+A
 Decrease Opacity=none
 Expose=Ctrl+F9
@@ -71,10 +43,10 @@ Switch One Desktop Down=Meta+Shift+Down
 Switch One Desktop Up=Meta+Shift+Up
 Switch One Desktop to the Left=none
 Switch One Desktop to the Right=none
-Switch Window Down=Meta+Alt+Down
-Switch Window Left=Meta+Alt+Left
-Switch Window Right=Meta+Alt+Right
-Switch Window Up=Meta+Alt+Up
+Switch Window Down=Meta+Alt+Down; Meta+Shift+J
+Switch Window Left=Meta+Alt+Left; Meta+Shift+H
+Switch Window Right=Meta+Alt+Right; Meta+Shift+L
+Switch Window Up=Meta+Alt+Up; Meta+Shift+K
 Switch to Desktop 1=Ctrl+F1
 Switch to Desktop 10=none
 Switch to Desktop 11=none
@@ -96,10 +68,9 @@ Switch to Desktop 7=none
 Switch to Desktop 8=none
 Switch to Desktop 9=none
 Switch to Next Desktop=Meta+Z
-Switch to Next Keyboard Layout=none
-Switch to Next Screen=Meta+]
+Switch to Next Screen=Meta+}
 Switch to Previous Desktop=none
-Switch to Previous Screen=none
+Switch to Previous Screen=Meta+{
 Switch to Screen 0=none
 Switch to Screen 1=none
 Switch to Screen 2=none
@@ -108,14 +79,14 @@ Switch to Screen 4=none
 Switch to Screen 5=none
 Switch to Screen 6=none
 Switch to Screen 7=none
-Toggle Window Raise/Lower=none
+Toggle Window Raise/Lower=Meta+Q
 Walk Through Desktop List=none
 Walk Through Desktop List (Reverse)=none
 Walk Through Desktops=none
 Walk Through Desktops (Reverse)=none
 Walk Through Window Tabs=none
 Walk Through Window Tabs (Reverse)=none
-Walk Through Windows=Alt+Tab
+Walk Through Windows=Meta+Tab
 Walk Through Windows (Reverse)=none
 Walk Through Windows Alternative=none
 Walk Through Windows Alternative (Reverse)=none
@@ -146,14 +117,14 @@ Window Pack Down=none
 Window Pack Left=none
 Window Pack Right=none
 Window Pack Up=none
-Window Quick Tile Bottom=Meta+Down
-Window Quick Tile Bottom Left=Meta+Ctrl+Left
-Window Quick Tile Bottom Right=Meta+Ctrl+Right
-Window Quick Tile Left=Meta+Left
-Window Quick Tile Right=Meta+Right
-Window Quick Tile Top=Meta+Up
-Window Quick Tile Top Left=Meta+Ctrl+Up
-Window Quick Tile Top Right=Meta+Ctrl+Down
+Window Quick Tile Bottom=Meta+Down; Meta+Ctrl+J
+Window Quick Tile Bottom Left=Meta+Ctrl+Left; Meta+Ctrl+N
+Window Quick Tile Bottom Right=Meta+Ctrl+Right; Meta+Ctrl+M
+Window Quick Tile Left=Meta+Left; Meta+Ctrl+H
+Window Quick Tile Right=Meta+Right; Meta+Ctrl+L
+Window Quick Tile Top=Meta+Up; Meta+Ctrl+K
+Window Quick Tile Top Left=Meta+Ctrl+Up; Meta+Ctrl+U
+Window Quick Tile Top Right=Meta+Ctrl+Down; Meta+Ctrl+I
 Window Raise=none
 Window Resize=none
 Window Shade=none
@@ -180,9 +151,9 @@ Window to Desktop 7=none
 Window to Desktop 8=none
 Window to Desktop 9=none
 Window to Next Desktop=Meta+Shift+Z
-Window to Next Screen=none
+Window to Next Screen=Meta+]
 Window to Previous Desktop=none
-Window to Previous Screen=none
+Window to Previous Screen=Meta+[
 Window to Screen 0=none
 Window to Screen 1=none
 Window to Screen 2=none
@@ -194,6 +165,31 @@ Window to Screen 7=none
 view_actual_size=Meta+0
 view_zoom_in=Meta+=
 view_zoom_out=Meta+-
+{2db26aea-13fb-4775-8bc7-898a6d318c29}=Meta+Print
+{4fa2a9f6-5300-4107-b019-bdf428da82ae}=Shift+Print
+{5cc5b39a-ac42-467b-86fd-0a05710bf2ca}=Print
+{884d09c5-b403-44d6-b718-90c46b71c42b}=Meta+Shift+Print
+{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=Search
+{f00559be-896f-4e9d-8290-563d791be98a}=Ctrl+Alt+T; Meta+Return
+
+[kmix][Global Shortcuts]
+decrease_microphone_volume=Microphone Volume Down
+decrease_volume=Volume Down
+increase_microphone_volume=Microphone Volume Up
+increase_volume=Volume Up
+mic_mute=Microphone Mute
+mute=Volume Mute
+
+[krunner][Global Shortcuts]
+run command=Alt+Space
+run command on clipboard contents=Alt+Shift+F2
+
+[ksmserver][Global Shortcuts]
+Halt Without Confirmation=none
+Lock Session=Ctrl+Alt+L; Screensaver
+Log Out=none
+Log Out Without Confirmation=none
+Reboot Without Confirmation=none
 
 [plasmashell][Global Shortcuts]
 activate task manager entry 1=Meta+1
@@ -206,17 +202,17 @@ activate task manager entry 6=Meta+6
 activate task manager entry 7=Meta+7
 activate task manager entry 8=Meta+8
 activate task manager entry 9=Meta+9
-activate widget 3=Alt+F1
+activate widget 4=Alt+F1
 clear-history=none
 clipboard_action=Ctrl+Alt+X
 cycleNextAction=none
 cyclePrevAction=none
 edit_clipboard=none
-manage activities=Meta+Q
-next activity=Meta+Tab
+manage activities=none
+next activity=Alt+Tab
 previous activity=none
 repeat_action=Ctrl+Alt+R
 show dashboard=Ctrl+F12
 show-barcode=none
 show-on-mouse-pos=none
-stop current activity=Meta+S
+stop current activity=none
