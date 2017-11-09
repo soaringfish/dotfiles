@@ -20,12 +20,39 @@ Toggle Keyboard Backlight=Keyboard Light On/Off
 display=Display; Meta+P
 
 [khotkeys][Global Shortcuts]
+{2db26aea-13fb-4775-8bc7-898a6d318c29}=Meta+Print
+{4fa2a9f6-5300-4107-b019-bdf428da82ae}=Shift+Print
+{5cc5b39a-ac42-467b-86fd-0a05710bf2ca}=Print
+{884d09c5-b403-44d6-b718-90c46b71c42b}=Meta+Shift+Print
+{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=Search
+{f00559be-896f-4e9d-8290-563d791be98a}=Ctrl+Alt+T; Meta+Return
+
+[kmix][Global Shortcuts]
+decrease_microphone_volume=Microphone Volume Down
+decrease_volume=Volume Down
+increase_microphone_volume=Microphone Volume Up
+increase_volume=Volume Up
+mic_mute=Microphone Mute
+mute=Volume Mute
+
+[krunner][Global Shortcuts]
+run command=Alt+Space
+run command on clipboard contents=Alt+Shift+F2
+
+[ksmserver][Global Shortcuts]
+Halt Without Confirmation=none
+Lock Session=Ctrl+Alt+L; Screensaver
+Log Out=none
+Log Out Without Confirmation=none
+Reboot Without Confirmation=none
+
+[kwin][Global Shortcuts]
 Activate Window Demanding Attention=Ctrl+Alt+A
-Decrease Opacity=none
+Decrease Opacity=Meta++
 Expose=Ctrl+F9
 ExposeAll=Ctrl+F10; Launch (C)
 ExposeClass=Ctrl+F7
-Increase Opacity=none
+Increase Opacity=Meta+_
 Invert Screen Colors=none
 Kill Window=Ctrl+Alt+Esc
 MoveMouseToCenter=Meta+F6
@@ -34,6 +61,20 @@ MoveZoomDown=none
 MoveZoomLeft=none
 MoveZoomRight=none
 MoveZoomUp=none
+Quarter: + Gap Size=Meta+PgUp
+Quarter: + Window Size=Meta+Y
+Quarter: - Gap Size=none
+Quarter: - Window Size=Meta+N
+Quarter: Float On/Off=none
+Quarter: Float/Tile Desktop=Meta+Esc
+Quarter: Move Down=Meta+J
+Quarter: Move Left=Meta+H
+Quarter: Move Right=Meta+L
+Quarter: Move Up=Meta+K
+Quarter: Move to Next Screen=Meta+}
+Quarter: Move to Previous Screen=Meta+{
+Quarter: Reset Layout=Meta+R
+Quarter: Toggle Gaps On/Off=Meta+G
 Remove Window From Group=none
 Setup Window Shortcut=none
 Show Desktop=Meta+D
@@ -68,9 +109,9 @@ Switch to Desktop 7=none
 Switch to Desktop 8=none
 Switch to Desktop 9=none
 Switch to Next Desktop=Meta+Z
-Switch to Next Screen=Meta+}
+Switch to Next Screen=none
 Switch to Previous Desktop=none
-Switch to Previous Screen=Meta+{
+Switch to Previous Screen=none
 Switch to Screen 0=none
 Switch to Screen 1=none
 Switch to Screen 2=none
@@ -104,8 +145,8 @@ Window Lower=none
 Window Maximize=Meta+F
 Window Maximize Horizontal=none
 Window Maximize Vertical=none
-Window Minimize=none
-Window Move=none
+Window Minimize=Meta+Shift+F
+Window Move=Meta+Shift+M
 Window No Border=Meta+B
 Window On All Desktops=none
 Window One Desktop Down=none
@@ -126,7 +167,7 @@ Window Quick Tile Top=Meta+Up; Meta+Ctrl+K
 Window Quick Tile Top Left=Meta+Ctrl+Up; Meta+Ctrl+U
 Window Quick Tile Top Right=Meta+Ctrl+Down; Meta+Ctrl+I
 Window Raise=none
-Window Resize=none
+Window Resize=Meta+Shift+R
 Window Shade=none
 Window Shrink Horizontal=none
 Window Shrink Vertical=none
@@ -165,31 +206,12 @@ Window to Screen 7=none
 view_actual_size=Meta+0
 view_zoom_in=Meta+=
 view_zoom_out=Meta+-
-{2db26aea-13fb-4775-8bc7-898a6d318c29}=Meta+Print
-{4fa2a9f6-5300-4107-b019-bdf428da82ae}=Shift+Print
-{5cc5b39a-ac42-467b-86fd-0a05710bf2ca}=Print
-{884d09c5-b403-44d6-b718-90c46b71c42b}=Meta+Shift+Print
-{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=Search
-{f00559be-896f-4e9d-8290-563d791be98a}=Ctrl+Alt+T; Meta+Return
 
-[kmix][Global Shortcuts]
-decrease_microphone_volume=Microphone Volume Down
-decrease_volume=Volume Down
-increase_microphone_volume=Microphone Volume Up
-increase_volume=Volume Up
-mic_mute=Microphone Mute
-mute=Volume Mute
-
-[krunner][Global Shortcuts]
-run command=Alt+Space
-run command on clipboard contents=Alt+Shift+F2
-
-[ksmserver][Global Shortcuts]
-Halt Without Confirmation=none
-Lock Session=Ctrl+Alt+L; Screensaver
-Log Out=none
-Log Out Without Confirmation=none
-Reboot Without Confirmation=none
+[mediacontrol][Global Shortcuts]
+nextmedia=Media Next
+playpausemedia=Media Play
+previousmedia=Media Previous
+stopmedia=Media Stop
 
 [plasmashell][Global Shortcuts]
 activate task manager entry 1=Meta+1
