@@ -6,6 +6,12 @@ Disable Touchpad=Touchpad Off
 Enable Touchpad=Touchpad On
 Switch to Next Keyboard Layout=Ctrl+Alt+K
 Toggle Touchpad=Touchpad Toggle
+{6090b82d-63d9-4b52-87cc-b5bfe4433997}=Meta+Return
+{8853b918-2131-41b0-9f80-170b90a5f669}=Meta+Shift+Print
+{8b28f994-0e65-4cf1-9539-4aced0aa2442}=Meta+Print
+{ab9fd4d9-645b-4b44-be3b-ef515e15bbca}=Print
+{b42785c7-c6b6-450f-a60d-efe6a60ed27b}=Shift+Print
+{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=Search
 
 [kded5][Global Shortcuts]
 Decrease Keyboard Brightness=Keyboard Brightness Down
@@ -18,14 +24,6 @@ Show System Activity=Ctrl+Esc
 Sleep=Sleep
 Toggle Keyboard Backlight=Keyboard Light On/Off
 display=Display; Meta+P
-
-[khotkeys][Global Shortcuts]
-{2db26aea-13fb-4775-8bc7-898a6d318c29}=Meta+Print
-{4fa2a9f6-5300-4107-b019-bdf428da82ae}=Shift+Print
-{5cc5b39a-ac42-467b-86fd-0a05710bf2ca}=Print
-{884d09c5-b403-44d6-b718-90c46b71c42b}=Meta+Shift+Print
-{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=Search
-{f00559be-896f-4e9d-8290-563d791be98a}=Ctrl+Alt+T; Meta+Return
 
 [kmix][Global Shortcuts]
 decrease_microphone_volume=Microphone Volume Down
@@ -65,7 +63,7 @@ Quarter: + Gap Size=Meta+PgUp
 Quarter: + Window Size=Meta+Y
 Quarter: - Gap Size=none
 Quarter: - Window Size=Meta+N
-Quarter: Float On/Off=none
+Quarter: Float On/Off=Meta+Space
 Quarter: Float/Tile Desktop=Meta+Esc
 Quarter: Move Down=Meta+J
 Quarter: Move Left=Meta+H
@@ -120,6 +118,23 @@ Switch to Screen 4=none
 Switch to Screen 5=none
 Switch to Screen 6=none
 Switch to Screen 7=none
+TILING: Decrease Number Of Masters=none
+TILING: Increase Number Of Masters=none
+TILING: Move Window Down=none
+TILING: Move Window Left=none
+TILING: Move Window Right=none
+TILING: Move Window Up=none
+TILING: Next Tiling Layout=none
+TILING: Previous Tiling Layout=none
+TILING: Resize Active Window To The Bottom=none
+TILING: Resize Active Window To The Left=none
+TILING: Resize Active Window To The Right=none
+TILING: Resize Active Window To The Top=none
+TILING: Swap Window With Master=none
+TILING: Tile now=none
+TILING: Toggle Border for all=none
+TILING: Toggle Floating=none
+TILING: Toggle Tiling=none
 Toggle Window Raise/Lower=Meta+Q
 Walk Through Desktop List=none
 Walk Through Desktop List (Reverse)=none
@@ -204,14 +219,8 @@ Window to Screen 5=none
 Window to Screen 6=none
 Window to Screen 7=none
 view_actual_size=Meta+0
-view_zoom_in=Meta+=
-view_zoom_out=Meta+-
-
-[mediacontrol][Global Shortcuts]
-nextmedia=Media Next
-playpausemedia=Media Play
-previousmedia=Media Previous
-stopmedia=Media Stop
+view_zoom_in=none
+view_zoom_out=none
 
 [plasmashell][Global Shortcuts]
 activate task manager entry 1=Meta+1
@@ -224,7 +233,6 @@ activate task manager entry 6=Meta+6
 activate task manager entry 7=Meta+7
 activate task manager entry 8=Meta+8
 activate task manager entry 9=Meta+9
-activate widget 4=Alt+F1
 clear-history=none
 clipboard_action=Ctrl+Alt+X
 cycleNextAction=none

@@ -27,7 +27,7 @@ endif
 
 " let g:use_ncm = 1
 let g:use_deoplete = 0
-let g:load_python_mode = 1
+let g:load_python_mode = 0
 
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
@@ -170,7 +170,7 @@ silent! if plug#begin(s:bundlepath)
   " -----------------
   "" Python"
   if get(g:, 'load_python_mode') | Plug 'klen/python-mode' | endif
-  Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+  " Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
 "   Plug 'vim-scripts/indentpython.vim'
 
   "" Lua Bundle
@@ -186,8 +186,8 @@ silent! if plug#begin(s:bundlepath)
 
   "" Markdown
   "Bundle 'tpope/vim-markdown'
-  Plug 'godlygeek/tabular' " Needed by vim-markdown
-  Plug 'plasticboy/vim-markdown'
+  " Plug 'godlygeek/tabular' " Needed by vim-markdown
+  " Plug 'plasticboy/vim-markdown'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   " Plug 'vim-pandoc/vim-pandoc-after'
@@ -629,7 +629,7 @@ let g:vim_markdown_json_frontmatter = 1
 " let g:vim_markdown_new_list_item_indent = 2
 
 try
-  let g:pandoc#filetypes#pandoc_markdown = 0
+  let g:pandoc#filetypes#pandoc_markdown = 1
   let g:pandoc#spell#enabled = 0
   " let g:pandoc#after#modules#enabled = ["nrrwrgn", "ultisnips"]
 catch

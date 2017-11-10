@@ -101,6 +101,8 @@ function! s:latexSurround()
   vmap ,b Sb
   vmap ,e Se
   vmap ,i Si
+
+  setlocal sw=2
 endfunction
 
 " VIMTEX settings {{{
