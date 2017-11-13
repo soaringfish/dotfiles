@@ -586,7 +586,7 @@ if has('mac') || has('macunix')
   let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   let g:vimtex_view_general_options = '-r @line @pdf @tex'
 elseif LINUX()
-  let g:vimtex_view_method='zathura'
+  " let g:vimtex_view_method='zathura'
 endif
 let g:vimtex_fold_enabled = 1 "So large files can open more easily
 let g:vimtex_latexmk_continuous=0
