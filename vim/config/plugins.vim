@@ -198,6 +198,7 @@ silent! if plug#begin(s:bundlepath)
 
   " Org modeline
   Plug 'jceb/vim-orgmode'
+  Plug 'tpope/vim-speeddating'
 
   " HTML
   " Plug 'vim-scripts/HTML-AutoCloseTag'
@@ -399,6 +400,7 @@ endif
 
 " Plugin: Tagbar {{{2 "
 nmap <silent> <F4> :TagbarToggle<CR>
+map <m-\> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 " Plugin: IndentLine {{{2 "
