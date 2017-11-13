@@ -223,7 +223,8 @@ silent! if plug#begin(s:bundlepath)
     " Plug 'vim-scripts/fcitx.vim'
     Plug 'CodeFalling/fcitx-vim-osx'
   endif
-
+  Plug 'ppwwyyxx/vim-PinyinSearch'
+  " let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
   " "" Misc }}}2
 
   call plug#end()
