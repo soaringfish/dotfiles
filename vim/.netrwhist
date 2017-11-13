@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/ada/Documents/tem/tem'
-let g:netrw_dirhist_2='/Users/ada/Documents/tem/RTCSA final - cgu@nd.edu - University of Notre Dame Mail_files'
-let g:netrw_dirhist_3='/home/cgu/.vim/plug/vimtex'

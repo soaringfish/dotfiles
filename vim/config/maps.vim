@@ -179,10 +179,12 @@ endtry
 " map 0 ^
 nnoremap <m-h> ^
 nnoremap <m-l> $
-nnoremap H ^
-nnoremap L $
-nnoremap gb H
-nnoremap gl L
+" nnoremap H ^
+" nnoremap L $
+" nnoremap gb H
+" nnoremap gl L
+nnoremap gb ^
+nnoremap gl $
 
 noremap U <c-r>
 inoremap <s-cr> <esc>o

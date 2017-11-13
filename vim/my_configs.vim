@@ -11,6 +11,10 @@ let g:snips_github    = "https://github.com/soaringfish"
 set foldlevel=9
 let g:SimpylFold_docstring_preview = 1
 
+" Vim-pinyin-search
+let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
+map <leader>/ :call PinyinSearch()<cr>
+
 augroup luagroup
     autocmd!
     au filetype lua iab <buffer> pp print()<left><C-o>
