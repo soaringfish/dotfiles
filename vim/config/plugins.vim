@@ -197,7 +197,8 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/markdown-preview.vim'
 
   " Org modeline
-  Plug 'jceb/vim-orgmode'
+  " Plug 'jceb/vim-orgmode'
+  " Plug 'tpope/vim-speeddating'
 
   " HTML
   " Plug 'vim-scripts/HTML-AutoCloseTag'
@@ -399,6 +400,7 @@ endif
 
 " Plugin: Tagbar {{{2 "
 nmap <silent> <F4> :TagbarToggle<CR>
+map <m-\> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 " Plugin: IndentLine {{{2 "
@@ -587,7 +589,7 @@ if has('mac') || has('macunix')
   let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
   let g:vimtex_view_general_options = '-r @line @pdf @tex'
 elseif LINUX()
-  let g:vimtex_view_method='zathura'
+  " let g:vimtex_view_method='zathura'
 endif
 let g:vimtex_fold_enabled = 1 "So large files can open more easily
 let g:vimtex_latexmk_continuous=0
