@@ -197,8 +197,8 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/markdown-preview.vim'
 
   " Org modeline
-  Plug 'jceb/vim-orgmode'
-  Plug 'tpope/vim-speeddating'
+  " Plug 'jceb/vim-orgmode'
+  " Plug 'tpope/vim-speeddating'
 
   " HTML
   " Plug 'vim-scripts/HTML-AutoCloseTag'
