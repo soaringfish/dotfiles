@@ -332,16 +332,16 @@ endfunction
 
 function! DummyPythonEvn()
   " Add the virtualenv's site-packages to vim path
-if has('python')
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, os.path.join(project_base_dir, 'lib', 'python%d.%d' % sys.version_info[:2], 'site-packages'))
+  if has('python')
+    py << EOF
+    import os.path
+    import sys
+    import vim
+    if 'VIRTUAL_ENV' in os.environ:
+      project_base_dir = os.environ['VIRTUAL_ENV']
+      sys.path.insert(0, os.path.join(project_base_dir, 'lib', 'python%d.%d' % sys.version_info[:2], 'site-packages'))
 EOF
-endif
+  endif
 endfunction
 
 " let g:mcc=0

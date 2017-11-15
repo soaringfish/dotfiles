@@ -46,6 +46,7 @@ source $VIMRUNTIME/menu.vim
 " set background=light
 colorscheme onedark
 let g:airline_theme='sol'
+hi Normal ctermbg=None
 " colorscheme lucius
 " let g:airline_theme = 'sol'
 
