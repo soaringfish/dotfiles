@@ -37,7 +37,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-    let g:polyglot_disabled=['latex', 'markdown', 'nolua', 'python']
+    let g:polyglot_disabled=['latex', 'markdown', 'nolua', 'nopython']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
@@ -50,7 +50,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     " Plug 'kana/vim-narrow'
-    " Plug 'junegunn/vim-peekaboo'
+    Plug 'junegunn/vim-peekaboo'
     Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
     Plug 'junegunn/limelight.vim', {'on': 'Limelight'}
     Plug 'vim-scripts/mru.vim'
@@ -197,10 +197,10 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/markdown-preview.vim'
 
   "" rust
-  " if s:use_ncm
-  "   Plug 'racer-rust/vim-racer'
-  "   Plug 'roxma/nvim-cm-racer'
-  " endif
+  if s:use_ncm
+    Plug 'racer-rust/vim-racer'
+    Plug 'roxma/nvim-cm-racer'
+  endif
 
   " Org modeline
   " Plug 'jceb/vim-orgmode'
