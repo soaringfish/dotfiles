@@ -380,6 +380,9 @@ exec --no-startup-id xfce4-power-manager
 #Compton
 exec --no-startup-id compton --config ~/.config/i3/compton.conf
 
+bindsym $mod+t exec --no-startup-id pkill compton
+bindsym $mod+Ctrl+t exec --no-startup-id compton -b
+bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 # bindsym $mod+t exec --no-startup-id pkill compton
 # bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 # => 开机自启（根据需要取消相应的注释#）
@@ -445,6 +448,7 @@ bindsym $mod+p mode "$mode_focus"
 
 # For types {{{2
 
+for_window [window_role="About"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [class="TeamViewer"] floating enable
@@ -507,7 +511,7 @@ for_window [class="Xfburn"] floating enable
 
 
 # switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
+# for_window [urgent=latest] focus
 
 #  }}}1 # 
 
