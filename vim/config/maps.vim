@@ -177,10 +177,10 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 " map 0 ^
-nnoremap <m-h> ^
-nnoremap <m-l> $
-" nnoremap H ^
-" nnoremap L $
+nnoremap <m-h> H
+nnoremap <m-l> L
+nnoremap H ^
+nnoremap L $
 " nnoremap gb H
 " nnoremap gl L
 nnoremap gb ^

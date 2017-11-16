@@ -247,6 +247,18 @@ augroup ft_maps
           \ map ,h <localleader>hh|
           \ map ,p <localleader>hp|
   endif
+
+  au FileType pandoc hi clear pandocStrong
+  au FileType pandoc hi link pandocStrong markdownBold
+  au FileType pandoc hi clear pandocEmphasis
+  au FileType pandoc hi link pandocEmphasis markdownItalic
+  au FileType pandoc hi clear pandocStrongEmphasis
+  au FileType pandoc hi link pandocStrongEmphasis texBoldItalStyle
+  au FileType pandoc hi clear pandocStrongInEmphasis
+  au FileType pandoc hi link pandocStrongInEmphasis texBoldItalStyle
+  au FileType pandoc hi clear pandocEmphasisInStrong
+  au FileType pandoc hi link pandocEmphasisInStrong texBoldItalStyle
+
 augroup END
 " }}} MARKDOWN-MAPS "
 
