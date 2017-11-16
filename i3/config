@@ -352,13 +352,13 @@ exec --no-startup-id ~/.config/i3/autostart
 # exec --no-stacked-id ~/.config/i3/autostart
 
 # exec --no-startup-id setxkbmap -layout 'us, lt, ru' -option 'grp:alt_shift_toggle' &
-
 # exec --no-startup-id gxkb
 
 bindsym $mod+shift+x exec --no-startup-id i3lock --color '#424242' 
 
 exec --no-startup-id xautolock -time 10 -locker 'i3lock -c 000000'
 exec --no-startup-id xfce4-power-manager
+exec --no-startup-id setxkbmap -option "caps:ctrl_modifier"
 
 
 # Windows decoration colors
