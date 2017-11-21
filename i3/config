@@ -87,22 +87,22 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # => 移动窗口到另一个工作区
-bindsym $mod+mod1+Left  move container to workspace prev, workspace prev
-bindsym $mod+mod1+Right move container to workspace next, workspace next
-bindsym $mod+mod1+1 move container to workspace $WS1, workspace $WS1
-bindsym $mod+mod1+2 move container to workspace $WS2, workspace $WS2
-bindsym $mod+mod1+3 move container to workspace $WS3, workspace $WS3
-bindsym $mod+mod1+4 move container to workspace $WS4, workspace $WS4
-bindsym $mod+mod1+5 move container to workspace $WS5, workspace $WS5
-bindsym $mod+mod1+6 move container to workspace $WS6, workspace $WS6
-bindsym $mod+mod1+7 move container to workspace $WS7, workspace $WS7
-bindsym $mod+mod1+8 move container to workspace $WS8, workspace $WS8
-bindsym $mod+mod1+9 move container to workspace $WS9, workspace $WS9
-bindsym $mod+mod1+0 move container to workspace $WS0, workspace $WS0
+bindsym $mod+Ctrl+Left  move container to workspace prev, workspace prev
+bindsym $mod+Ctrl+Right move container to workspace next, workspace next
+bindsym $mod+Ctrl+1 move container to workspace $WS1, workspace $WS1
+bindsym $mod+Ctrl+2 move container to workspace $WS2, workspace $WS2
+bindsym $mod+Ctrl+3 move container to workspace $WS3, workspace $WS3
+bindsym $mod+Ctrl+4 move container to workspace $WS4, workspace $WS4
+bindsym $mod+Ctrl+5 move container to workspace $WS5, workspace $WS5
+bindsym $mod+Ctrl+6 move container to workspace $WS6, workspace $WS6
+bindsym $mod+Ctrl+7 move container to workspace $WS7, workspace $WS7
+bindsym $mod+Ctrl+8 move container to workspace $WS8, workspace $WS8
+bindsym $mod+Ctrl+9 move container to workspace $WS9, workspace $WS9
+bindsym $mod+Ctrl+0 move container to workspace $WS0, workspace $WS0
 
 #navigate workspaces next / previous
-bindsym $mod+Ctrl+Right workspace next
-bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+mod1+Right workspace next
+bindsym $mod+mod1+Left workspace prev
 
 #  MOVE AMONG SCREENS {{{2 # 
 bindsym $mod+Ctrl+p move container to output right
@@ -324,7 +324,8 @@ mode "$mode_launcher" {
 #  Power management {{{1 # 
 #Power
 set $Locker i3lock && sleep 1
-
+# set $Locker scrot /tmp/lockscreen.png && i3lock -i /tmp/lockscreen.png && sleep 1
+# xautolock -time 5 -locker 'scrot /tmp/lockscreen.png && mogrift -scale 50% -gaussian-blur 0x4 -gamma 0.8 -scale 200% /tmp/lockscreen.png && i3lock -i /tmp/lockscreen.png' -notify 5 -notifier 'kdialog --passivepopup \"Screen is to be locked in 5 secs\" 4'
 set $mode_system System (x) lock, (e) logout, (s) suspend (r) reboot, (w) shutdown
 mode "$mode_system" {
     bindsym x exec --no-startup-id $Locker, mode "default"
@@ -341,7 +342,17 @@ mode "$mode_system" {
 bindsym $mod+Pause mode "$mode_system"
 bindsym $mod+Shift+s mode "$mode_system"
 
-
+# # 只是锁屏
+# bindsym $mod+l exec i3lock
+# # 锁屏 + 休眠
+# bindsym $mod+Shift+s exec "i3lock && systemctl suspend"
+# # 锁屏带模糊的截图
+# bindsym $mod+Shift+s exec "scrot /tmp/lockscreen.png && mogrift -scale 50% -gaussian-blur 0x4 -gamma 0.8 -scale 200% /tmp/lockscreen.png && i3lock -i /tmp/lockscreen.png"
+# # 5 分钟不活动自动锁屏
+# # 这里用了 kdialog 弹出提示；非 KDE 环境可以用 notify-send
+# xautolock -time 5 -locker 'scrot /tmp/lockscreen.png && mogrift -scale 50% -gaussian-blur 0x4 -gamma 0.8 -scale 200% /tmp/lockscreen.png && i3lock -i /tmp/lockscreen.png' -notify 5 -notifier 'kdialog --passivepopup \"Screen is to be locked in 5 secs\" 4'
+# 如果觉得图片处理延迟太高，可以在锁屏触发以后弹个提示
+# bindsym $mod+Control+Shift+s exec "scrot /tmp/lockscreen.png && (kdialog --passivepopup '现在您可以安全地关闭计算机了' 5&) && mogrify -scale 50% -gaussian-blur 0x4 -gamma 0.8 -scale 200% /tmp/lockscreen.png && i3lock -i /tmp/lockscreen.png && systemctl suspend"
 
 
 # Autostart {{{1 #

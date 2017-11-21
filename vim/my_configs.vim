@@ -88,6 +88,7 @@ autocmd! InsertEnter * set noimdisable|set iminsert=0
 augroup latexSurround
   autocmd!
   autocmd FileType tex call s:latexSurround()
+  autocmd FileType markdown,pandoc call s:markdownSurround()
 augroup END
 
 function! s:latexSurround()
@@ -99,14 +100,24 @@ function! s:latexSurround()
   let b:surround_{char2nr("e")} = "\\emph{\r}"
   let b:surround_{char2nr("m")} = "\\textbf{\\textit{\r}}"
 
-  nmap ,b ysiwb
-  nmap ,e ysiwe
-  nmap ,i ysiwi
-  vmap ,b Sb
-  vmap ,e Se
-  vmap ,i Si
+  nmap <buffer> ,b ysiwb
+  nmap <buffer> ,e ysiwe
+  nmap <buffer> ,i ysiwi
+  vmap <buffer> ,b Sb
+  vmap <buffer> ,e Se
+  vmap <buffer> ,i Si
 
   setlocal sw=2
+endfunction
+
+function! s:markdownSurround()
+  let b:surround_{char2nr("1")} = "# \r #"
+  let b:surround_{char2nr("2")} = "## \r ##"
+  let b:surround_{char2nr("3")} = "### \r ###"
+  let b:surround_{char2nr("4")} = "#### \r ####"
+
+  let b:surround_{char2nr("e")} = "*\r* "
+  let b:surround_{char2nr("b")} = "**\r** "
 endfunction
 
 " VIMTEX settings {{{
