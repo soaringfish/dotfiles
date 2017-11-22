@@ -390,3 +390,18 @@ function! PPythonSyncExt()
     "highlight def link pythonFunction Function
 endfunction
 
+function! SwapBoolean()
+let l:booleans = {'0':'1','1':'0','true':'false','false':'true','True':'False','False':'True','TRUE':'FALSE','FALSE':'TRUE'}
+  let l:v = expand('<cword>')
+  try
+    let l:r = l:booleans[l:v]
+    execute "normal ciw" . l:r ."\<ESC>"
+  catch
+    echo "Not a boolean value: " . l:v
+  endtry
+endfunction
+
+nmap <c-x>t :call SwapBoolean()<cr>
+nmap ,t :call SwapBoolean()<cr>
+
+
