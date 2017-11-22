@@ -117,6 +117,11 @@ bind left:${hyper}     focus left
 bind up:${hyper}       focus up
 bind down:${hyper}     focus down
 
+alias hyperShift cmd;shift
+bind l:${hyperShift}    focus right
+bind h:${hyperShift}     focus left
+bind k:${hyperShift}       focus up
+bind j:${hyperShift}     focus down
 # undo 
 bind z:${hyper} undo
 
