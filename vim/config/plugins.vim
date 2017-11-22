@@ -197,9 +197,11 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/markdown-preview.vim'
 
   "" rust
-  if s:use_ncm
-    Plug 'racer-rust/vim-racer'
-    Plug 'roxma/nvim-cm-racer'
+  if executable('rustc')
+    if s:use_ncm
+      Plug 'racer-rust/vim-racer'
+      Plug 'roxma/nvim-cm-racer'
+    endif
   endif
 
   " Org modeline
