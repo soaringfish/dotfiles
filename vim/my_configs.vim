@@ -75,10 +75,12 @@ function! Run_script()
     endif
 endfunction
 
-noremap <m-b> <c-b>
-noremap <m-f> <c-b>
-noremap <c-B> :w<cr>:call Run_script()<cr>
-inoremap <c-B> <esc>:w<cr>:call Run_script()<cr>
+" noremap <m-b> <c-b>
+" noremap <m-f> <c-f>
+noremap <c-x>b :w<cr>:call Run_script()<cr>
+noremap <m-B> :w<cr>:call Run_script()<cr>
+inoremap <c-x>b <esc>:w<cr>:call Run_script()<cr>
+inoremap <m-B> <esc>:w<cr>:call Run_script()<cr>
 
 " set noimdisable
 autocmd! InsertLeave * set imdisable|set iminsert=0
