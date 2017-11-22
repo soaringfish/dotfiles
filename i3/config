@@ -567,10 +567,10 @@ bindsym XF86MonBrightnessDown exec "xbacklight -dec 5"
 
 # TODO not work so far
 # player ctrl
-bindsym XF86AudioPlay  exec "amixer -q sset Master toggle"
-bindsym XF86AudioPause exec "playerctl pause"
-bindsym XF86AudioNext  exec "playerctl next"
-bindsym XF86AudioPrev  exec "playerctl previous"
+bindsym XF86AudioPlay  exec "mpc toggle"
+bindsym XF86AudioStop  exec "mpc stop"
+bindsym XF86AudioNext  exec "mpc next"
+bindsym XF86AudioPrev  exec "mpc prev"
  ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
