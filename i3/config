@@ -547,7 +547,7 @@ for_window [class="Xfburn"] floating enable
 
 
 # switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
+# for_window [urgent=latest] focus
 
 #  }}}1 # 
 

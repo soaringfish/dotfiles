@@ -404,4 +404,5 @@ endfunction
 nmap <c-x>t :call SwapBoolean()<cr>
 nmap ,t :call SwapBoolean()<cr>
 
-
+" let g:airline_section_z="%3p%% %#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L%{g:airline_symbols.maxlinenr}%#__restore__# :%3v"
+let g:airline_section_z="%#__accent_bold#%{g:airline_symbols.linenr}%5l%#__restore__#%#__accent_bold#:%3v"
