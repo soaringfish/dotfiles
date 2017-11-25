@@ -120,6 +120,15 @@ function! s:markdownSurround()
 
   let b:surround_{char2nr("e")} = "*\r* "
   let b:surround_{char2nr("b")} = "**\r** "
+
+  hi Title cterm=bold
+  hi Conceal ctermfg=9
+
+  execute  'syn match pandocAtxStart /#\@<!##\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=☰'
+  execute  'syn match pandocAtxStart /#\@<!###\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=※'
+  execute  'syn match pandocAtxStart /#\@<!####\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=▣'
+  execute  'syn match pandocAtxStart /#\@<!#####\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=✠'
+ " =■◆¶'※
 endfunction
 
 " VIMTEX settings {{{
@@ -406,3 +415,19 @@ nmap ,t :call SwapBoolean()<cr>
 
 " let g:airline_section_z="%3p%% %#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L%{g:airline_symbols.maxlinenr}%#__restore__# :%3v"
 let g:airline_section_z="%#__accent_bold#%{g:airline_symbols.linenr}%5l%#__restore__#%#__accent_bold#:%3v"
+
+let g:pandoc#syntax#conceal#cchar_overrides = {
+		\"newline": "↵",
+		\"image": "▨",
+		\"super": "ⁿ",
+		\"sub": "ₙ",
+		\"strike": "x̶",
+		\"atx": "§",
+		\"codelang": "λ",
+		\"codeend": "—",
+		\"abbrev": "→",
+		\"footnote": "†",
+		\"definition": "»",
+		\"li": "▶",
+                \"html_c_s": "‹",
+                \"html_c_e": "›"}
