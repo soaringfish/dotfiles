@@ -204,6 +204,11 @@ silent! if plug#begin(s:bundlepath)
     endif
   endif
 
+  if executable('R')
+    Plug 'jalvesaq/Nvim-R'
+    Plug 'vim-pandoc/vim-rmarkdown'
+  endif
+
   " Org modeline
   " Plug 'jceb/vim-orgmode'
   " Plug 'tpope/vim-speeddating'
@@ -404,6 +409,7 @@ if executable('ag')
   " CtrlSF.vim
   let g:ctrlsf_ackprg = 'ag'
   let g:ctrlp_use_caching = 0
+  let g:gitgutter_grep_command = 'ag'
 endif
 
 " Plugin: Tagbar {{{2 "
@@ -499,7 +505,7 @@ if !exists('g:airline_symbols')
 endif
 if !exists('g:airline_powerline_fonts') ||
       \ g:airline_powerline_fonts == 0
-  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = '|'
   let g:airline_left_sep          = '▶'
   let g:airline_left_alt_sep      = '»'
@@ -515,17 +521,23 @@ if !exists('g:airline_powerline_fonts') ||
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
+else "if 0
+  " let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
   " powerline symbols
-  let g:airline_left_sep = ''
+  " let g:airline_left_sep = ''
+  let g:airline_left_sep = ''
   let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
+  " let g:airline_right_sep = ''
+  let g:airline_right_sep = ''
   let g:airline_right_alt_sep = ''
   let g:airline_symbols.branch = ''
   let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
+  " let g:airline_symbols.linenr = ''
+  let g:airline_symbols.linenr = '☰'
+  " let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.maxlinenr = ''
 endif
 
 
