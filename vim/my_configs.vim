@@ -124,10 +124,10 @@ function! s:markdownSurround()
   hi Title cterm=bold
   hi Conceal ctermfg=9
 
-  execute  'syn match pandocAtxStart /#\@<!##\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=☰'
-  execute  'syn match pandocAtxStart /#\@<!###\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=※'
-  execute  'syn match pandocAtxStart /#\@<!####\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=▣'
-  execute  'syn match pandocAtxStart /#\@<!#####\@!/ contained containedin=pandocAtxHeaderMark conceal cchar=✠'
+  execute  'syn match pandocAtxStart /#\@1<!##\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=☰'
+  execute  'syn match pandocAtxStart /#\@1<!###\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=※'
+  execute  'syn match pandocAtxStart /#\@1<!####\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=▣'
+  execute  'syn match pandocAtxStart /#\@1<!#####\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=✠'
  " =■◆¶'※
 endfunction
 
