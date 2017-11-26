@@ -425,7 +425,8 @@ let g:indentLine_faster = 1
 
 
 " Plugin: NERDTree {{{2 "
-let g:NERDTreeWinPos = "right"
+" let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=35
@@ -497,8 +498,8 @@ nnoremap <silent> <Leader>tgg :GitGutterToggle<cr>
 " Plugin: vim-airline {{{2 "
 let g:airline_theme='sol'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#buffer_nr_show = 1
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

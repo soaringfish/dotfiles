@@ -126,6 +126,7 @@ nnoremap g;  g;zvzz
 nnoremap g,  g,zvzz
 
 " Useful mappings for managing tabs {{{1
+map <tab> <C-w>w
 map <s-tab> :tabnext<CR>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
