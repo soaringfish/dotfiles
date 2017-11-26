@@ -562,8 +562,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 5%- unm
 bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master toggle"
  
 # screen lightness
-bindsym XF86MonBrightnessUp   exec "xbacklight -inc 5"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 5"
+# bindsym XF86MonBrightnessUp   exec "xbacklight -inc 5"
+# bindsym XF86MonBrightnessDown exec "xbacklight -dec 5"
 
 # TODO not work so far
 # player ctrl
@@ -584,8 +584,8 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 ################################################################################################
 
 # Screen brightness controls
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up' $(xbacklight)"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down' $(xbacklight)"
 
 
 #  Screenshots {{{1 # 
