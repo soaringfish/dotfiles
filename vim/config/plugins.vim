@@ -149,19 +149,19 @@ silent! if plug#begin(s:bundlepath)
   "" Colors  {{{2
   " Plug 'tomasr/molokai'
   " Plug 'ifepillar/vim-wwdc17-theme'
-  Plug 'roosta/srcery'
+  " Plug 'roosta/srcery'
   " Plug 'ajmwagar/vim-deus'
   " Plug 'kudabux/vim-srcery-drk'
   Plug 'rakr/vim-one'
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
   " Plug 'cohlin/vim-colorschemes'
-  " Plug 'altercation/vim-colors-solarized'
+  Plug 'altercation/vim-colors-solarized'
   " Plug 'vim-scripts/mayansmoke'
-  " Plug 'nightsense/seabird'
-  " Plug 'morhetz/gruvbox'
+  Plug 'nightsense/seabird'
+  Plug 'morhetz/gruvbox'
   " Plug 'mhinz/vim-janah'
-  Plug 'jonathanfilip/vim-lucius'
+  " Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   Plug 'joshdick/onedark.vim'
   "" Colors  }}}2
@@ -239,6 +239,8 @@ silent! if plug#begin(s:bundlepath)
   endif
   Plug 'ppwwyyxx/vim-PinyinSearch'
   " let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
+
+  Plug 'vimwiki/vimwiki'
   " "" Misc }}}2
 
   call plug#end()

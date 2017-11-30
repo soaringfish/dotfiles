@@ -431,3 +431,14 @@ let g:pandoc#syntax#conceal#cchar_overrides = {
 		\"li": "▶",
                 \"html_c_s": "‹",
                 \"html_c_e": "›"}
+
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+function! QuickfixFilenames()
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+
+"cnfile colder cnewer g; g,

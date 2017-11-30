@@ -46,6 +46,7 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 " Disable highlight when <leader><cr> is pressed
+nnoremap <silent> <c-l> :<c-u>noh<cr><c-l>
 map <silent> <leader><cr> :noh<cr>
 map <silent> <leader><space> :set hls!<cr>
 
@@ -187,7 +188,7 @@ nnoremap L $
 nnoremap gb ^
 nnoremap gl $
 
-noremap U <c-r>
+nnoremap U <c-r>
 inoremap <s-cr> <esc>o
 " VIM can't get s-cr from terminals
 inoremap <m-cr> <esc>o
