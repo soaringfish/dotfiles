@@ -129,6 +129,10 @@ function! s:markdownSurround()
   execute  'syn match pandocAtxStart /#\@1<!####\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=▣'
   execute  'syn match pandocAtxStart /#\@1<!#####\@1!/ contained containedin=pandocAtxHeaderMark conceal cchar=✠'
  " =■◆¶'※
+
+ " let g:table_mode_corner = '+'
+ let g:table_mode_corner = '|'
+
 endfunction
 
 " VIMTEX settings {{{
@@ -171,6 +175,11 @@ if OSX()
 elseif LINUX()
   if executable('zathura')
     let g:vimtex_view_method='zathura'
+  elseif executable('okular')
+    " let g:vimtex_view_method='okular'
+    let g:vimtex_view_general_viewer = 'okular'
+    let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+    let g:vimtex_view_general_options_latexmk = '--unique'
   endif
   " let g:vimtex_view_general_viewer = 'okular'
   " let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
@@ -441,4 +450,40 @@ function! QuickfixFilenames()
   return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
 endfunction
 
+function! EchoHello()
+  echom 'echo hello invoked!'
+endfunction
+
+" For autoread in terminal
+" set updatetime=1000
+
+if !has('gui_running')
+  au FocusGained,BufEnter * checktime
+  if !has('nvim')
+    au FocusGained,BufEnter * let s:holded = 0
+    " | echom "gained"
+    au CursorHold,CursorHoldI * checktime | let s:holded = 1
+    " |  echom "hold"
+    au cursorMoved,CursorMovedI * call <SID>checkafterhold()
+  endif
+endif
+
+let s:holded = 0
+function! s:checkafterhold()
+  if s:holded==1
+    checktime
+    let s:holded=0
+    " echom "moved"
+  endif
+endfunction
+
+let g:notes_suffix = '.txt'
+let g:notes_directories = ['~/Documents/Notes']
+
+let g:vimwiki_list = [{'path': '~/Documents/vimwiki/wiki',
+  \ 'path_html': '~/Documents/vimwiki/html',
+  \ 'diary_link_count': 5},
+  \ ]
+
 "cnfile colder cnewer g; g,
+

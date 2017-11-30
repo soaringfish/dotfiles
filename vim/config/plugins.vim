@@ -241,6 +241,7 @@ silent! if plug#begin(s:bundlepath)
   " let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
 
   Plug 'vimwiki/vimwiki'
+  Plug 'xolox/vim-notes'
   " "" Misc }}}2
 
   call plug#end()
