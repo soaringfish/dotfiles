@@ -37,7 +37,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-    let g:polyglot_disabled=['latex', 'markdown', 'nolua', 'nopython']
+    let g:polyglot_disabled=['latex', 'nomarkdown', 'nolua', 'nopython']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar'
     Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
@@ -240,8 +240,9 @@ silent! if plug#begin(s:bundlepath)
   Plug 'ppwwyyxx/vim-PinyinSearch'
   " let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
 
+  Plug 'itchyny/calendar.vim'
   Plug 'vimwiki/vimwiki'
-  Plug 'xolox/vim-notes'
+  " Plug 'xolox/vim-notes'
   " "" Misc }}}2
 
   call plug#end()

@@ -480,10 +480,40 @@ endfunction
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/Documents/Notes']
 
-let g:vimwiki_list = [{'path': '~/Documents/vimwiki/wiki',
-  \ 'path_html': '~/Documents/vimwiki/html',
-  \ 'diary_link_count': 5},
-  \ ]
+let g:vimwiki_list = [
+      \ {'path': '~/Documents/wiki/wiki',
+      \ 'path_html': '~/Documents/wiki/html',
+      \ 'syntax': 'default',
+      \ 'diary_link_count': 5},
+      \{'path': '~/Documents/vimwiki/wiki',
+      \ 'path_html': '~/Documents/vimwiki/html',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'custom_wiki2html': 'misaka_md2html.py',
+      \ 'diary_link_count': 5},
+      \ ]
+
+augroup VIMWIKI
+  au filetype vimwiki call s:vimwiki_settings()
+  au BufNewFile *.md,*.wiki let b:new_file = 1
+  " if &filetype=='vimwiki' | call setline(1,expand('%<')) | else | let b:new_file=1 | endif
+augroup END
+
+function! s:vimwiki_settings()
+  map <Leader>w<space> <Plug>VimwikiToggleListItem
+  if get(b:,'new_file',0)
+    call setline(1,expand('%<'))
+    call setline(2,'')
+    call setline(3,'')
+    normal gg=G
+    " let b:new_file=0
+    unlet b:new_file
+  endif
+endfunction
+
+
+" let g:vimwiki_listsyms = '✗○◐●✓'
+" let g:calendar_diary='~/Documents/vimwiki/wiki/diary/'
 
 "cnfile colder cnewer g; g,
 
