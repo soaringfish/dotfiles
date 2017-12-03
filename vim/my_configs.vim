@@ -1,6 +1,5 @@
 " vim: set ft=vim sw=2 ts=2 et foldmethod=marker:
 
-
 set fo+=j
 
 let g:snips_author    = "Chuancai Gu"
@@ -82,9 +81,10 @@ noremap <m-B> :w<cr>:call Run_script()<cr>
 inoremap <c-x>b <esc>:w<cr>:call Run_script()<cr>
 inoremap <m-B> <esc>:w<cr>:call Run_script()<cr>
 
+" replaced by fcitx.vim
 " set noimdisable
-autocmd! InsertLeave * set imdisable|set iminsert=0
-autocmd! InsertEnter * set noimdisable|set iminsert=0
+" autocmd! InsertLeave * set imdisable|set iminsert=0
+" autocmd! InsertEnter * set noimdisable|set iminsert=0
 
 
 augroup latexSurround
@@ -135,7 +135,7 @@ function! s:markdownSurround()
 
 endfunction
 
-" VIMTEX settings {{{
+" VIMTEX settings {{{1
 " ===================
 " let g:vimtex_disable_recursive_main_file_detection=0
 let g:vimtex_fold_enabled = 0
@@ -193,7 +193,7 @@ else
   echo 'Unknown OS'
 endif
 " map \v :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf<CR>
-" VIMTEX settings }}}
+" VIMTEX settings }}}1
 
 " Jump out pairs
 " inoremap
@@ -246,7 +246,7 @@ function! s:vimtex_outline(type, refresh, denite)
   endif
 endfunction
 
-" MARKDOWN-MAPS {{{ "
+" MARKDOWN-MAPS {{{1 "
 augroup ft_maps
   if get(g:, "usecommaleader")
     " au FileType tex echo 'filetype-tex'. b:vimtex.compiler.build_dir
@@ -291,9 +291,9 @@ augroup ft_maps
   au FileType pandoc hi link pandocEmphasisInStrong texBoldItalStyle
 
 augroup END
-" }}} MARKDOWN-MAPS "
+" }}}1 MARKDOWN-MAPS "
 
-" VIMTEX-MAPS {{{ "
+" VIMTEX-MAPS {{{1 "
 augroup vimtex_map
   if get(g:, "usecommaleader")
     au FileType tex map
@@ -301,11 +301,24 @@ augroup vimtex_map
           \ map ,v <localleader>lv
   endif
 augroup END
-" }}} VIMTEX-MAPS "
+" }}}1 VIMTEX-MAPS "
 
-" FZF {{{
+" FZF {{{1
 " =======
-
+map <c-p> :<c-u>FZF<cr>
+map <leader>jf :<c-u>FZF .<cr>
+map <leader>jg :<c-u>GFiles<cr>
+map <leader>jG :<c-u>GFiles!?<cr>
+map <leader>js :<c-u>GFiles!?<cr>
+map <leader>jl :<c-u>Lines<cr>
+map <leader>jL :<c-u>BLines<cr>
+map <leader>jb :<c-u>Buffers<cr>
+map <leader>jw :<c-u>Windows<cr>
+inoremap <m-s> <c-o>:<c-u>Snippets<cr>
+map <leader>jc :<c-u>Commits!<cr>
+map <leader>jh :<c-u>Helptags<cr>
+map <leader>jt :<c-u>Tags<cr>
+map <leader>jT :<c-u>BTags<cr>
 " Mapping selecting mappings
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -319,7 +332,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 " inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
-" FZF }}}
+" FZF }}}1
 
 " colorscheme gruvbox
 " colorscheme xcode-default
@@ -400,7 +413,7 @@ endfunction
 let g:onedark_terminal_italics = 1
 
 function! PPythonSyncExt()
-  " syn match pythonFunctionCall	'\<\h\w*\s*\%((\)\@=' contains=TOP nextgroup=pythonParameterList skipwhite
+  " syn match pythonFunctionCall  '\<\h\w*\s*\%((\)\@=' contains=TOP nextgroup=pythonParameterList skipwhite
     syn region pythonParameterList matchgroup=pythonPL start=+\%(\<\h\w*\s*\)\@99<=(+  end=+)+ contains=ALL containedin=pythonParameterList,lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9 transparent
     syn match pythonParameterName '\%(\%(^\s*\|[(,]\)\s*\)\@<=\%(\<\h\w*\)\%(\s*=\)\@=' contained containedin=lv1,lv2,lv3,lv4,lv5,lv6,lv7,lv8,lv9,pythonParameterList
     "highlight def link pythonParameterList pythonDefine
@@ -423,21 +436,22 @@ nmap <c-x>t :call SwapBoolean()<cr>
 nmap ,t :call SwapBoolean()<cr>
 
 " let g:airline_section_z="%3p%% %#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L%{g:airline_symbols.maxlinenr}%#__restore__# :%3v"
-let g:airline_section_z="%#__accent_bold#%{g:airline_symbols.linenr} %2l%#__restore__#%#__accent_bold#:%2v"
+let g:airline_section_z="%2l%#__restore__#:%2v %{g:airline_right_alt_sep} %P"
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 let g:pandoc#syntax#conceal#cchar_overrides = {
-		\"newline": "↵",
-		\"image": "▨",
-		\"super": "ⁿ",
-		\"sub": "ₙ",
-		\"strike": "x̶",
-		\"atx": "§",
-		\"codelang": "λ",
-		\"codeend": "—",
-		\"abbrev": "→",
-		\"footnote": "†",
-		\"definition": "»",
-		\"li": "▶",
+    \"newline": "↵",
+    \"image": "▨",
+    \"super": "ⁿ",
+    \"sub": "ₙ",
+    \"strike": "x̶",
+    \"atx": "§",
+    \"codelang": "λ",
+    \"codeend": "—",
+    \"abbrev": "→",
+    \"footnote": "†",
+    \"definition": "»",
+    \"li": "▶",
                 \"html_c_s": "‹",
                 \"html_c_e": "›"}
 
@@ -454,6 +468,7 @@ function! EchoHello()
   echom 'echo hello invoked!'
 endfunction
 
+" autoupdate for terminal {{{1 "
 " For autoread in terminal
 " set updatetime=1000
 
@@ -477,25 +492,28 @@ function! s:checkafterhold()
   endif
 endfunction
 
-let g:notes_suffix = '.txt'
-let g:notes_directories = ['~/Documents/Notes']
+" }}}1 "
 
+" let g:notes_suffix = '.txt'
+" let g:notes_directories = ['~/Documents/Notes']
+
+" VimWik {{{1 "
 let g:vimwiki_list = [
       \ {'path': '~/Documents/wiki/wiki',
       \ 'path_html': '~/Documents/wiki/html',
-      \ 'syntax': 'default',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.mkd',
+      \ 'custom_wiki2html': 'misaka_md2html.py',
       \ 'diary_link_count': 5},
       \{'path': '~/Documents/vimwiki/wiki',
       \ 'path_html': '~/Documents/vimwiki/html',
-      \ 'syntax': 'markdown',
-      \ 'ext': '.md',
-      \ 'custom_wiki2html': 'misaka_md2html.py',
+      \ 'syntax': 'default',
       \ 'diary_link_count': 5},
       \ ]
 
 augroup VIMWIKI
   au filetype vimwiki call s:vimwiki_settings()
-  au BufNewFile *.md,*.wiki let b:new_file = 1
+  au BufNewFile *.mkd,*.wiki let b:new_file = 1
   " if &filetype=='vimwiki' | call setline(1,expand('%<')) | else | let b:new_file=1 | endif
 augroup END
 
@@ -511,6 +529,31 @@ function! s:vimwiki_settings()
   endif
 endfunction
 
+" }}}1 "
+
+" capticalize first letter
+map gc :s/\v<(.)(\w*>)/\u\1\L\2/g<cr>:noh<cr>
+
+
+augroup voom
+  au filetype voomtree map <buffer> h k<cr>|map <buffer> l j<cr>
+augroup END
+let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex'}
+map <leader>o :call <SID>voom_open()<cr>
+function! s:voom_open()
+  try
+    if expand('%:e')=='mkd'
+      execute 'Voom markdown'
+    else
+      execute 'Voom ' . &ft
+    endif
+    execute 'Voom'
+  catch
+  endtry
+endfunction
+" let g:voom_return_key = "<C-Return>"
+" let g:voom_tab_key = "<C-Tab>"
+map <localleader>vl :Voomunl<cr>
 
 " let g:vimwiki_listsyms = '✗○◐●✓'
 " let g:calendar_diary='~/Documents/vimwiki/wiki/diary/'

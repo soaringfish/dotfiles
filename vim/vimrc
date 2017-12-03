@@ -44,10 +44,16 @@ source $VIMRUNTIME/menu.vim
 " colorscheme xcode-default
 " colorscheme gruvbox
 " set background=light
-colorscheme onedark
 " let g:airline_theme='sol'
-let g:airline_theme='onedark'
-hi Normal ctermbg=None
+if OSX()
+  set background=dark
+  colorscheme gruvbox
+  let g:airline_theme='dark'
+else
+  colorscheme onedark
+  let g:airline_theme='onedark'
+  hi Normal ctermbg=None
+endif
 " colorscheme lucius
 " let g:airline_theme = 'sol'
 

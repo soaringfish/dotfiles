@@ -26,7 +26,7 @@ endif
 " --------------------
 
 " let g:use_ncm = 1
-let g:use_deoplete = 0
+let g:use_deoplete = 1
 let g:load_python_mode = 0
 
 silent! if plug#begin(s:bundlepath)
@@ -39,7 +39,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
     let g:polyglot_disabled=['latex', 'nomarkdown', 'nolua', 'nopython']
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
-    Plug 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
     Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
     " if has('gui_running')
       " Plug 'luochen1990/rainbow'
@@ -94,7 +94,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
   Plug 'easymotion/vim-easymotion'
   Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-  Plug 'Shougo/denite.nvim'
+  Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/unite.vim'
   " Plug 'tsukkee/unite-tag'
   " Plug 'Shougo/unite-outline'
@@ -116,10 +116,16 @@ silent! if plug#begin(s:bundlepath)
 
   " => Auto Complete {{{2
   " -------------------
-  let s:use_deoplete = has('nvim') && get(g:, 'use_deoplete')
+  let s:use_deoplete = !has('nvim') && get(g:, 'use_deoplete')
   let s:use_ncm = !s:use_deoplete && (has('nvim') || get(g:, 'use_ncm'))
   if s:use_deoplete
-    Plug 'Shougo/deoplete.nvim'
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+    endif
     Plug 'zchee/deoplete-jedi'
   elseif s:use_ncm
     if !has('nvim')
@@ -182,7 +188,7 @@ silent! if plug#begin(s:bundlepath)
 
   "" latex bundle
   " Plug 'vim-latex/vim-latex'
-  Plug 'lervag/vimtex'
+  Plug 'lervag/vimtex' ", {'for': 'tex'}
 
   "" Markdown
   "Bundle 'tpope/vim-markdown'
@@ -199,13 +205,13 @@ silent! if plug#begin(s:bundlepath)
   "" rust
   if executable('rustc')
     if s:use_ncm
-      Plug 'racer-rust/vim-racer'
-      Plug 'roxma/nvim-cm-racer'
+      Plug 'racer-rust/vim-racer', {'for': 'rust'}
+      Plug 'roxma/nvim-cm-racer', {'for': 'rust'}
     endif
   endif
 
   if executable('R')
-    Plug 'jalvesaq/Nvim-R'
+    Plug 'jalvesaq/Nvim-R', {'for': 'r'}
     Plug 'vim-pandoc/vim-rmarkdown'
   endif
 
@@ -608,7 +614,7 @@ nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
 
 " Plugin: VIM-TEX {{{2 "
 let g:tex_flavor='latex'
-set iskeyword+=:
+au filetype tex setlocal iskeyword+=:
 if has('mac') || has('macunix')
   " let g:vimtex_view_method='zathura'
   let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
@@ -642,9 +648,10 @@ imap <a-?> <C-o><Plug>NERDCommenterAppend
 nmap <a-/> <Plug>NERDCommenterToggle
 xmap <a-/> <Plug>NERDCommenterToggle
 imap <a-/> <C-o><Plug>NERDCommenterToggle
-nmap ÷ <Plug>NERDCommenterToggle
-xmap ÷ <Plug>NERDCommenterToggle
-imap ÷ <C-o><Plug>NERDCommenterToggle
+" map for osx, set option->meta
+" nmap ÷ <Plug>NERDCommenterToggle
+" xmap ÷ <Plug>NERDCommenterToggle
+" imap ÷ <C-o><Plug>NERDCommenterToggle
 nmap <leader>cp <Plug>NERDCommenterYank<Esc>p
 nmap <leader>cP <Plug>NERDCommenterYank<Esc>P
 
