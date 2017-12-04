@@ -541,15 +541,15 @@ augroup END
 let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex'}
 map <leader>o :call <SID>voom_open()<cr>
 function! s:voom_open()
-  try
-    if expand('%:e')=='mkd'
-      execute 'Voom markdown'
-    else
-      execute 'Voom ' . &ft
-    endif
+  let l:ret=''
+  if expand('%:e')=='mkd'
+    let l:ret=execute('Voom markdown')
+  else
+    let l:ret=execute ('Voom ' . &ft)
+  endif
+  if match(l:ret, 'cannot') > -1
     execute 'Voom'
-  catch
-  endtry
+  endif
 endfunction
 " let g:voom_return_key = "<C-Return>"
 " let g:voom_tab_key = "<C-Tab>"
