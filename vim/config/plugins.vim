@@ -170,6 +170,14 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   Plug 'joshdick/onedark.vim'
+
+  " Plug 'skielbasa/vim-material-monokai'
+  " Plug 'Heorhiy/VisualStudioDark.vim'
+  " Plug 'nightsense/simplifysimplify'
+  " Plug 'nightsense/seagrey'
+  " Plug 'chriskempson/base16-vim'
+  " Plug 'chriskempson/vim-tomorrow-theme'
+
   "" Colors  }}}2
 
   " ==> Languages {{{2

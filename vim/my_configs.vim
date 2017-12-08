@@ -76,9 +76,9 @@ endfunction
 
 " noremap <m-b> <c-b>
 " noremap <m-f> <c-f>
-noremap <c-x>b :w<cr>:call Run_script()<cr>
+" noremap <c-x>b :w<cr>:call Run_script()<cr>
 noremap <m-B> :w<cr>:call Run_script()<cr>
-inoremap <c-x>b <esc>:w<cr>:call Run_script()<cr>
+inoremap <c-x><c-b> <esc>:w<cr>:call Run_script()<cr>
 inoremap <m-B> <esc>:w<cr>:call Run_script()<cr>
 
 " replaced by fcitx.vim
@@ -254,29 +254,41 @@ augroup ft_maps
     " au BufRead *.tex echo 'read:'. b:vimtex.compiler.build_dir
     " au BufReadPost *.tex echo 'post:'. b:vimtex.compiler.build_dir
     au FileType tex
-          \ map ,v <localleader>lv|
-          \ map ,m <localleader>ll|
-          \ nnoremap <localleader>lf :call <SID>vimtex_refresh(3)<cr>|
-          \ nnoremap <localleader>o :call <SID>vimtex_outline(1,0,1)<cr>|
-          \ nnoremap <localleader><localleader>o :call <SID>vimtex_outline(1,1,1)<cr>|
-          \ nnoremap <localleader>t :VimtexTocOpen<cr>|
-          \ nnoremap <localleader><localleader>t :call <SID>vimtex_outline(1,1,0)<cr>|
-          \ nnoremap <localleader>y :<c-u>Denite vimtex_labels<cr>|
-          \ nnoremap <localleader><localleader>y :<c-u>call <SID>vimtex_outline(2,1,1)<cr>
+          \ map <buffer> ,v <localleader>lv|
+          \ map <buffer> ,m <localleader>ll|
+          \ nnoremap <buffer> <localleader>lf :call <SID>vimtex_refresh(3)<cr>|
+          \ nnoremap <buffer> <localleader>o :call <SID>vimtex_outline(1,0,1)<cr>|
+          \ nnoremap <buffer> <localleader><localleader>o :call <SID>vimtex_outline(1,1,1)<cr>|
+          \ nnoremap <buffer> <localleader>t :VimtexTocOpen<cr>|
+          \ nnoremap <buffer> <localleader><localleader>t :call <SID>vimtex_outline(1,1,0)<cr>|
+          \ nnoremap <buffer> <localleader>y :<c-u>Denite vimtex_labels<cr>|
+          \ nnoremap <buffer> <localleader><localleader>y :<c-u>call <SID>vimtex_outline(2,1,1)<cr>
 
     au FileType pandoc
-          \ map ,b <localleader>biw|
-          \ map ,i <localleader>iiw|
-          \ map ,` <localleader>`iw|
-          \ map ,_ <localleader>_iw|
-          \ map ,^ <localleader>^iw|
-          \ map ,] <localleader>hsn|
-          \ map ,[ <localleader>hsb|
-          \ map ,cf <localleader>hcf|
-          \ map ,cl <localleader>hcl|
-          \ map ,cn <localleader>hcn|
-          \ map ,h <localleader>hh|
-          \ map ,p <localleader>hp|
+          \ map <buffer> ,b <localleader>biw|
+          \ map <buffer> ,i <localleader>iiw|
+          \ map <buffer> ,` <localleader>`iw|
+          \ map <buffer> ,_ <localleader>_iw|
+          \ map <buffer> ,^ <localleader>^iw|
+          \ map <buffer> ,] <localleader>hsn|
+          \ map <buffer> ,[ <localleader>hsb|
+          \ map <buffer> ,cf <localleader>hcf|
+          \ map <buffer> ,cl <localleader>hcl|
+          \ map <buffer> ,cn <localleader>hcn|
+          \ map <buffer> ,h <localleader>hh|
+          \ map <buffer> ,p <localleader>hp|
+          \ imap <buffer> <c-x>b <c-c><localleader>biwa|
+          \ imap <buffer> <c-x>i <c-c><localleader>iiwa|
+          \ imap <buffer> <c-x>` <c-c><localleader>`iwa|
+          \ imap <buffer> <c-x>_ <c-c><localleader>_iwa|
+          \ imap <buffer> <c-x>^ <c-c><localleader>^iwa|
+          \ imap <buffer> <c-x>] <c-c><localleader>hsna|
+          \ imap <buffer> <c-x>[ <c-c><localleader>hsba|
+          \ imap <buffer> <c-x>cf <c-c><localleader>hcfa|
+          \ imap <buffer> <c-x>cl <c-c><localleader>hcla|
+          \ imap <buffer> <c-x>cn <c-c><localleader>hcna|
+          \ imap <buffer> <c-x>h <c-c><localleader>hha|
+          \ imap <buffer> <c-x>p <c-c><localleader>hpa
   endif
 
   au FileType pandoc hi clear pandocStrong
@@ -296,9 +308,9 @@ augroup END
 " VIMTEX-MAPS {{{1 "
 augroup vimtex_map
   if get(g:, "usecommaleader")
-    au FileType tex map
-          \ map ,l <localleader>ll|
-          \ map ,v <localleader>lv
+    au FileType tex
+          \ map <buffer> ,l <localleader>ll|
+          \ map <buffer> ,v <localleader>lv
   endif
 augroup END
 " }}}1 VIMTEX-MAPS "
@@ -432,7 +444,7 @@ let l:booleans = {'0':'1','1':'0','true':'false','false':'true','True':'False','
   endtry
 endfunction
 
-nmap <c-x>t :call SwapBoolean()<cr>
+imap <c-x>t <c-o>:call SwapBoolean()<cr>
 nmap ,t :call SwapBoolean()<cr>
 
 " let g:airline_section_z="%3p%% %#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L%{g:airline_symbols.maxlinenr}%#__restore__# :%3v"
@@ -559,4 +571,8 @@ map <localleader>vl :Voomunl<cr>
 " let g:calendar_diary='~/Documents/vimwiki/wiki/diary/'
 
 "cnfile colder cnewer g; g,
+
+" use `noautocmd` to accelerate the macro execution
+nnoremap <leader>@ :<c-u>noautocmd normal <C-r>=v:count?v:count:22<cr>@
+xnoremap <leader>@ :<c-u>noautocmd '<,'> normal @
 

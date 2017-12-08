@@ -45,7 +45,10 @@ source $VIMRUNTIME/menu.vim
 " colorscheme gruvbox
 " set background=light
 " let g:airline_theme='sol'
-if OSX()
+
+if has("gui_running")
+  colorscheme seagull
+elseif OSX()
   set background=dark
   colorscheme gruvbox
   let g:airline_theme='dark'

@@ -128,8 +128,10 @@ bind z:${hyper} undo
 # App bindings
 alias hyperApp alt;ctrl
 alias editor 'MacVim'
-alias browser 'Safari'
+# alias browser 'Safari'
+alias browser 'Opera'
 bind e:${hyperApp} focus ${browser}
+bind o:${hyperApp} focus 'Opera'
 bind m:${hyperApp} focus ${editor}
 bind x:${hyperApp} focus 'Xcode'
 # bind g:${hyperApp} focus 'GitHub'
@@ -140,3 +142,5 @@ bind f:${hyperApp} focus 'Finder'
 bind w:${hyperApp} focus 'WeChat'
 bind l:${hyperApp} focus 'Sublime Text'
 bind n:${hyperApp} focus 'Microsoft OneNote'
+bind p:${hyperApp} focus 'python'
+bind r:${hyperApp} focus 'RStudio'
