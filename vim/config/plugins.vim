@@ -49,6 +49,8 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'Shougo/echodoc.vim'
+    let g:echodoc#enable_at_startup = 1
     " Plug 'kana/vim-narrow'
     Plug 'junegunn/vim-peekaboo'
     Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
@@ -60,6 +62,7 @@ silent! if plug#begin(s:bundlepath)
   " ==> Edit {{{2
 "   Plug 'chrisbra/unicode.vim'
   " Plug 'tpope/vim-commentary'
+  Plug 'editorconfig/editorconfig-vim'
   Plug 'scrooloose/nerdcommenter'
   " Plug 'bronson/vim-trailing-whitespace'
   if has('nvim')
@@ -80,11 +83,11 @@ silent! if plug#begin(s:bundlepath)
   Plug 'tmhedberg/SimpylFold' , {'for': 'python'}
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'dhruvasagar/vim-table-mode'
-  Plug 'neomake/neomake'
+  " Plug 'neomake/neomake'
   Plug 'Chiel92/vim-autoformat' " autoformat
   Plug 'w0rp/ale' " flying check
   let g:ale_enabled = 0
-  let g:ale_emit_conflict_warnings = 0
+  " let g:ale_emit_conflict_warnings = 0
   " Plug 'vim-scripts/grep.vim'
   " Plug 'scrooloose/syntastic'
 
@@ -100,7 +103,11 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'Shougo/unite-outline'
   Plug 'Shougo/neomru.vim'
   Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSF', 'CtrlSFToggle']}
-  Plug 'tmhedberg/matchit'
+  try
+    runtime macros/matchit.vim
+  catch
+    Plug 'tmhedberg/matchit'
+  endtry
   Plug 'haya14busa/incsearch.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -113,26 +120,32 @@ silent! if plug#begin(s:bundlepath)
   Plug 'tpope/vim-fugitive'
   " Plug 'mhinz/vim-signify' " More pretty look, supports more VMs
   Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
+  Plug 'lambdalisue/vim-gita'
 
   " => Auto Complete {{{2
   " -------------------
   let s:use_deoplete = !has('nvim') && get(g:, 'use_deoplete')
+  " let s:use_deoplete=1
   let s:use_ncm = !s:use_deoplete && (has('nvim') || get(g:, 'use_ncm'))
   if s:use_deoplete
     if has('nvim')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      Plug 'ujihisa/neco-look'
     else
       Plug 'Shougo/deoplete.nvim'
       Plug 'roxma/nvim-yarp'
       Plug 'roxma/vim-hug-neovim-rpc'
     endif
     Plug 'zchee/deoplete-jedi'
+    Plug 'tweekmonster/deoplete-clang2'
   elseif s:use_ncm
     if !has('nvim')
       Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
     endif
     Plug 'roxma/nvim-completion-manager' " ac
+    Plug 'gaalcaras/ncm-R'
     " Plug 'roxma/clang_complete'
+    Plug 'roxma/ncm-clang'
   else
     Plug 'Shougo/neocomplete.vim'
   endif
@@ -175,7 +188,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'Heorhiy/VisualStudioDark.vim'
   " Plug 'nightsense/simplifysimplify'
   " Plug 'nightsense/seagrey'
-  " Plug 'chriskempson/base16-vim'
+  Plug 'chriskempson/base16-vim'
   " Plug 'chriskempson/vim-tomorrow-theme'
 
   "" Colors  }}}2
@@ -193,6 +206,7 @@ silent! if plug#begin(s:bundlepath)
 
   " C Language
   " Plug 'vim-scripts/c.vim'
+  Plug 'vim-scripts/DoxygenToolkit.vim'
 
   "" latex bundle
   " Plug 'vim-latex/vim-latex'
@@ -254,8 +268,9 @@ silent! if plug#begin(s:bundlepath)
   Plug 'ppwwyyxx/vim-PinyinSearch'
   " let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
 
-  Plug 'itchyny/calendar.vim'
+  " Plug 'itchyny/calendar.vim'
   Plug 'vimwiki/vimwiki'
+  Plug 'justinmk/vim-gtfo'
   " Plug 'xolox/vim-notes'
   " "" Misc }}}2
 
@@ -333,8 +348,9 @@ let g:jedi#usages_command = "<leader>pu"
 let g:jedi#rename_command = "<leader>pr"
 
 " Plugin: vim-Session {{{2 "
-let g:session_autoload=0
+" let g:session_autoload=0
 " session management
+"
 let g:session_directory = "~/.vim/tem/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
@@ -687,7 +703,7 @@ let g:mkdp_auto_start = 0
 let g:mkdp_auto_open = 0
 " set to 1, the vim will auto open preview window when you edit the
 " markdown file
-let g:mkdp_auto_close = 1
+let g:mkdp_auto_close = 0
 let g:mkdp_refresh_slow = 1
 let g:mkdp_command_for_global = 0
 

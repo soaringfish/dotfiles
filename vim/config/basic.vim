@@ -180,7 +180,7 @@ if has("gui_mac") || has("gui_macvim")
     " make Mac's Option key behave as the Meta key
     set invmmta
     try
-      set transparency=5
+      " set transparency=5
     catch
     endtry
 endif
@@ -250,7 +250,7 @@ set mousehide               " Hide the mouse cursor while typing
 
 " Always switch to the current file directory
 " autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
-set autochdir
+" set autochdir
 
 " set autowrite                       " Automatically write a file when leaving a modified buffer
 " set spell                           " Spell checking on

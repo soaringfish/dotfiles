@@ -31,7 +31,8 @@ endfor
 set encoding=utf-8
 "set langmenu=zh_CN.UTF-8
 "language message zh_CN.UTF-8
-set fileencodings=utf-8,chinese,latin-1
+" set fileencodings=utf-8,chinese,latin-1
+set fileencodings=ucs-bom,utf-8,utf-16,chinese,gbk,big5,gb18030,euc-cn,latin1
 if has("win32")
   set fileencoding=chinese
 else
