@@ -46,11 +46,13 @@ silent! if plug#begin(s:bundlepath)
     " else
       Plug 'kien/rainbow_parentheses.vim'
     " endif
+    Plug 'junegunn/vim-emoji'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'Shougo/echodoc.vim'
     let g:echodoc#enable_at_startup = 1
+    set cmdheight=2
     " Plug 'kana/vim-narrow'
     Plug 'junegunn/vim-peekaboo'
     Plug 'junegunn/goyo.vim', {'on': 'Goyo'}
@@ -64,6 +66,8 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'tpope/vim-commentary'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'scrooloose/nerdcommenter'
+  Plug 'junegunn/vim-after-object'
+  Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   " Plug 'bronson/vim-trailing-whitespace'
   if has('nvim')
     Plug 'machakann/vim-highlightedyank'
@@ -102,7 +106,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'tsukkee/unite-tag'
   " Plug 'Shougo/unite-outline'
   Plug 'Shougo/neomru.vim'
-  Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSF', 'CtrlSFToggle']}
+  " Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSF', 'CtrlSFToggle']}
   try
     runtime macros/matchit.vim
   catch
@@ -121,6 +125,8 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'mhinz/vim-signify' " More pretty look, supports more VMs
   Plug 'airblade/vim-gitgutter' "Stage or Undo hunks
   Plug 'lambdalisue/vim-gita'
+  Plug 'junegunn/gv.vim'
+  Plug 'gregsexton/gitv'
 
   " => Auto Complete {{{2
   " -------------------
@@ -149,6 +155,15 @@ silent! if plug#begin(s:bundlepath)
   else
     Plug 'Shougo/neocomplete.vim'
   endif
+
+  function! BuildYCM(info)
+    if a:info.status == 'installed' || a:info.force
+      !./install.py --clang-completer --gocode-completer
+    endif
+  endfunction
+  " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
+
+
   Plug 'Shougo/neco-vim'               " pyton
   " Plug 'davidhalter/jedi'            " Snippets
   Plug 'SirVer/ultisnips'              " UltiSnips
@@ -172,6 +187,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'ajmwagar/vim-deus'
   " Plug 'kudabux/vim-srcery-drk'
   Plug 'rakr/vim-one'
+  Plug 'junegunn/seoul256.vim'
   " Plug 'lucy/term.vim'
   " Plug 'vim-scripts/Visual-Studio'
   " Plug 'cohlin/vim-colorschemes'
@@ -199,6 +215,8 @@ silent! if plug#begin(s:bundlepath)
   if get(g:, 'load_python_mode') | Plug 'klen/python-mode' | endif
   " Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
 "   Plug 'vim-scripts/indentpython.vim'
+  " Plug 'ivanov/vim-ipython'
+  " Plug 'julienr/vim-cellmode'
 
   "" Lua Bundle
   Plug 'xolox/vim-lua-ftplugin', {'for': 'lua'}
@@ -256,6 +274,8 @@ silent! if plug#begin(s:bundlepath)
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-session'
   Plug 'mhinz/vim-sayonara'
+  Plug 'junegunn/vader.vim'
+  Plug 'justinmk/vim-dirvish'
 "   Plug 'beloglazov/vim-online-thesaurus'
   " Plug 'myusuf3/numbers.vim'
   Plug 'hotoo/pangu.vim' " Auto spacing mixed inputs
@@ -315,6 +335,7 @@ else " use neocomplete
   if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
+  " let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
   let g:neocomplete#sources#omni#input_patterns.tex =
         \ g:vimtex#re#neocomplete
 endif
@@ -327,15 +348,11 @@ endif
 " au FileType c,cpp  nmap gd <Plug>(clang_complete_goto_declaration)
 
 " Python-complete {{{3 "
-autocmd FileType python setlocal omnifunc=jedi#completions
+" autocmd FileType python setlocal omnifunc=jedi#completions
 
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
 " Autocomplete }}}2
 " Plugin: JEDI-VIM {{{2
@@ -441,9 +458,11 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   " CtrlSF.vim
-  let g:ctrlsf_ackprg = 'ag'
-  let g:ctrlp_use_caching = 0
-  let g:gitgutter_grep_command = 'ag'
+  if has_key(g:plugs,'ctrlsf.vim')
+    let g:ctrlsf_ackprg = 'ag'
+    let g:ctrlp_use_caching = 0
+    let g:gitgutter_grep_command = 'ag'
+  endif
 endif
 
 " Plugin: Tagbar {{{2 "
@@ -519,6 +538,36 @@ let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
 nnoremap <silent> <leader>z :Goyo<cr>
 
+" goyo.vim + limelight.vim
+let g:limelight_paragraph_span = 1
+let g:limelight_priority = -1
+
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+  endif
+  Limelight
+  let &l:statusline = '%M'
+  hi StatusLine ctermfg=red guifg=red cterm=NONE gui=NONE
+endfunction
+
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 
 " Plugin: GitGutter {{{2 "
@@ -778,6 +827,29 @@ let grepper = {
 
 command! Todo Grepper -tool ag -query '(TODO|FIXME|XXX):'
 " }}}2 "
+
+" Plugin: vim-after-object {{{2
+silent! if has_key(g:plugs, 'vim-after-object')
+  autocmd VimEnter * silent! call after_object#enable('=', ':', '#', ' ', '|')
+endif
+
+" ----------------------------------------------------------------------------
+" ?ie | entire object {{{3
+" ----------------------------------------------------------------------------
+xnoremap <silent> ie gg0oG$
+onoremap <silent> ie :<C-U>execute "normal! m`"<Bar>keepjumps normal! ggVG<CR>
+
+" ----------------------------------------------------------------------------
+" ?il | inner line {{{3
+" ----------------------------------------------------------------------------
+xnoremap <silent> il <Esc>^vg_
+onoremap <silent> il :<C-U>normal! ^vg_<CR>
+
+
+
+" Plugin: vim-emoji :dog: :cat: :rabbit:! {{{2
+" ----------------------------------------------------------------------------
+command! -range EmojiReplace <line1>,<line2>s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
 
 " Plugins' configuration }}}1
 

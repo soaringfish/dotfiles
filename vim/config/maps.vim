@@ -127,7 +127,7 @@ nnoremap g;  g;zvzz
 nnoremap g,  g,zvzz
 
 " Useful mappings for managing tabs {{{1
-map <tab> <C-w>w
+" map <tab> <C-w>w
 map <s-tab> :tabnext<CR>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
@@ -158,7 +158,7 @@ augroup END
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+map <leader>cd :lcd %:p:h<cr>:pwd<cr>
 
 " Goto Buffer
 nmap <leader>b :<C-U>execute "b" . v:count1<CR>

@@ -620,10 +620,16 @@ if has("cscope")
 
     " add any cscope database in current directory
     if filereadable("cscope.out")
+      try
         cs add cscope.out
-    " else add the database pointed to by environment variable
+      catch
+      endtry
+      " else add the database pointed to by environment variable
     elseif $CSCOPE_DB != ""
+      try
         cs add $CSCOPE_DB
+      catch
+      endtry
     endif
 
     " show msg when any other cscope db added
@@ -697,4 +703,538 @@ endif
 
 " echom 'scope configed'
 
+nmap <localleader>/ :%s/
+vmap <localleader>/ :s/
 
+
+function! GetFunctionName(lnum)
+  let l:lnum = getpos('.')[1] + a:lnum
+  let l:line = getline(l:lnum)
+  return matchstr(l:line, '\v\w+\ze\s*\(')
+endfunction
+
+imap <a-'> <c-r>=GetFunctionName(1)<cr>
+smap <a-'> <del><c-r>=GetFunctionName(1)<cr>
+" Fold description {{{1 "
+nmap <a-'> :call AddFunctionComment()<cr>
+
+function! AddFunctionComment()
+  execute "normal Ofold\<c-j>"
+  execute "normal \<a-'>"
+  normal f1
+  "\<del>\<c-r>=GetFunctionName(1)\<cr>"
+endfunction
+
+
+function! s:plugopen(entry)
+  " execute 'NERDTree ' expand(s:bundle_dir) .'/'. a:entry
+  execute 'Dirvish' expand(s:bundle_dir) .'/'. a:entry
+  execute 'lcd' expand('%')
+  " execute 'lcd' expand(s:bundle_dir) .'/'. a:entry
+endfunction
+
+let s:bundle_dir = g:bundlepath
+command! Plugins call fzf#run({
+      \ 'source':  reverse(sort(map(globpath(s:bundle_dir, '*', 0, 1), 'fnamemodify(v:val, ":t")'))),
+      \ 'sink':    function('<sid>plugopen'),
+      \ 'options': '+m',
+      \ 'left':    30
+      \ })
+
+
+" Quit
+inoremap <C-Q>     <esc>:q<cr>
+nnoremap <C-Q>     :q<cr>
+vnoremap <C-Q>     <esc>
+nnoremap <Leader>q :q<cr>
+nnoremap <Leader>Q :qa!<cr>
+
+
+" ----------------------------------------------------------------------------
+" tmux {{{2
+" ----------------------------------------------------------------------------
+function! s:tmux_send(content, dest) range
+  let dest = empty(a:dest) ? input('To which pane? ') : a:dest
+  let tempfile = tempname()
+  call writefile(split(a:content, "\n", 1), tempfile, 'b')
+  call system(printf('tmux load-buffer -b vim-tmux %s \; paste-buffer -d -b vim-tmux -t %s',
+        \ shellescape(tempfile), shellescape(dest)))
+  call delete(tempfile)
+endfunction
+
+function! s:tmux_map(key, dest)
+  execute printf('nnoremap <silent> %s "tyy:call <SID>tmux_send(@t, "%s")<cr>', a:key, a:dest)
+  execute printf('xnoremap <silent> %s "ty:call <SID>tmux_send(@t, "%s")<cr>gv', a:key, a:dest)
+endfunction
+
+call s:tmux_map('<localleader>tt', '')
+call s:tmux_map('<localleader>th', '.left')
+call s:tmux_map('<localleader>tj', '.bottom')
+call s:tmux_map('<localleader>tk', '.top')
+call s:tmux_map('<localleader>tl', '.right')
+call s:tmux_map('<localleader>ty', '.top-left')
+call s:tmux_map('<localleader>to', '.top-right')
+call s:tmux_map('<localleader>tn', '.bottom-left')
+call s:tmux_map('<localleader>t.', '.bottom-right')
+
+
+" SaveMacro / LoadMacro {{{2
+" ----------------------------------------------------------------------------
+function! s:save_macro(name, file)
+  let content = eval('@'.a:name)
+  if !empty(content)
+    call writefile(split(content, "\n"), a:file)
+    echom len(content) . " bytes save to ". a:file
+  endif
+endfunction
+command! -nargs=* SaveMacro call <SID>save_macro(<f-args>)
+
+function! s:load_macro(file, name)
+  let data = join(readfile(a:file), "\n")
+  call setreg(a:name, data, 'c')
+  echom "Macro loaded to @". a:name
+endfunction
+command! -nargs=* LoadMacro call <SID>load_macro(<f-args>)
+
+
+" ----------------------------------------------------------------------------
+" :Shuffle | Shuffle selected lines {{{2
+" ----------------------------------------------------------------------------
+function! s:shuffle() range
+ruby << RB
+  first, last = %w[a:firstline a:lastline].map { |e| VIM::evaluate(e).to_i }
+  (first..last).map { |l| $curbuf[l] }.shuffle.each_with_index do |line, i|
+    $curbuf[first + i] = line
+  end
+RB
+endfunction
+command! -range Shuffle <line1>,<line2>call s:shuffle()
+
+
+" :Chomp {{{2
+" ----------------------------------------------------------------------------
+command! Chomp %s/\s\+$// | normal! ``
+
+" ----------------------------------------------------------------------------
+" :Count {{{2
+" ----------------------------------------------------------------------------
+command! -nargs=1 Count execute printf('%%s/%s//gn', escape(<q-args>, '/')) | normal! ``
+
+
+" :Root | Change directory to the root of the Git repository {{{2
+" ----------------------------------------------------------------------------
+function! s:root(curbase)
+  " echom a:curbase
+  if a:curbase
+    execute 'lcd %:p:h'
+  endif
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echo 'Not in git repo'
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! -bang Root call s:root(<bang>1)
+
+
+" HL | Find out syntax group {{{2
+" ----------------------------------------------------------------------------
+function! s:hl()
+  " echo synIDattr(synID(line('.'), col('.'), 0), 'name')
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
+endfunction
+command! HL call <SID>hl()
+
+
+" :A {{{2
+" ----------------------------------------------------------------------------
+function! s:a(cmd)
+  let name = expand('%:t:r')
+  let ext = tolower(expand('%:e'))
+  let sources = ['c', 'cc', 'cpp', 'cxx']
+  let headers = ['h', 'hh', 'hpp', 'hxx']
+  for pair in [[sources, headers], [headers, sources]]
+    let [set1, set2] = pair
+    if index(set1, ext) >= 0
+      for h in set2
+        let aname = name.'.'.h
+        " for a in [aname, toupper(aname)]
+          let f = findfile(aname)
+          if filereadable(f)
+            execute a:cmd f
+            return
+          else
+            echo 'Fiel not readable: ' f
+          endif
+        " endfor
+      endfor
+    endif
+  endfor
+  echo 'notfind ' . name
+endfunction
+command! A call s:a('e')
+command! AV call s:a('botright vertical split')
+
+
+" Todo {{{2
+" ----------------------------------------------------------------------------
+function! s:todo() abort
+  let entries = []
+  for cmd in ['git grep -niI -e TODO -e FIXME -e XXX 2> /dev/null',
+        \ 'grep -rniI -e TODO -e FIXME -e XXX * 2> /dev/null']
+    let lines = split(system(cmd), '\n')
+    if v:shell_error != 0 | continue | endif
+    for line in lines
+      let [fname, lno, text] = matchlist(line, '^\([^:]*\):\([^:]*\):\(.*\)')[1:3]
+      call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
+    endfor
+    break
+  endfor
+
+  if !empty(entries)
+    call setqflist(entries)
+    copen
+  endif
+endfunction
+command! GTodo call s:todo()
+
+" ----------------------------------------------------------------------------
+" Profile {{{2
+" ----------------------------------------------------------------------------
+function! s:profile(bang)
+  if a:bang
+    profile pause
+    noautocmd qall
+  else
+    profile start /tmp/profile.log
+    profile func *
+    profile file *
+  endif
+endfunction
+command! -bang Profile call s:profile(<bang>0)
+
+" ----------------------------------------------------------------------------
+" Open FILENAME:LINE:COL {{{2
+" ----------------------------------------------------------------------------
+function! s:goto_line()
+  let tokens = split(expand('%'), ':')
+  if len(tokens) <= 1 || !filereadable(tokens[0])
+    return
+  endif
+
+  let file = tokens[0]
+  let rest = map(tokens[1:], 'str2nr(v:val)')
+  let line = get(rest, 0, 1)
+  let col  = get(rest, 1, 1)
+  bd!
+  silent execute 'e' file
+  execute printf('normal! %dG%d|', line, col)
+endfunction
+
+autocmd vimrc BufNewFile * nested call s:goto_line()
+
+
+" ----------------------------------------------------------------------------
+" co? : Toggle options (inspired by unimpaired.vim) {{{2
+" ----------------------------------------------------------------------------
+function! s:map_change_option(...)
+  let [key, opt] = a:000[0:1]
+  let op = get(a:, 3, 'set '.opt.'!')
+  execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
+endfunction
+
+call s:map_change_option('p', 'paste')
+call s:map_change_option('n', 'number')
+call s:map_change_option('w', 'wrap')
+call s:map_change_option('h', 'hlsearch')
+call s:map_change_option('m', 'mouse', 'let &mouse = &mouse == "" ? "a" : ""')
+call s:map_change_option('t', 'textwidth',
+    \ 'let &textwidth = input("textwidth (". &textwidth ."): ")<bar>redraw')
+call s:map_change_option('b', 'background',
+    \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
+
+" ----------------------------------------------------------------------------
+" <Leader>?/! | Google it / Feeling lucky {{{2
+" ----------------------------------------------------------------------------
+function! s:goog(pat, lucky)
+  let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
+  let q = substitute(q, '[[:punct:] ]',
+       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
+  call system(printf('open "https://www.google.com/search?%sq=%s"',
+                   \ a:lucky ? 'btnI&' : '', q))
+endfunction
+
+nnoremap <leader>? :call <SID>goog(expand("<cWORD>"), 0)<cr>
+nnoremap <leader>! :call <SID>goog(expand("<cWORD>"), 1)<cr>
+xnoremap <leader>? "gy:call <SID>goog(@g, 0)<cr>gv
+xnoremap <leader>! "gy:call <SID>goog(@g, 1)<cr>gv
+
+
+" TEXT OBJECTS {{{1
+" ============================================================================
+
+" ----------------------------------------------------------------------------
+" Common {{{2
+" ----------------------------------------------------------------------------
+function! s:textobj_cancel()
+  if v:operator == 'c'
+    augroup textobj_undo_empty_change
+      autocmd InsertLeave <buffer> execute 'normal! u'
+            \| execute 'autocmd! textobj_undo_empty_change'
+            \| execute 'augroup! textobj_undo_empty_change'
+    augroup END
+  endif
+endfunction
+
+noremap         <Plug>(TOC) <nop>
+inoremap <expr> <Plug>(TOC) exists('#textobj_undo_empty_change')?"\<esc>":''
+
+" ----------------------------------------------------------------------------
+" ?ii / ?ai | indent-object
+" ?io       | strictly-indent-object
+" ----------------------------------------------------------------------------
+function! s:indent_len(str)
+  return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
+endfunction
+
+function! s:indent_object(op, skip_blank, b, e, bd, ed)
+  let i = min([s:indent_len(getline(a:b)), s:indent_len(getline(a:e))])
+  let x = line('$')
+  let d = [a:b, a:e]
+
+  if i == 0 && empty(getline(a:b)) && empty(getline(a:e))
+    let [b, e] = [a:b, a:e]
+    while b > 0 && e <= line('$')
+      let b -= 1
+      let e += 1
+      let i = min(filter(map([b, e], 's:indent_len(getline(v:val))'), 'v:val != 0'))
+      if i > 0
+        break
+      endif
+    endwhile
+  endif
+
+  for triple in [[0, 'd[o] > 1', -1], [1, 'd[o] < x', +1]]
+    let [o, ev, df] = triple
+
+    while eval(ev)
+      let line = getline(d[o] + df)
+      let idt = s:indent_len(line)
+
+      if eval('idt '.a:op.' i') && (a:skip_blank || !empty(line)) || (a:skip_blank && empty(line))
+        let d[o] += df
+      else | break | end
+    endwhile
+  endfor
+  execute printf('normal! %dGV%dG', max([1, d[0] + a:bd]), min([x, d[1] + a:ed]))
+endfunction
+xnoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), 0, 0)<cr>
+xnoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), -1, 1)<cr>
+onoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), -1, 1)<cr>
+xnoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line('.'), line('.'), 0, 0)<cr>
+
+" ----------------------------------------------------------------------------
+" <Leader>I/A | Prepend/Append to all adjacent lines with same indentation {{{2
+" ----------------------------------------------------------------------------
+nmap <silent> <leader>I ^vio<C-V>I
+nmap <silent> <leader>A ^vio<C-V>$A
+
+" ----------------------------------------------------------------------------
+" ?i_ ?a_ ?i. ?a. ?i, ?a, ?i/ {{{2
+" ----------------------------------------------------------------------------
+function! s:between_the_chars(incll, inclr, char, vis)
+  let cursor = col('.')
+  let line   = getline('.')
+  let before = line[0 : cursor - 1]
+  let after  = line[cursor : -1]
+  let [b, e] = [cursor, cursor]
+
+  try
+    let i = stridx(join(reverse(split(before, '\zs')), ''), a:char)
+    if i < 0 | throw 'exit' | end
+    let b = len(before) - i + (a:incll ? 0 : 1)
+
+    let i = stridx(after, a:char)
+    if i < 0 | throw 'exit' | end
+    let e = cursor + i + 1 - (a:inclr ? 0 : 1)
+
+    execute printf("normal! 0%dlhv0%dlh", b, e)
+  catch 'exit'
+    call s:textobj_cancel()
+    if a:vis
+      normal! gv
+    endif
+  finally
+    " Cleanup command history
+    if histget(':', -1) =~ '<SNR>[0-9_]*between_the_chars('
+      call histdel(':', -1)
+    endif
+    echo
+  endtry
+endfunction
+
+for [s:c, s:l] in items({'_': 0, '.': 0, ',': 0, '/': 1, '-': 0})
+  execute printf("xmap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 1)<CR><Plug>(TOC)", s:c, s:c)
+  execute printf("omap <silent> i%s :<C-U>call <SID>between_the_chars(0,  0, '%s', 0)<CR><Plug>(TOC)", s:c, s:c)
+  execute printf("xmap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 1)<CR><Plug>(TOC)", s:c, s:l, s:c)
+  execute printf("omap <silent> a%s :<C-U>call <SID>between_the_chars(%s, 1, '%s', 0)<CR><Plug>(TOC)", s:c, s:l, s:c)
+endfor
+
+" ----------------------------------------------------------------------------
+" ?ie | entire object {{{2
+" ----------------------------------------------------------------------------
+xnoremap <silent> ie gg0oG$
+onoremap <silent> ie :<C-U>execute "normal! m`"<Bar>keepjumps normal! ggVG<CR>
+
+" ----------------------------------------------------------------------------
+" ?il | inner line {{{2
+" ----------------------------------------------------------------------------
+xnoremap <silent> il <Esc>^vg_
+onoremap <silent> il :<C-U>normal! ^vg_<CR>
+
+" ----------------------------------------------------------------------------
+" ?i# | inner comment {{{2
+" ----------------------------------------------------------------------------
+function! s:inner_comment(vis)
+  if synIDattr(synID(line('.'), col('.'), 0), 'name') !~? 'comment'
+    call s:textobj_cancel()
+    if a:vis
+      normal! gv
+    endif
+    return
+  endif
+
+  let origin = line('.')
+  let lines = []
+  for dir in [-1, 1]
+    let line = origin
+    let line += dir
+    while line >= 1 && line <= line('$')
+      execute 'normal!' line.'G^'
+      if synIDattr(synID(line('.'), col('.'), 0), 'name') !~? 'comment'
+        break
+      endif
+      let line += dir
+    endwhile
+    let line -= dir
+    call add(lines, line)
+  endfor
+
+  execute 'normal!' lines[0].'GV'.lines[1].'G'
+endfunction
+xmap <silent> i# :<C-U>call <SID>inner_comment(1)<CR><Plug>(TOC)
+omap <silent> i# :<C-U>call <SID>inner_comment(0)<CR><Plug>(TOC)
+
+" ----------------------------------------------------------------------------
+" ?ic / ?iC | Blockwise column object {{{2
+" ----------------------------------------------------------------------------
+function! s:inner_blockwise_column(vmode, cmd)
+  if a:vmode == "\<C-V>"
+    let [pvb, pve] = [getpos("'<"), getpos("'>")]
+    normal! `z
+  endif
+
+  execute "normal! \<C-V>".a:cmd."o\<C-C>"
+  let [line, col] = [line('.'), col('.')]
+  let [cb, ce]    = [col("'<"), col("'>")]
+  let [mn, mx]    = [line, line]
+
+  for dir in [1, -1]
+    let l = line + dir
+    while line('.') > 1 && line('.') < line('$')
+      execute "normal! ".l."G".col."|"
+      execute "normal! v".a:cmd."\<C-C>"
+      if cb != col("'<") || ce != col("'>")
+        break
+      endif
+      let [mn, mx] = [min([line('.'), mn]), max([line('.'), mx])]
+      let l += dir
+    endwhile
+  endfor
+
+  execute printf("normal! %dG%d|\<C-V>%s%dG", mn, col, a:cmd, mx)
+
+  if a:vmode == "\<C-V>"
+    normal! o
+    if pvb[1] < line('.') | execute "normal! ".pvb[1]."G" | endif
+    if pvb[2] < col('.')  | execute "normal! ".pvb[2]."|" | endif
+    normal! o
+    if pve[1] > line('.') | execute "normal! ".pve[1]."G" | endif
+    if pve[2] > col('.')  | execute "normal! ".pve[2]."|" | endif
+  endif
+endfunction
+
+xnoremap <silent> ic mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'iw')<CR>
+xnoremap <silent> iC mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'iW')<CR>
+xnoremap <silent> ac mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'aw')<CR>
+xnoremap <silent> aC mz:<C-U>call <SID>inner_blockwise_column(visualmode(), 'aW')<CR>
+onoremap <silent> ic :<C-U>call   <SID>inner_blockwise_column('',           'iw')<CR>
+onoremap <silent> iC :<C-U>call   <SID>inner_blockwise_column('',           'iW')<CR>
+onoremap <silent> ac :<C-U>call   <SID>inner_blockwise_column('',           'aw')<CR>
+onoremap <silent> aC :<C-U>call   <SID>inner_blockwise_column('',           'aW')<CR>
+
+" ----------------------------------------------------------------------------
+" ?i<shift>-` | Inside ``` block {{{2
+" ----------------------------------------------------------------------------
+xnoremap <silent> i~ g_?^\s*```<cr>jo/^\s*```<cr>kV:<c-u>nohl<cr>gv
+xnoremap <silent> a~ g_?^\s*```<cr>o/^\s*```<cr>V:<c-u>nohl<cr>gv
+onoremap <silent> i~ :<C-U>execute "normal vi~"<cr>
+onoremap <silent> a~ :<C-U>execute "normal va~"<cr>
+
+
+" }}}
+" ============================================================================
+
+
+" Statusline {{{1
+command! -bar ToggleStatusline let b:stl_location  = !get(b:, 'stl_location')
+command! -bar ToggleHighlight  let b:stl_highlight = !get(b:, 'stl_highlight')
+
+nnoremap <silent><f10> :ToggleStatusline<cr>
+nnoremap <silent><f11> :ToggleHighlight<cr>
+
+" set statusline=%!SetStatusline()
+
+function! SetStatusline()
+  let stl = ' %4*%<%f%*'
+
+  if exists('b:git_dir')
+    let stl    .= '%3*:%*'
+    let branch  = fugitive#head(8)
+    let stl    .= (branch == 'master') ? '%1*master%*' : '%2*'. branch .'%*'
+    " let stl    .= mhi#sy_stats_wrapper()
+  endif
+
+  let stl .= '%m%r%h%w '
+
+  " right side
+  let stl .=
+        \   '%= '
+        \ . '%#ErrorMsg#%{&paste ? " paste " : ""}%*'
+        \ . '%#WarningMsg#%{&ff != "unix" ? " ".&ff." ":""}%* '
+        \ . '%#warningmsg#%{&fenc != "utf-8" && &fenc != "" ? " ".&fenc." " :""}%* '
+
+  if get(b:, 'stl_highlight')
+    let id = synID(line('.'), col('.'), 1)
+    let stl .=
+          \   '%#WarningMsg#['
+          \ . '%{synIDattr('.id.',"name")} as '
+          \ . '%{synIDattr(synIDtrans('.id.'),"name")}'
+          \ . ']%* '
+  endif
+
+  if get(b:, 'stl_location')
+    let stl .=
+          \   '%3*[%*%v%3*,%*%l%3*/%*%L%3*]%* '
+          \ . '%p%3*%%%* '
+  endif
+
+  return stl
+endfunction
+" }}}1
+
+"

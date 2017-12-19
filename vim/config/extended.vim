@@ -159,7 +159,8 @@ map <C-F11> :call FormartSrc()<CR>
 
 "定义FormartSrc()
 func! FormartSrc()
-    exec "w"
+    " exec "w"
+    update
     if &filetype == 'c'
         exec "!astyle --style=ansi --one-line=keep-statements -a --suffix=none %"
     elseif &filetype == 'cpp' || &filetype == 'hpp'
@@ -239,10 +240,8 @@ function! s:colors_onedark() abort
   highlight texBoldItalStyle guifg=#e06c75 ctermfg=204
 endfunction
 
-augroup vimrc
+augroup color_scheme
   autocmd ColorScheme *      call s:colors_default()
-  " autocmd ColorScheme janah  call s:colors_janah()
-  " autocmd ColorScheme lucius call s:colors_lucius()
   autocmd ColorScheme onedark call s:colors_onedark()
 augroup END
 
