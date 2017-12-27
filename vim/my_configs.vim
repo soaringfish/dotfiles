@@ -14,14 +14,18 @@ let g:SimpylFold_docstring_preview = 1
 let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
 map <leader>/ :call PinyinSearch()<cr>
 
-augroup luagroup
-    autocmd!
-    au filetype lua iab <buffer> pp print()<left><C-o>
-    au filetype lua iab <buffer> pps print('')<left><left><C-o>
-    au filetype lua iab <buffer> tins table.insert()<left><left><C-o>
-    au filetype lua iab <buffer> trem table.remove()<left><left><C-o>
-    au filetype lua iab <buffer> tcon table.concat()<left><left><C-o>
-    au filetype lua iab <buffer> tsrt table.sort()<left><left><C-o>
+augroup myvim
+  au!
+augroup END
+
+augroup myvim
+  " lua type
+  au filetype lua iab <buffer> pp print()<left><C-o>
+  au filetype lua iab <buffer> pps print('')<left><left><C-o>
+  au filetype lua iab <buffer> tins table.insert()<left><left><C-o>
+  au filetype lua iab <buffer> trem table.remove()<left><left><C-o>
+  au filetype lua iab <buffer> tcon table.concat()<left><left><C-o>
+  au filetype lua iab <buffer> tsrt table.sort()<left><left><C-o>
 augroup END
 
 function! s:md_maps()
@@ -31,13 +35,11 @@ function! s:md_maps()
 "     set spell
 endfunction
 
-augroup mdgroup
-  autocmd!
+augroup myvim
   au filetype markdown call s:md_maps()
 augroup END
 
-augroup conf_group
-  autocmd!
+augroup myvim
   au FileType mru map <esc> q
 augroup END
 
@@ -87,8 +89,8 @@ inoremap <m-B> <esc>:w<cr>:call Run_script()<cr>
 " autocmd! InsertEnter * set noimdisable|set iminsert=0
 
 
-augroup latexSurround
-  autocmd!
+augroup myvim
+  " latexSurround
   autocmd FileType tex call s:latexSurround()
   autocmd FileType markdown,pandoc call s:markdownSurround()
 augroup END
@@ -247,7 +249,8 @@ function! s:vimtex_outline(type, refresh, denite)
 endfunction
 
 " MARKDOWN-MAPS {{{1 "
-augroup ft_maps
+augroup myvim
+  " ft_maps
   if get(g:, "usecommaleader")
     " au FileType tex echo 'filetype-tex'. b:vimtex.compiler.build_dir
     " au BufReadPre *.tex echo 'pre:'. b:vimtex.compiler.build_dir
@@ -306,7 +309,8 @@ augroup END
 " }}}1 MARKDOWN-MAPS "
 
 " VIMTEX-MAPS {{{1 "
-augroup vimtex_map
+augroup myvim
+  " vimtex_map
   if get(g:, "usecommaleader")
     au FileType tex
           \ map <buffer> ,l <localleader>ll|
@@ -529,7 +533,8 @@ let g:vimwiki_list = [
       \ 'diary_link_count': 5},
       \ ]
 
-augroup VIMWIKI
+augroup myvim
+  " VIMWIKI
   au filetype vimwiki call s:vimwiki_settings()
   au BufNewFile *.mkd,*.wiki let b:new_file = 1
   " if &filetype=='vimwiki' | call setline(1,expand('%<')) | else | let b:new_file=1 | endif
@@ -555,7 +560,8 @@ endfunction
 map gc :s/\v<(.)(\w*>)/\u\1\L\2/g<cr>:noh<cr>
 
 
-augroup voom
+augroup myvim
+  " voom
   au filetype voomtree map <buffer> h k<cr>|map <buffer> l j<cr>
 augroup END
 let g:voom_ft_modes = {'markdown': 'markdown', 'tex': 'latex'}
@@ -725,6 +731,15 @@ function! AddFunctionComment()
   "\<del>\<c-r>=GetFunctionName(1)\<cr>"
 endfunction
 
+function! XMLTagClose()
+  return "</\<c-x>\<c-o>"
+endfunction
+
+augroup myvim
+  " au FileType html,xml imap <buffer> <a-.> <c-r>=XMLTagClose()<cr><c-r>="\<tab>"<cr>
+  au FileType html,xml imap <buffer> <a-.> </<c-x><c-o>
+augroup END
+
 
 function! s:plugopen(entry)
   " execute 'NERDTree ' expand(s:bundle_dir) .'/'. a:entry
@@ -866,7 +881,7 @@ function! s:a(cmd)
             execute a:cmd f
             return
           else
-            echo 'Fiel not readable: ' f
+            " echo 'Fiel not readable: ' f
           endif
         " endfor
       endfor
@@ -933,7 +948,7 @@ function! s:goto_line()
   execute printf('normal! %dG%d|', line, col)
 endfunction
 
-autocmd vimrc BufNewFile * nested call s:goto_line()
+autocmd myvim BufNewFile * nested call s:goto_line()
 
 
 " ----------------------------------------------------------------------------
@@ -1197,7 +1212,7 @@ command! -bar ToggleHighlight  let b:stl_highlight = !get(b:, 'stl_highlight')
 nnoremap <silent><f10> :ToggleStatusline<cr>
 nnoremap <silent><f11> :ToggleHighlight<cr>
 
-" set statusline=%!SetStatusline()
+set statusline=%!SetStatusline()
 
 function! SetStatusline()
   let stl = ' %4*%<%f%*'
@@ -1237,4 +1252,21 @@ function! SetStatusline()
 endfunction
 " }}}1
 
-"
+let g:ycm_global_ycm_extra_conf = '~/.vim/plug/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 1
+let g:ycm_extra_conf_globlist = ['~/Documents/workspace/*']
+
+
+autocmd vimrc FileType c,cpp,go nnoremap <buffer> ]d :YcmCompleter GoTo<CR>
+autocmd vimrc FileType c,cpp    nnoremap <buffer> K  :YcmCompleter GetType<CR>
+
+augroup myvim
+  let g:xml_syntax_folding = 1
+  au filetype xml setlocal foldmethod=syntax
+augroup END
+let g:airline#extensions#ale#enabled = 1
+" Write this in your vimrc file
+let g:ale_lint_on_text_changed = 'never'
+" You can disable this option too
+" if you don't want linters to run on opening a file
+let g:ale_lint_on_enter = 0

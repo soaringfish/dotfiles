@@ -29,6 +29,12 @@ if has('nvim')
   if executable('nvr')
     let $VISUAL = 'nvr -cc split --remote-wait'
   endif
+elseif has('gui_macvim')
+  " set pythondll=/usr/local/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6.dylib
+  set pythondll=/usr/local/Frameworks/Python.framework/Versions/2.7/Python
+  set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
+  set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
+  set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
 endif
 
 " }}}1 "

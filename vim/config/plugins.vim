@@ -27,12 +27,13 @@ endif
 
 " let g:use_ncm = 1
 let g:use_deoplete = 1
+" let g:use_deoplete_nvim = 1
 let g:load_python_mode = 0
 
 silent! if plug#begin(s:bundlepath)
   ""  Installing packages
 
-  " ==> UI {{{2``
+  " ==> UI {{{2
     Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
@@ -47,6 +48,7 @@ silent! if plug#begin(s:bundlepath)
       Plug 'kien/rainbow_parentheses.vim'
     " endif
     Plug 'junegunn/vim-emoji'
+    " Plug 'ryanoasis/vim-devicons'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -89,6 +91,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'dhruvasagar/vim-table-mode'
   " Plug 'neomake/neomake'
   Plug 'Chiel92/vim-autoformat' " autoformat
+  " Plug 'reedes/vim-pencil'
   Plug 'w0rp/ale' " flying check
   let g:ale_enabled = 0
   " let g:ale_emit_conflict_warnings = 0
@@ -107,11 +110,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'Shougo/unite-outline'
   Plug 'Shougo/neomru.vim'
   " Plug 'dyng/ctrlsf.vim', {'on': ['CtrlSF', 'CtrlSFToggle']}
-  try
-    runtime macros/matchit.vim
-  catch
-    Plug 'tmhedberg/matchit'
-  endtry
+  Plug 'tmhedberg/matchit'
   Plug 'haya14busa/incsearch.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
@@ -130,7 +129,7 @@ silent! if plug#begin(s:bundlepath)
 
   " => Auto Complete {{{2
   " -------------------
-  let s:use_deoplete = !has('nvim') && get(g:, 'use_deoplete')
+  let s:use_deoplete = (get(g:,'use_deoplete_nvim') || !has('nvim')) && get(g:, 'use_deoplete')
   " let s:use_deoplete=1
   let s:use_ncm = !s:use_deoplete && (has('nvim') || get(g:, 'use_ncm'))
   if s:use_deoplete
@@ -161,7 +160,7 @@ silent! if plug#begin(s:bundlepath)
       !./install.py --clang-completer --gocode-completer
     endif
   endfunction
-  " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
+  Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
 
 
   Plug 'Shougo/neco-vim'               " pyton
@@ -265,6 +264,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'gorodinskiy/vim-coloresque'
   " Plug 'tpope/vim-haml'
   Plug 'mattn/emmet-vim'
+  Plug 'othree/xml.vim'
 
   " ==> Languages }}}2
 
@@ -324,6 +324,16 @@ if s:use_ncm
         \ 'cm_refresh_patterns': g:vimtex#re#ncm,
         \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
         \ })
+        " \ |
+        " \ call cm#register_source({
+        " \ 'name' : 'xml-tag',
+        " \ 'priority' : 8,
+        " \ 'scoping' : 1,
+        " \ 'scopes' : ['html', 'xml'],
+        " \ 'abbreviation' : 'xml',
+        " \ 'cm_refresh_patterns' : ['</.*>'],
+        " \ 'cm_refresh' : {'ominifunc': 'xmlcomplete#CompleteTags'}
+        " \ })
 elseif s:use_deoplete
   let g:deoplete#enable_at_startup = 1
   if !exists('g:deoplete#omni#input_patterns')
