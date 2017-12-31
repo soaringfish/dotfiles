@@ -68,7 +68,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'tpope/vim-commentary'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'scrooloose/nerdcommenter'
-  Plug 'junegunn/vim-after-object'
+  " Plug 'junegunn/vim-after-object'
   Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   " Plug 'bronson/vim-trailing-whitespace'
   if has('nvim')
