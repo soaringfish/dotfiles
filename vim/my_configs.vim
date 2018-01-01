@@ -1128,21 +1128,29 @@ function! s:inner_comment(vis)
   for dir in [-1, 1]
     let line = origin
     let line += dir
+    let skip = 1
     while line >= 1 && line <= line('$')
       execute 'normal!' line.'G^'
-      if synIDattr(synID(line('.'), col('.'), 0), 'name') !~? 'comment'
-        break
+      let synID = synIDattr(synID(line('.'), col('.'), 0), 'name')
+      if synID !~? 'comment'
+        if getline('.' ) !~ '^\s*$'
+          break
+        else
+          let skip += 1
+        endif
+      else
+        let skip = 1
       endif
       let line += dir
     endwhile
-    let line -= dir
+    let line -= dir * skip
     call add(lines, line)
   endfor
 
   execute 'normal!' lines[0].'GV'.lines[1].'G'
 endfunction
-xmap <silent> i# :<C-U>call <SID>inner_comment(1)<CR><Plug>(TOC)
-omap <silent> i# :<C-U>call <SID>inner_comment(0)<CR><Plug>(TOC)
+xmap <silent> i# :<C-U>noautocmd call <SID>inner_comment(1)<CR><Plug>(TOC)
+omap <silent> i# :<C-U>noautocmd call <SID>inner_comment(0)<CR><Plug>(TOC)
 
 " ----------------------------------------------------------------------------
 " ?ic / ?iC | Blockwise column object {{{2

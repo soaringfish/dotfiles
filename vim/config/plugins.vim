@@ -68,7 +68,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'tpope/vim-commentary'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'scrooloose/nerdcommenter'
-  Plug 'junegunn/vim-after-object'
+  " Plug 'junegunn/vim-after-object'
   Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   " Plug 'bronson/vim-trailing-whitespace'
   if has('nvim')
@@ -292,6 +292,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'vimwiki/vimwiki'
   Plug 'justinmk/vim-gtfo'
   " Plug 'xolox/vim-notes'
+  Plug 'ludovicchabant/vim-gutentags'
   " "" Misc }}}2
 
   call plug#end()
@@ -860,6 +861,10 @@ onoremap <silent> il :<C-U>normal! ^vg_<CR>
 " Plugin: vim-emoji :dog: :cat: :rabbit:! {{{2
 " ----------------------------------------------------------------------------
 command! -range EmojiReplace <line1>,<line2>s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+
+" Plugin: gutentags {{{2 "
+let g:gutentags_generate_on_write=0
+let g:gutentags_enabled=0
 
 " Plugins' configuration }}}1
 
