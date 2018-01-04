@@ -203,7 +203,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'Heorhiy/VisualStudioDark.vim'
   " Plug 'nightsense/simplifysimplify'
   " Plug 'nightsense/seagrey'
-  Plug 'chriskempson/base16-vim'
+  " Plug 'chriskempson/base16-vim'
   " Plug 'chriskempson/vim-tomorrow-theme'
 
   "" Colors  }}}2
@@ -291,6 +291,7 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'itchyny/calendar.vim'
   Plug 'vimwiki/vimwiki'
   Plug 'justinmk/vim-gtfo'
+  " Plug 'airblade/vim-rooter'
   " Plug 'xolox/vim-notes'
   Plug 'ludovicchabant/vim-gutentags'
   " "" Misc }}}2
