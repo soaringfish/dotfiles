@@ -1,0 +1,504 @@
+
+
+\newif\ifbeamer@tree@showhooks
+\beamer@tree@showhookstrue
+
+\DeclareOptionBeamer{hooks}[true]{\csname beamer@tree@showhooks#1\endcsname}
+\ProcessOptionsBeamer
+
+% Import packages {{{1 %
+
+
+% \usepackage[UTF8,fontset=adobe]{ctex}
+%\usepackage[UTF8,fontset=windows]{ctex}
+\usepackage[UTF8,fontset=windows]{ctex}
+% \usepackage[UTF8,noindent]{ctex}
+\usepackage{hyperref}
+\hypersetup{unicode=true,CJKbookmarks=false,colorlinks=false, pdfborder={0 0 0}}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz,graphicx,color,xcolor}
+\usetikzlibrary{arrows,patterns,backgrounds,calc,shadows,shapes,positioning,graphs}
+\usetikzlibrary{decorations.pathmorphing,decorations.pathreplacing,decorations.shapes}
+%\usetikzlibrary{arrows,decorations,patterns,backgrounds,calc,shadows,shapes,positioning,graphs}
+% \usepackage{tkz-base}
+\usepackage{bbding}
+\usepackage[english]{babel}
+\usepackage{appendixnumberbeamer}
+\usepackage{comment}
+\usepackage{calc}
+% \usepackage{textcomp}
+% \usepackage[T1]{fontenc}%\usepackage[latin9]{inputenc}
+% \usepackage{times}%\usepackage{txfonts}%\usepackage{mathptmx}
+% \usepackage{mathptmx}
+
+% \makeatletter
+
+\mode<presentation>
+
+% \newcommand{\dummybox}[1]{\fbox{#1}}
+\newcommand{\dummybox}[1]{#1}
+\graphicspath{{figures/},{images/}}
+
+
+% SETTING COLORS {{{1 %
+
+% DEFINE COLORS {{{2 %
+
+% mpvd rgb
+\iftrue
+% \else
+% \definecolor{myellow}{HTML}{FED521}
+\definecolor{myellow}{HTML}{FF420E}
+\definecolor{mgreen}{HTML}{0D8461}
+\definecolor{mred}{HTML}{CE191E}
+\definecolor{mblue}{HTML}{315BA7}
+\definecolor{mpurple}{HTML}{80007B}
+\fi
+
+%phd
+\iftrue
+% \else
+\definecolor{pyellow}{HTML}{CCCC00}
+\definecolor{pgreen}{HTML}{006633}
+\definecolor{pred}{HTML}{990022}
+\definecolor{pblue}{HTML}{203090} % light
+\definecolor{ppurple}{HTML}{660082} % middle dark
+\fi
+
+% centos
+\definecolor{cyellow}{HTML}{EFA700}
+\definecolor{cgreen}{HTML}{96C909}
+\definecolor{cblue}{HTML}{231F73}
+\definecolor{cpurple}{HTML}{941C79}
+\definecolor{cred}{HTML}{951D7A}
+% centos
+\definecolor{oyellow}{HTML}{D95F00}
+\definecolor{ogreen}{HTML}{97BE1F}
+\definecolor{oblue}{HTML}{1A009C}
+\definecolor{opurple}{HTML}{951D7A}
+\definecolor{ored}{HTML}{C8006A}
+
+% OPENSUSE WEBPAGE
+\definecolor{opensusedarkblue}{HTML}{173F4F}
+\definecolor{opensuselightbluex}{HTML}{35B9AB}
+\definecolor{opensuselightblue}{HTML}{3CB6AA}
+\definecolor{opensusedarkgreen}{HTML}{4BB679}
+\definecolor{opensuselightgreen}{HTML}{6DA741}
+
+\definecolor{fedora}{RGB}{41,64,114} %feora
+\definecolor{fedoralight}{RGB}{60,110,179} %feora
+\definecolor{zhihu}{HTML}{044E97} % zhihu
+\definecolor{zhihulight}{HTML}{0769CD} % zhihu
+%%%%
+\definecolor{word}{HTML}{2B579A} % MS word 2013 blue
+\definecolor{excel}{HTML}{217346} % MS excel 2013 greeb
+\definecolor{ppt}{HTML}{D24726} % MS ppt 2013 orage
+\definecolor{ont}{HTML}{80397B} % MS one note 2013 purple
+\definecolor{neub}{rgb}{0.16,0.27,0.55} % neu
+
+% VIM-LUCICUS
+\iftrue
+% \else
+\definecolor{lyellow}{HTML}{AF5F00}
+\definecolor{lgreen}{HTML}{008700}
+\definecolor{lred}{HTML}{AF0000}
+\definecolor{lblue}{HTML}{005F87} % light
+\definecolor{lpurple}{HTML}{870087} % middle dark
+\fi
+
+\definecolor{fyellow}{HTML}{FFAF00}
+\definecolor{fgreen}{HTML}{AFDFAF}
+% \definecolor{fred}{HTML}{DFAFAF}
+\definecolor{fred}{HTML}{FF6868}
+\definecolor{fblue}{HTML}{AFD7FF} % light
+% \definecolor{fpurple}{HTML}{990000} % middle dark
+\definecolor{fpurple}{HTML}{BF7FBD} % middle dark
+
+\definecolor{fgray}{HTML}{DADADA} % middle dark
+\definecolor{agray}{HTML}{626262} % middle dark
+
+\definecolor{zred}{HTML}{EF0808}
+\definecolor{zblue}{HTML}{08599C}
+\definecolor{facebook}{HTML}{395799}
+
+\definecolor{ayellow}{named}{oyellow}
+\definecolor{agreen}{named}{lgreen}
+\definecolor{ared}{named}{zred}
+\definecolor{ablue}{named}{zblue}
+\definecolor{apurple}{named}{mpurple}
+
+% \definecolor{ablue}{named}{neub} % light
+%% FOR DRT GRAPHICS
+\definecolor{cov1}{named}{ayellow}
+\definecolor{cov2}{named}{agreen}
+\definecolor{cov5}{named}{ared}
+\definecolor{cov4}{named}{ablue}
+\definecolor{cov3}{named}{apurple}
+%% FOR FILL-COLORS
+\definecolor{cof1}{named}{fyellow}
+\definecolor{cof2}{named}{fgreen}
+\definecolor{cof5}{named}{fred}
+\definecolor{cof4}{named}{fblue}
+\definecolor{cof3}{named}{fpurple}
+
+
+\newcommand{\alertb}[1]{\textcolor{ablue}{#1}}
+
+% COLORS OF MAIN ELEMENTS {{{2
+
+% Default to black on white
+\setbeamercolor*{footerlike}{fg=white,bg=black!30!tangocolordarkaluminium} % for gray footer
+\setbeamercolor{structure}{fg=ablue, bg=white} % fg controls bullets
+
+% BLOCK ENVIRONEMENTS {{{2
+\setbeamerfont{block title}{size=\large}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+\setbeamercolor{block title}{fg=ablue,bg=ablue!7!white}
+\setbeamercolor{block body}{bg=ablue!2!white,fg=black}
+
+\setbeamercolor{block title example}{fg=agreen,bg=agreen!7}
+\setbeamercolor{block body example}{bg=agreen!2!white,fg=black}
+
+\setbeamercolor{block title alerted}{fg=ared,bg=ared!7}
+\setbeamercolor{block body alerted}{bg=ared!2!white,fg=black}
+
+% }}}1 %
+
+
+% OUTER THEME {{{1
+%=========================
+\ifx\t@sb\undefined\def\t@sb{1pt}\fi
+\ifx\t@sbp\undefined\def\t@sbp{0.8ex}\fi %\def\t@sbp{0.6ex}
+\ifx\t@sht\undefined\def\t@sht{2.2ex}\fi %\def\t@sht{1.8ex}
+\ifx\t@mbp\undefined\def\t@mbp{1ex}\fi %\def\t@sbp{0.6ex}
+\ifx\t@mht\undefined\def\t@mht{2.4ex}\fi %\def\t@sht{1.8ex}
+%\def\t@sbp{1ex}
+%\def\t@sht{2.25ex}
+
+% HEADLINE {{{2
+\defbeamertemplate{headline}{robinbar}
+{ \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=3pt,dp=0pt,center]{section in head/foot}%
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\defbeamertemplate{headline}{robinnav}
+{ \leavevmode%
+  \hbox{%
+    % navigation bar of section (second headline)
+    \begin{beamercolorbox}{section in head/foot}
+      \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[colsep=1.5pt,ht=.3ex]{upper separation line head}		% separator
+    \end{beamercolorbox}
+  }%
+  \vskip0pt%
+}
+
+\defbeamertemplate*{headline}{robin}
+{ \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\t@mht,dp=\t@mbp,right]{section in head/foot}%
+      \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=\t@mht,dp=\t@mbp,left]{subsection in head/foot}%
+      \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead %\hfill{博士论文答辩}\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% FOOTLINE {{{2
+\defbeamertemplate*{footline}{robin}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.3\paperwidth,ht=\t@sht,dp=\t@sbp,center]{author in head/foot}%
+      \usebeamerfont{author in head/foot}%\hskip\beamer@leftmargin
+      \insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.4\paperwidth,ht=\t@sht,dp=\t@sbp,center]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.3\paperwidth,ht=\t@sht,dp=\t@sbp,right]{date in head/foot}%
+      \usebeamerfont{date in head/foot}
+      \insertshortdate{}\hspace*{2em}
+      \insertframenumber{} / \inserttotalframenumber\hspace*{\beamer@rightmargin}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+
+% TODO FRAME TITLE {{{2
+\def\frametitleleftsep{0pt}
+\def\frametitlerightsep{\frametitleleftsep}
+\def\frametitlerightsep{0pt}
+%\defbeamertemplate*{frametitle}{robin}[1][center]
+
+
+\defbeamertemplate*{frametitle}{robin}[1][left]
+{
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    %    \vbox{}\vskip-1.618ex%
+    % \vbox{}\vskip-1.9ex%
+    \vbox{}\vskip-1.5ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    % % % % % % % % % % % % % % % % % %
+    \setbox\beamer@tempbox=\hbox{\hskip\the\@tempdima\hskip-0.6cm\hskip-\frametitlerightsep\raise-1.2ex\hbox{\llap{\insertlogo}} }%
+    \wd\beamer@tempbox=0pt\ht\beamer@tempbox=0pt\dp\beamer@tempbox=0pt%
+    \leavevmode %\raise-1.35ex
+    \box\beamer@tempbox
+    % \makebox(0,12){\hskip\the\@tempdima\hskip\the\@tempdima\hskip-1cm\llap{\insertlogo}}
+    \strut\hskip\frametitleleftsep\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \vskip0.15ex
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO Sidebar {{{2
+
+\defbeamertemplate*{sidebar left}{robin}
+{}
+
+\defbeamertemplate*{sidebar right}{robin}
+{
+  \vfill%
+  % \llap{\insertlogo\hskip0.1cm}%
+  % \vskip2pt%
+  \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+  \vskip2pt%
+}
+
+
+% INNER THEME {{{1 %
+% Section in TOC {{{2
+
+\defbeamertemplate{section in toc}{robin}
+{\leavevmode\leftskip=3ex%
+  % \fbox{
+  \begin{minipage}{\linewidth}
+    \vskip-.6ex
+    \llap{%
+      \usebeamerfont*{section number projected}%
+      \usebeamercolor[bg]{section number projected}%
+      \vrule width2.25ex height1.95ex depth.3ex%
+      % \vrule width2.25ex height2.65ex depth-0.4ex%
+      \hskip-2.25ex%
+    \hbox to2.25ex{\hfil\color{fg}\textbf\inserttocsectionnumber\hfil}}%
+  \end{minipage}
+\kern1.25ex\inserttocsection\par}
+% }
+
+%   \defbeamertemplate{itemize item}{robin}{\hfill\raisebox{0pt}{\vrule width 1ex height 1ex}}
+%\defbeamertemplate{itemize item}{robin}
+%{\hbox{\fontsize{1.618ex}{1.618ex}\selectfont\SquareShadowTopRight}}
+\defbeamertemplate{itemize item}{robin}
+{\raise0.15ex\hbox{\fontsize{1.2ex}{1.2ex}\selectfont\SquareShadowTopRight}}
+%\defbeamertemplate{itemize subitem}{robin}
+%{\small\raisebox{1pt}{\vrule width 1ex height 1ex}}
+%\defbeamertemplate{itemize subsubitem}{robin}
+%{\small\raisebox{1pt}{\vrule width 1ex height 1ex}}
+
+
+% TODO TITLE PAGE {{{2
+\defbeamertemplate*{title page}{robin}
+{
+  \vbox{}
+  \begingroup
+  \centering
+  {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}\vskip1em
+  \begin{beamercolorbox}[sep=8pt,center,colsep=-4bp,rounded=true,shadow=true]{title}
+    \usebeamerfont{title}\inserttitle\par%
+    \ifx\insertsubtitle\@empty%
+    \else%
+    \vskip0.25em%
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+    \fi%
+  \end{beamercolorbox}%
+  \vskip1em\par
+  \begin{beamercolorbox}[sep=8pt,center]{author}
+    \usebeamerfont{author}\insertauthor
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=8pt,center]{institute}
+    \usebeamerfont{institute}\insertinstitute
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=8pt,center]{date}
+    \usebeamerfont{date}\insertdate
+  \end{beamercolorbox}
+  \endgroup
+  % \vfill
+}
+
+% Footnote {{{2 %
+
+\newcommand{\footnotexmarktype}[1]{{\color{apurple}#1}}
+\renewcommand\thefootnote{{[\arabic{footnote}]}}
+\def\@makefnmark{\leavevmode\raise.55ex\hbox{{\normalfont\color{apurple}\smaller\@thefnmark}}%
+}
+
+%\renewcommand\thefootnote{}
+%\def\insertfootnotemark{[\thefootnote]}
+
+\renewcommand{\footnoterule}{%
+  \kern -3pt
+  \hrule width \textwidth height 0.618pt
+  \kern 2pt
+}
+\defbeamertemplate*{footnote}{robin}
+{\setlength{\parskip}{0.618ex}
+  \renewcommand{\baselinestretch}{0.0}\currsize
+  %\vspace*{-3.5pt}
+  %\vspace*{-1.5pt}
+  \parindent 0em\noindent%
+  \raggedright
+  %\hbox to 1em{\hfil\insertfootnotemark}
+  {\raise0.35ex\hbox{\smaller\footnotexmarktype{\thefootnote }} }
+  \color{apurple}\insertfootnotetext\par%
+  \vspace*{0.5pt}
+}
+
+% TODO 设置BEAMER样式 {{{1
+
+\usetheme{default}
+\useoutertheme{infolines}
+%\setbeamertemplate{headline}[default]
+% \setbeamertemplate{headline}[sidebar right]
+
+\usecolortheme{beaver}  % red
+\definecolor{darkred}{named}{ablue}
+\definecolor{aalert}{named}{ared}
+\setbeamercolor{alerted text}{fg=aalert}
+% \useinnertheme[shadow]{rounded}
+% \useinnertheme{circles}
+
+\setbeamercolor{titlelike}{parent=structure,bg=white!97!ablue}
+\setbeamercolor{section in toc}{fg=ablue, bg=white}
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+% beamer 模版设置 {{{2
+%\useinnertheme{circles}
+\ifx\frametitlealign\undefined
+\newcommand{\frametitlealign}{left}
+\fi
+\setbeamertemplate{frametitle}[robin][\frametitlealign]
+\setbeamertemplate{sidebar right}[robin]
+\setbeamertemplate{title page}[robin]
+
+% FONT SIZE {{{2 %
+% \setbeamerfont{title}{size=\LARGE}
+% \setbeamerfont{subtitle}{size=\large}
+% \setbeamerfont{author}{size=\large}
+% \setbeamerfont{institute}{size=\normalsize}
+% \setbeamerfont{date}{size=\large}
+% \setbeamerfont{section in toc}{size=\Large}
+% \setbeamerfont{subsection in toc}{size=\normalsize}
+% \setbeamerfont{frametitle}{size=\Large}
+% \setbeamerfont{block title}{size=\large}
+
+
+% \setbeamerfont{section number projected}{size=\small}
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamertemplate{itemize subsubitem}[circle]
+% \setbeamerfont{title}{size=\Huge}
+% \setbeamercolor{titlelike}{parent=structure,bg=white!95!black}
+% \setbeamertemplate{frametitle}[default]
+
+\mode<presentation>{\beamer@suppressreplacementstrue} %
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+% \setbeamertemplate{navigation symbols}{
+%% \begin{minipage}{10ex}
+%   \hfill\insertframenavigationsymbol
+%% \end{minipage}
+% \pgfuseimage{institution-logo}
+% }
+
+
+
+% \setbeamertemplate{title page}[default][colsep=-4bp,rounded=true,shadow=true]
+
+% \setbeamercolor{section in toc}{fg=green}
+% \setbeamercolor{itemize item}{fg=green,bg=red}
+%\setbeamertemplate{itemize subitem}[robin]
+\setbeamertemplate{itemize item}[robin]
+\setbeamertemplate{section in toc}[robin]
+\setbeamertemplate{section in toc shaded}[default][30]
+
+
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{theorems}[numbered]
+
+\usefonttheme{professionalfonts}
+% \usepackage{times}
+
+% \setbeamercolor*{example text}{fg=green!65!black}
+% \setbeamercolor*{structure}{fg=blue!25!white}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Commands {{{1 %
+
+% patch \begin{frame} to reset the footline extra material
+% \let\beamer@original@frame=\frame
+% \def\frame{\gdef\insertfootlineextra{}\beamer@original@frame}
+% \footlineextra{}
+% \makeatother
+\usepackage[absolute,overlay]{textpos}       %设置参考
+\newenvironment{reference}[2]{%
+  \begin{textblock*}{\textwidth}(#1,#2)
+  \footnotesize\it\bgroup\color{red!50!black}}
+{\egroup\end{textblock*}}
+
+\newenvironment{possition}[2]{%
+\begin{textblock*}{\textwidth}(#1,#2)  \bgroup}
+{\egroup\end{textblock*}}
+
+
+\newcommand{\currsize}{\@currsize}
+
+% \setbeamerfont{itemize/enumerate body}{size=\large}
+% \setbeamerfont{itemize/enumerate subbody}{size=\normal}
+% \setbeamerfont{itemize/enumerate subsubbody}{size=\small}
+
+% == item margins
+%\setlength\leftmargini  {2.4ex}
+%\setlength\leftmarginii  {1.em}
+%\setlength\leftmarginiii  {1.em}
+
+\setlength\leftmargini  {3ex}
+\setlength\leftmarginii  {1.5em}
+\setlength\leftmarginiii  {1.5em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+% this default might be overridden by plain title style
+\newcommand\makebeamertitle{\frame{\maketitle}}%
+% (ERT) argument for the TOC
+\AtBeginDocument{%
+  \let\origtableofcontents=\tableofcontents
+  \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+  \def\gobbletableofcontents#1{\origtableofcontents}
+}
+% plain title style, override default
+\renewcommand\makebeamertitle{\frame[plain]{\maketitle}}%
+
+\mode<all>
+% \makeatother
+
+% \endinput
+
+% vim:set et sw=2 ts=2 tw=78 fdm=marker: %
