@@ -15,7 +15,7 @@ N=${N##*[: ]}
 TEXINPUTS=$PL:$TEXINPUTS \
 $PDC --data-dir=$P \
     -t beamer --template=lecture.beamer \
-    --latex-engine=xelatex \
+    --pdf-engine=xelatex \
     --slide-level=$N \
     --filter=columnfilter.py \
     $@ $PS/lecture.yaml
