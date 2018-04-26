@@ -1278,3 +1278,20 @@ let g:ale_lint_on_text_changed = 'never'
 " You can disable this option too
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
+
+
+function! Local_iab(iab)
+  " let l:file = (a:iab == '')?expand("%:h") . '/.iab.vim':a:iab
+  let l:file = (a:iab == '')? getcwd() . '/.iab.vim':a:iab
+
+  " let l:file = expand("%:h") . '/.iab.vim'
+  if !filereadable(l:file)
+    echo "file '" . l:file . "' is not exisit."
+  else
+    exec "source " . l:file
+    echo "file '" . l:file . "' is loaded."
+  endif
+endfunction
+
+map <leader>mb :call Local_iab('')<cr>
+

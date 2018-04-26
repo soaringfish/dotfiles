@@ -130,7 +130,7 @@ alias hyperApp alt;ctrl
 alias editor 'MacVim'
 # alias browser 'Safari'
 alias browser 'Opera'
-bind e:${hyperApp} focus ${browser}
+bind e:${hyperApp} focus 'Google Chrome'
 bind o:${hyperApp} focus 'Opera'
 bind m:${hyperApp} focus ${editor}
 bind x:${hyperApp} focus 'Xcode'
