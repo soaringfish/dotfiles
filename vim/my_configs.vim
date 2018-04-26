@@ -54,7 +54,7 @@ endfunction
 
 function! Pdc2Pdf()
   update
-  AsyncRun ~/bin/runpdc % -o %<.pdf
+  AsyncRun ~/bin/pdclecture % -o %<.pdf
 endfunction
 
 function! Pdc2Docx()
