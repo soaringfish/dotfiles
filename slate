@@ -132,7 +132,7 @@ alias editor 'MacVim'
 alias browser 'Opera'
 bind e:${hyperApp} focus 'Google Chrome'
 bind o:${hyperApp} focus 'Opera'
-bind m:${hyperApp} focus ${editor}
+# bind m:${hyperApp} focus ${editor}
 bind x:${hyperApp} focus 'Xcode'
 # bind g:${hyperApp} focus 'GitHub'
 # bind m:${hyperApp} focus 'Mail'
@@ -144,3 +144,6 @@ bind l:${hyperApp} focus 'Sublime Text'
 bind n:${hyperApp} focus 'Microsoft OneNote'
 bind p:${hyperApp} focus 'python'
 bind r:${hyperApp} focus 'RStudio'
+bind m:${hyperApp} focus 'Mendeley Desktop'
+
+

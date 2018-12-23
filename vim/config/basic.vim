@@ -21,6 +21,14 @@ silent function! WINDOWS()
 endfunction
 " }}}2
 
+" if has('python3')
+"   echom "has python3"
+" elseif has('python')
+"   echom "has python2"
+" else
+"   echom "no python"
+" endif
+
 if has('nvim')
   let g:python_host_prog=systemlist('which python2.7')[0]
   let g:python3_host_prog=systemlist('which python3')[0]
@@ -31,10 +39,10 @@ if has('nvim')
   endif
 elseif has('gui_macvim')
   " set pythondll=/usr/local/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6.dylib
-  set pythondll=/usr/local/Frameworks/Python.framework/Versions/2.7/Python
-  set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
   set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.6/Python
   set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.6
+  set pythondll=/usr/local/Frameworks/Python.framework/Versions/2.7/Python
+  set pythonhome=/usr/local/Frameworks/Python.framework/Versions/2.7
 endif
 
 " }}}1 "

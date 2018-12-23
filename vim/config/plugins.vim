@@ -242,7 +242,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/markdown-preview.vim'
 
   " Plug 'nsf/gocode'
-  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  Plug 'fatih/vim-go', {'for': 'go',  'do': ':GoInstallBinaries' }
 
   "" rust
   if executable('rustc')
@@ -297,6 +297,11 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'airblade/vim-rooter'
   " Plug 'xolox/vim-notes'
   Plug 'ludovicchabant/vim-gutentags'
+  Plug 'francoiscabrol/ranger.vim'
+  if has('nvim')
+    Plug 'rbgrouleff/bclose.vim'
+  endif
+  let g:ranger_map_keys = 0
   " "" Misc }}}2
 
   call plug#end()
