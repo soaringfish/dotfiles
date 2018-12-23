@@ -1280,6 +1280,7 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 
 
+<<<<<<< HEAD
 function! Local_iab(iab)
   " let l:file = (a:iab == '')?expand("%:h") . '/.iab.vim':a:iab
   let l:file = (a:iab == '')? getcwd() . '/.iab.vim':a:iab
@@ -1295,3 +1296,32 @@ endfunction
 
 map <leader>mb :call Local_iab('')<cr>
 
+=======
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
+>>>>>>> 77d355bddf1fe2a9853ae077dc6454bbedc3d96c
