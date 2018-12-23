@@ -38,11 +38,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
     " if has('gui_running') | Plug 'jistr/vim-nerdtree-tabs' | endif " making NERDTree feel like a true panel, independent of tabs.
     Plug 'sheerun/vim-polyglot'  " A collection of language packs for Vim.
-<<<<<<< HEAD
     let g:polyglot_disabled=['go', 'latex', 'nomarkdown', 'nolua', 'nopython']
-=======
-    let g:polyglot_disabled=['latex', 'nomarkdown', 'nolua', 'nopython', 'go']
->>>>>>> 77d355bddf1fe2a9853ae077dc6454bbedc3d96c
     " Plug 'vim-scripts/CSApprox'  " makes GVim-only colorschemes Just Work in terminal Vim
     Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
     Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }
@@ -245,14 +241,11 @@ silent! if plug#begin(s:bundlepath)
   Plug 'iamcco/mathjax-support-for-mkdp'
   Plug 'iamcco/markdown-preview.vim'
 
-<<<<<<< HEAD
   " Plug 'nsf/gocode'
-  Plug 'fatih/vim-go', {'for': 'go',  'do': ':GoInstallBinaries' }
-=======
+  " Plug 'fatih/vim-go', {'for': 'go',  'do': ':GoInstallBinaries' }
   if executable('go')
     Plug 'fatih/vim-go', {'for': 'go'}
   endif
->>>>>>> 77d355bddf1fe2a9853ae077dc6454bbedc3d96c
 
   "" rust
   if executable('rustc')
