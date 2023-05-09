@@ -71,6 +71,9 @@ function! Run_script()
       normal ;lv
 "         silent execute 'normal ;ll'
 "         silent execute 'normal ;lv'
+    elseif &filetype == 'python'
+      exec '!python %'
+      " AsyncRun python %
     else
         echom "Unknown build method for:" &filetype
     endif
@@ -142,7 +145,7 @@ endfunction
 " let g:vimtex_disable_recursive_main_file_detection=0
 let g:vimtex_fold_enabled = 0
 
-let g:vimtex_toc_refresh_always = 0
+" let g:vimtex_toc_refresh_always = 0
 " augroup vimtex
 "   autocmd!
 "   autocmd BufWritePost *.tex call vimtex#toc#refresh()
@@ -319,9 +322,16 @@ augroup myvim
 augroup END
 " }}}1 VIMTEX-MAPS "
 
-" FZF {{{1
+" Leaderf Config {{{1 "
+"
+map ;j :LeaderfBufTag<cr>
+let g:Lf_ShortcutF = '<C-P>'
+" }}}1 "
+
+"" FZF {{{1
 " =======
-map <c-p> :<c-u>FZF<cr>
+" map <c-p> :<c-u>FZF<cr>
+map <a-o> :<c-u>FZF<cr>
 map <leader>jf :<c-u>FZF .<cr>
 map <leader>jg :<c-u>GFiles<cr>
 map <leader>jG :<c-u>GFiles!?<cr>
@@ -1220,7 +1230,7 @@ command! -bar ToggleHighlight  let b:stl_highlight = !get(b:, 'stl_highlight')
 nnoremap <silent><f10> :ToggleStatusline<cr>
 nnoremap <silent><f11> :ToggleHighlight<cr>
 
-set statusline=%!SetStatusline()
+" set statusline=%!SetStatusline()
 
 function! SetStatusline()
   let stl = ' %4*%<%f%*'
@@ -1322,3 +1332,25 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
     \ }
+
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_RootMarkers = ['.root']
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+
+noremap <localleader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <localleader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <localleader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <localleader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <localleader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+
+noremap ]g :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap [g :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+
+map ;r :<C-u>Rg <C-R><C-W><CR>
+map ,r :<C-u>Rg <C-R><C-W><CR>
+noremap ;b :<C-u>LeaderfBuffer<CR>
