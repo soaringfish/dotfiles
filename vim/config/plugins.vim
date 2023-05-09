@@ -80,7 +80,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'terryma/vim-expand-region'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-endwise'
+  " Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-rsi'
   Plug 'jiangmiao/auto-pairs'
   " Plug 'Raimondi/delimitMate'
@@ -147,10 +147,33 @@ silent! if plug#begin(s:bundlepath)
     if !has('nvim')
       Plug 'roxma/vim-hug-neovim-rpc'  " neovim-rpc wrapper
     endif
-    Plug 'roxma/nvim-completion-manager' " ac
-    Plug 'gaalcaras/ncm-R'
+    " Plug 'roxma/nvim-completion-manager' " ac
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    " Plug 'gaalcaras/ncm-R'
     " Plug 'roxma/clang_complete'
-    Plug 'roxma/ncm-clang'
+    " Plug 'roxma/ncm-clang'
+    " enable ncm2 for all buffers
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+
+    " IMPORTANT: :help Ncm2PopupOpen for more information
+    set completeopt=noinsert,menuone,noselect
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
+    Plug 'ncm2/ncm2-pyclang'
+    let g:ncm2_pyclang#library_path = "/usr/lib/llvm-14/lib/libclang-14.so.1"
+    " a list of relative paths for compile_commands.json
+    let g:ncm2_pyclang#database_path = [
+            \ 'compile_commands.json',
+            \ 'build/compile_commands.json'
+            \ ]
+    " a list of relative paths looking for .clang_complete
+    let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+    autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
+    Plug 'ncm2/ncm2-jedi'
+    Plug 'ncm2/ncm2-vim'
+    Plug 'ObserverOfTime/ncm2-jc2', {'for': ['java', 'jsp']}
+    Plug 'artur-shaik/vim-javacomplete2', {'for': ['java', 'jsp']}
   else
     Plug 'Shougo/neocomplete.vim'
   endif
@@ -160,7 +183,7 @@ silent! if plug#begin(s:bundlepath)
       !./install.py --clang-completer --gocode-completer
     endif
   endfunction
-  Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
+  " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': function('BuildYCM') }
 
 
   Plug 'Shougo/neco-vim'               " pyton
@@ -168,9 +191,13 @@ silent! if plug#begin(s:bundlepath)
   Plug 'SirVer/ultisnips'              " UltiSnips
   Plug 'honza/vim-snippets'            " snipptes
   Plug 'davidhalter/jedi-vim' , {'for': 'python'}
-  if ! get(s:,"use_ncm") || 0
+  if ! get(s:,"use_ncm") || 1
     Plug 'wellle/tmux-complete.vim'
     let g:tmuxcomplete#trigger = ''
+    Plug 'ncm2/ncm2-ultisnips'
+    Plug 'filipekiss/ncm2-look.vim'
+    Plug 'ncm2/ncm2-gtags'
+    Plug 'yuki-ycino/ncm2-dictionary'
   endif
   " let g:tmuxcomplete#trigger = 'completefunc'
   " Plug 'neitanod/vim-clevertab'
@@ -198,6 +225,9 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   Plug 'joshdick/onedark.vim'
+  Plug 'catppuccin/nvim'
+  Plug 'folke/tokyonight.nvim'
+  Plug 'sainnhe/everforest'
 
   " Plug 'skielbasa/vim-material-monokai'
   " Plug 'Heorhiy/VisualStudioDark.vim'
@@ -228,6 +258,7 @@ silent! if plug#begin(s:bundlepath)
   "" latex bundle
   " Plug 'vim-latex/vim-latex'
   Plug 'lervag/vimtex' ", {'for': 'tex'}
+  Plug 'rubberduck203/aosp-vim'
 
   "" Markdown
   "Bundle 'tpope/vim-markdown'
@@ -280,6 +311,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-session'
   Plug 'mhinz/vim-sayonara'
+  Plug 'mhinz/vim-startify'
   Plug 'junegunn/vader.vim'
   Plug 'justinmk/vim-dirvish'
 "   Plug 'beloglazov/vim-online-thesaurus'
@@ -306,7 +338,7 @@ silent! if plug#begin(s:bundlepath)
   endif
   let g:ranger_map_keys = 0
   " "" Misc }}}2
-
+  Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
   call plug#end()
 endif
 
@@ -328,15 +360,15 @@ if s:use_ncm
         " \ 'case': 'smartcase'}
   let g:cm_matcher={'module': 'cm_matchers.fuzzy_matcher',
         \ 'case': 'smartcase'}
-  autocmd User CmSetup call cm#register_source({
-        \ 'name' : 'vimtex',
-        \ 'priority': 8,
-        \ 'scoping': 1,
-        \ 'scopes': ['tex'],
-        \ 'abbreviation': 'tex',
-        \ 'cm_refresh_patterns': g:vimtex#re#ncm,
-        \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
-        \ })
+  " autocmd User CmSetup call cm#register_source({
+  "       \ 'name' : 'vimtex',
+  "       \ 'priority': 8,
+  "       \ 'scoping': 1,
+  "       \ 'scopes': ['tex'],
+  "       \ 'abbreviation': 'tex',
+  "       \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+  "       \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+  "       \ })
         " \ |
         " \ call cm#register_source({
         " \ 'name' : 'xml-tag',
@@ -347,6 +379,20 @@ if s:use_ncm
         " \ 'cm_refresh_patterns' : ['</.*>'],
         " \ 'cm_refresh' : {'ominifunc': 'xmlcomplete#CompleteTags'}
         " \ })
+    augroup my_cm_setup
+      autocmd!
+      autocmd BufEnter * call ncm2#enable_for_buffer()
+      autocmd Filetype tex call ncm2#register_source({
+            \ 'name': 'vimtex',
+            \ 'priority': 8,
+            \ 'scope': ['tex'],
+            \ 'mark': 'tex',
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm2,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+    augroup END
+
 elseif s:use_deoplete
   let g:deoplete#enable_at_startup = 1
   if !exists('g:deoplete#omni#input_patterns')
@@ -719,7 +765,7 @@ elseif LINUX()
   " let g:vimtex_view_method='zathura'
 endif
 let g:vimtex_fold_enabled = 1 "So large files can open more easily
-let g:vimtex_latexmk_continuous=0
+" let g:vimtex_latexmk_continuous=0
 
 " Plugin: Nerdcommenter {{{2 "
 " Add spaces after comment delimiters by default
