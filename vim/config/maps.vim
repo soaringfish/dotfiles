@@ -26,10 +26,10 @@ inoremap <m-b> <c-o>b
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <expr> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-endfunction
+" inoremap <silent> <expr> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+  " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" endfunction
 " <TAB>: completion.
 " inoremap <silent> <expr> <CR> pumvisible() ? "\<c-y>\<cr>" : "\<CR>"
 inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -522,7 +522,7 @@ function! s:add_cscope_db()
   endif
 endfunction
 
-if has("cscope")
+if 0 && has("cscope")
   set csprg=/usr/local/bin/cscope
   set csto=0
   set cst
