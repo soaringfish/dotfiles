@@ -7,12 +7,18 @@ let g:snips_author_cn = "谷传才"
 let g:snips_email     = "gucc.gu@gmail.com"
 let g:snips_github    = "https://github.com/soaringfish"
 
+let g:formatters_java = ['clangformat', 'astyle_java']
+let g:formatters_cpp = ['clangformat', 'astyle_cpp']
+let g:formatters_c = ['clangformat', 'astyle_c']
+
 set foldlevel=9
 let g:SimpylFold_docstring_preview = 1
 
 " Vim-pinyin-search
-let g:PinyinSearch_Dict = $HOME . '/.vim/plug/vim-PinyinSearch/PinyinSearch.dict'
+let g:PinyinSearch_Dict = $HOME . '/.nvim/plug/vim-PinyinSearch/PinyinSearch.dict'
 map <leader>/ :call PinyinSearch()<cr>
+
+set cmdheight=2
 
 augroup myvim
   au!
@@ -143,7 +149,7 @@ endfunction
 " VIMTEX settings {{{1
 " ===================
 " let g:vimtex_disable_recursive_main_file_detection=0
-let g:vimtex_fold_enabled = 0
+" let g:vimtex_fold_enabled = 0
 
 " let g:vimtex_toc_refresh_always = 0
 " augroup vimtex
@@ -155,21 +161,21 @@ if has('nvim') && executable('nvr')
   let g:vimtex_compiler_progname='nvr'
 endif
 
-let g:vimtex_compiler_latexmk = {
-      \ 'background' : 1,
-      \ 'build_dir' : 'build',
-      \ 'callback' : 1,
-      \ 'continuous' : 0,
-      \ 'executable' : 'latexmk',
-      \ 'options' : [
-      \   '-xelatex',
-      \   '-pdf',
-      \   '-verbose',
-      \   '-file-line-error',
-      \   '-synctex=1',
-      \   '-interaction=nonstopmode',
-      \ ],
-      \}
+" let g:vimtex_compiler_latexmk = {
+"       \ 'background' : 1,
+"       \ 'build_dir' : 'build',
+"       \ 'callback' : 1,
+"       \ 'continuous' : 0,
+"       \ 'executable' : 'latexmk',
+"       \ 'options' : [
+"       \   '-xelatex',
+"       \   '-pdf',
+"       \   '-verbose',
+"       \   '-file-line-error',
+"       \   '-synctex=1',
+"       \   '-interaction=nonstopmode',
+"       \ ],
+"       \}
 " let g:vimtex_view_enabled=1
 " autocmd FileType tex let b:vimtex_main = 'main.tex'
 if OSX()
@@ -184,7 +190,7 @@ elseif LINUX()
     " let g:vimtex_view_method='okular'
     let g:vimtex_view_general_viewer = 'okular'
     let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-    let g:vimtex_view_general_options_latexmk = '--unique'
+    " let g:vimtex_view_general_options_latexmk = '--unique'
   endif
   " let g:vimtex_view_general_viewer = 'okular'
   " let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
@@ -212,7 +218,8 @@ nmap sh <Plug>(easymotion-linebackward)
 nmap sl <Plug>(easymotion-lineforward)
 nmap s. <Plug>(easymotion-repeat)
 nmap s <Plug>(easymotion-prefix)
-nmap S <Plug>(easymotion-s2)
+nmap S <Plug>(easymotion-s)
+nmap ss <Plug>(easymotion-s2)
 
 iab ,.s <esc>3a<c-v>{<esc>
 iab ,.e <esc>3a<c-v>}<esc>
@@ -326,6 +333,11 @@ augroup END
 "
 map ;j :LeaderfBufTag<cr>
 let g:Lf_ShortcutF = '<C-P>'
+map ;q maq:LeaderfQuickFix<cr>
+
+let g:Lf_Gtagsconf=expand("~/.local/dotfiles/config/gtags.conf")
+" let g:Lf_CacheDirectory = expand("~/.cache/leaderf")
+
 " }}}1 "
 
 "" FZF {{{1
@@ -349,8 +361,8 @@ map <leader>jT :<c-u>BTags<cr>
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
-nnoremap <silent> q: :History:<CR>
-nnoremap <silent> q/ :History/<CR>
+" nnoremap <silent> q: :History:<CR>
+" nnoremap <silent> q/ :History/<CR>
 
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
@@ -454,7 +466,7 @@ function! PPythonSyncExt()
 endfunction
 
 function! SwapBoolean()
-let l:booleans = {'0':'1','1':'0','true':'false','false':'true','True':'False','False':'True','TRUE':'FALSE','FALSE':'TRUE'}
+let l:booleans = {'0':'1','1':'0','true':'false','false':'true','True':'False','False':'True','TRUE':'FALSE','FALSE':'TRUE', 'YES':'NO', 'NO':'YES'}
   let l:v = expand('<cword>')
   try
     let l:r = l:booleans[l:v]
@@ -774,7 +786,6 @@ vnoremap <C-Q>     <esc>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
-
 " ----------------------------------------------------------------------------
 " tmux {{{2
 " ----------------------------------------------------------------------------
@@ -802,6 +813,9 @@ call s:tmux_map('<localleader>to', '.top-right')
 call s:tmux_map('<localleader>tn', '.bottom-left')
 call s:tmux_map('<localleader>t.', '.bottom-right')
 
+map ;; ;tl
+map ,, ;tj
+imap ,, ->
 
 " SaveMacro / LoadMacro {{{2
 " ----------------------------------------------------------------------------
@@ -1336,8 +1350,14 @@ let g:tagbar_type_go = {
 let g:Lf_GtagsAutoGenerate = 1
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_RootMarkers = ['.root']
-noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+
+let g:gtags_libpath=''
+" let g:gtags_libpath='--gtagslibpath ~/work/w5au/ap5/frameworks/base/core ~/work/w5au/ap5/frameworks/base/services/core'
+
+noremap <leader>fu :<C-U><C-R>=printf("Leaderf! gtags --update %s", g:gtags_libpath)<CR><CR>
+
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump %s", expand("<cword>"), g:gtags_libpath)<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump %s", expand("<cword>"), g:gtags_libpath)<CR><CR>
 noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
@@ -1347,6 +1367,7 @@ noremap <localleader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", e
 noremap <localleader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <localleader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <localleader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+noremap <localleader>g :<C-U><C-R>=printf("Leaderf gtags %s %s", "", g:gtags_libpath)<CR><CR>
 
 noremap ]g :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap [g :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
@@ -1354,3 +1375,43 @@ noremap [g :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 map ;r :<C-u>Rg <C-R><C-W><CR>
 map ,r :<C-u>Rg <C-R><C-W><CR>
 noremap ;b :<C-u>LeaderfBuffer<CR>
+noremap ;cd :<C-u>cd $PWD<CR>
+
+map <C-Down> <PageDown>
+map <C-Up> <PageUp>
+
+" file is large from 1GB
+let g:LargeFile = 128 * 1024 * 1024 * 1
+augroup LargeFile
+  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+augroup END
+function LargeFile()
+  " no syntax highlighting etc
+  set eventignore+=FileType
+  " save memory when other file is viewed
+  setlocal bufhidden=unload
+  " is read-only (write with :w new_filename)
+  setlocal buftype=nowrite
+  " no undo possible
+  setlocal undolevels=-1
+  " display message
+  autocmd VimEnter * echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
+endfunction
+
+map <a-g> :let @+=expand("%:p")<cr>
+
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_save = 1
+
+function! MyHighlights() abort
+  " highlight Normal     ctermbg=NONE
+endfunction
+
+augroup MyColors
+  autocmd!
+  autocmd ColorScheme * call MyHighlights()
+augroup END
+
+set formatoptions-=t
+set formatoptions-=c
+
