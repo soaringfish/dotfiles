@@ -8,7 +8,11 @@ endif
 let s:path=expand('<sfile>:p:h')
 
 " let g:vimpath=s:path
-let g:vimpath = "~/.nvim"
+if has('nvim')
+  let g:vimpath = "~/.nvim"
+else
+  let g:vimpath = "~/.vim"
+endif
 " let g:bundlepath = "~/lib/gu.vim"
 
 exec 'set runtimepath+=' . s:path
@@ -47,6 +51,10 @@ source $VIMRUNTIME/menu.vim
 " set background=light
 " let g:airline_theme='sol'
 
+if has('termguicolors')
+  set termguicolors
+endif
+
 if has("gui_running")
   colorscheme seagull
 elseif OSX()
@@ -55,7 +63,10 @@ elseif OSX()
   let g:airline_theme='dark'
 else
   colorscheme onedark
-  let g:airline_theme='onedark'
+  " colorscheme monokai
+  let g:airline_theme='badwolf'
+  " let g:airline_theme='dark'
+  " let g:airline_theme='onedark'
   hi Normal ctermbg=None
 endif
 " colorscheme lucius
