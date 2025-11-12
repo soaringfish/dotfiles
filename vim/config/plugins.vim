@@ -26,7 +26,7 @@ endif
 " --------------------
 
 " let g:use_ncm = 1
-let g:use_deoplete = 1
+let g:use_deoplete = 0
 " let g:use_deoplete_nvim = 1
 let g:load_python_mode = 0
 
@@ -49,7 +49,7 @@ silent! if plug#begin(s:bundlepath)
     " endif
     Plug 'junegunn/vim-emoji'
     " Plug 'ryanoasis/vim-devicons'
-    Plug 'Yggdroot/indentLine'
+    " Plug 'Yggdroot/indentLine'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'Shougo/echodoc.vim'
@@ -61,6 +61,7 @@ silent! if plug#begin(s:bundlepath)
     Plug 'junegunn/limelight.vim', {'on': 'Limelight'}
     Plug 'vim-scripts/mru.vim'
     Plug 'vim-voom/VOoM', {'on': ['VoomToggle', 'Voom']}
+    Plug 'mboughaba/i3config.vim'
     " Plug 'itchyny/lightline.vim'
 
   " ==> Edit {{{2
@@ -114,6 +115,7 @@ silent! if plug#begin(s:bundlepath)
   Plug 'haya14busa/incsearch.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  Plug 'christoomey/vim-tmux-navigator'
   " Plug 'ctrlpvim/ctrlp.vim'
   " Plug 'FelikZ/ctrlp-py-matcher'
   " let g:airline#extensions#tabline#enabled = 1
@@ -161,7 +163,9 @@ silent! if plug#begin(s:bundlepath)
     Plug 'ncm2/ncm2-bufword'
     Plug 'ncm2/ncm2-path'
     Plug 'ncm2/ncm2-pyclang'
-    let g:ncm2_pyclang#library_path = "/usr/lib/llvm-14/lib/libclang-14.so.1"
+    " let g:ncm2_pyclang#library_path = "/usr/lib/llvm-14/lib/libclang-14.so.1"
+    " let g:ncm2_pyclang#library_path = "/usr/lib64/libclang.so"
+    let g:ncm2_pyclang#library_path = "/usr/lib/llvm-14/lib/libclang.so"
     " a list of relative paths for compile_commands.json
     let g:ncm2_pyclang#database_path = [
             \ 'compile_commands.json',
@@ -172,8 +176,10 @@ silent! if plug#begin(s:bundlepath)
     autocmd FileType c,cpp nnoremap <buffer> gd :<c-u>call ncm2_pyclang#goto_declaration()<cr>
     Plug 'ncm2/ncm2-jedi'
     Plug 'ncm2/ncm2-vim'
-    Plug 'ObserverOfTime/ncm2-jc2', {'for': ['java', 'jsp']}
-    Plug 'artur-shaik/vim-javacomplete2', {'for': ['java', 'jsp']}
+    " Plug 'ObserverOfTime/ncm2-jc2', {'for': ['java', 'jsp']}
+    " Plug 'artur-shaik/vim-javacomplete2', {'for': ['java', 'jsp']}
+    " Plug 'ObserverOfTime/ncm2-jc2', {'for': ['java', 'jsp']}
+    " Plug 'artur-shaik/vim-javacomplete2', {'for': ['java', 'jsp']}
   else
     Plug 'Shougo/neocomplete.vim'
   endif
@@ -207,11 +213,13 @@ silent! if plug#begin(s:bundlepath)
   " => Autocomplete }}}2
 
   "" Colors  {{{2
+  Plug 'rafi/awesome-vim-colorschemes'
   " Plug 'tomasr/molokai'
   " Plug 'ifepillar/vim-wwdc17-theme'
   " Plug 'roosta/srcery'
   " Plug 'ajmwagar/vim-deus'
   " Plug 'kudabux/vim-srcery-drk'
+  Plug 'ntk148v/vim-horizon'
   Plug 'rakr/vim-one'
   Plug 'junegunn/seoul256.vim'
   " Plug 'lucy/term.vim'
@@ -225,6 +233,8 @@ silent! if plug#begin(s:bundlepath)
   " Plug 'jonathanfilip/vim-lucius'
   " Plug 'gregsexton/Muon'
   Plug 'joshdick/onedark.vim'
+  Plug 'doums/darcula'
+  Plug 'ku1ik/vim-monokai'
   Plug 'catppuccin/nvim'
   Plug 'folke/tokyonight.nvim'
   Plug 'sainnhe/everforest'
@@ -281,8 +291,13 @@ silent! if plug#begin(s:bundlepath)
   "" rust
   if executable('rustc')
     if s:use_ncm
+      Plug 'rust-lang/rust.vim'
       Plug 'racer-rust/vim-racer', {'for': 'rust'}
       Plug 'roxma/nvim-cm-racer', {'for': 'rust'}
+
+      Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      " Plug 'prabirshrestha/vim-lsp'
+      " Plug 'mattn/vim-lsp-settings'
     endif
   endif
 
@@ -339,6 +354,8 @@ silent! if plug#begin(s:bundlepath)
   let g:ranger_map_keys = 0
   " "" Misc }}}2
   Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+  Plug 'tamago324/LeaderF-bookmark'
+  Plug 'MattesGroeger/vim-bookmarks'
   call plug#end()
 endif
 
@@ -550,7 +567,7 @@ let g:indentLine_faster = 1
 " let g:NERDTreeWinPos = "right"
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=0
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.o$']
 let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark
