@@ -30,9 +30,9 @@ endfunction
 " endif
 
 if has('nvim')
-  let g:python_host_prog=systemlist('which python2.7')[0]
+  " let g:python_host_prog=systemlist('which python2.7')[0]
   let g:python3_host_prog=systemlist('which python3')[0]
-  if !executable(g:python_host_prog) | unlet g:python_host_prog | endif
+  " if !executable(g:python_host_prog) | unlet g:python_host_prog | endif
   if !executable(g:python3_host_prog) | unlet g:python3_host_prog | endif
   if executable('nvr')
     let $VISUAL = 'nvr -cc split --remote-wait'
@@ -296,7 +296,8 @@ endif
 if has('nvim')
 "   nnoremap <leader>t      :vsplit +terminal<cr>
   nnoremap <leader>t      :bo new +terminal<cr>
-  tnoremap <esc><esc>          <c-\><c-n>
+  " tnoremap <esc><esc>          <c-\><c-n>
+  tnoremap <c-\><c-\>          <c-\><c-n>
   tnoremap <a-a> <esc>a
   tnoremap <a-b> <esc>b
   tnoremap <a-d> <esc>d
